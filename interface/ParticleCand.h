@@ -1,0 +1,59 @@
+/******************************************************************************
+ * [Name of the file]
+ *      ParticleCand.h
+ * [Purpose]
+ *      Provide necessary class and functions for resolving multiple candidates
+ *      issue in particle reconstruction.
+ * [Author]
+ *      Eric Wang
+ * [Date]
+ *      20241211
+ * [Note]
+ * 
+******************************************************************************/
+#ifndef ParticleCand_h
+#define ParticleCand_h 
+
+#include <vector>
+#include <utility>
+#include <memory>
+
+class ParticleCand{
+public:
+    // To mark the type of particle
+    enum class PartType{Muon, Track, Jpsi, Upsilon};
+
+    using PartIdxList_t  = std::vector<unsigned int>;       // Does not guarantee order
+    using PartIdxSet_ptr = std::shared_ptr<PartIdxList_t>;  // Sorted on ascending order.
+
+    // Constructor
+    ParticleCand() = default;
+    ParticleCand(const ParticleCand& Source) = default;
+
+    // Destructor
+    ~ParticleCand() = default;
+
+    // Copy assignment operator
+    ParticleCand& operator=(const ParticleCand& Source);
+
+    // Add a certain type of particle to the candidate
+    void AddParticle(const PartType&      arg_Type,
+                     const PartIdxList_t& arg_IdxList);
+
+    // Compare if there are same particles in two candidates
+    bool Overlap(const ParticleCand& arg_Cand) const;
+    static bool Overlap(const ParticleCand& arg_Cand1,
+                        const ParticleCand& arg_Cand2);
+
+    // Compare if there are same particle indices in two particle sets
+    static bool Overlap(const PartIdxSet_ptr& arg_Set1,
+                        const PartIdxSet_ptr& arg_Set2);
+
+private:
+    // Member variables
+    std::vector<PartType>       m_TypeList;
+    std::vector<PartIdxSet_ptr> m_IdxList;
+
+};
+
+#endif
