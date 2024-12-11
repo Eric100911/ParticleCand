@@ -95,5 +95,11 @@ bool ParticleCand::Overlap(const PartIdxSet_ptr& arg_Set1,
     return false;
 }
 
+void ParticleCand::Clear(){
+    // Clear the lists.
+    m_TypeList.clear();
+    m_IdxList.clear();
+}
+
 
 #endif

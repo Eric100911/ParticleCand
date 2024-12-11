@@ -49,6 +49,9 @@ public:
     static bool Overlap(const PartIdxSet_ptr& arg_Set1,
                         const PartIdxSet_ptr& arg_Set2);
 
+    // Clearing the candidate
+    void Clear();
+
 private:
     // Member variables
     std::vector<PartType>       m_TypeList;
