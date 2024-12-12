@@ -51,14 +51,19 @@ void ReadTree::Loop()
         for (Long64_t iCand=0; iCand<nCands; iCand++) {
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
-            // Register the candidate final state particles.
+            // Register the candidate final state muons.
             tempList.push_back(Jpsi_1_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_1_mu_2_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
-            tempList.push_back(Ups_mu_1_Idx->at(iCand));
-            tempList.push_back(Ups_mu_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
+            tempList.clear();
+
+            // Now tracks.
+            tempList.push_back(Phi_pi_1_Idx->at(iCand));
+            tempList.push_back(Phi_pi_2_Idx->at(iCand));
+            tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
+            tempList.clear();
 
             // Print out current candidate.
             std::cout << tempCand.ToString() << std::endl;
@@ -76,7 +81,6 @@ void ReadTree::Loop()
             // Add the current one into the candidate list.
             CandList.push_back(tempCand);
             tempCand.Clear();
-            tempList.clear();
         }
     }
 }
