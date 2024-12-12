@@ -23,6 +23,9 @@ public:
     // To mark the type of particle
     enum class PartType{Muon, Track, Jpsi, Upsilon};
 
+    // Name of the particles stored as const std::string
+    static const std::string PART_NAME[4];
+
     using PartIdxList_t  = std::vector<unsigned int>;       // Does not guarantee order
     using PartIdxSet_ptr = std::shared_ptr<PartIdxList_t>;  // Sorted on ascending order.
 
@@ -48,6 +51,9 @@ public:
     // Compare if there are same particle indices in two particle sets
     static bool Overlap(const PartIdxSet_ptr& arg_Set1,
                         const PartIdxSet_ptr& arg_Set2);
+
+    // Print out the candidate as human-readable format
+    std::string ToString();
 
     // Clearing the candidate
     void Clear();

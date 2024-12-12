@@ -16,6 +16,9 @@
 
 #include "../interface/ParticleCand.h"
 #include <algorithm>
+#include <string>
+
+const std::string ParticleCand::PART_NAME[4] = {"Muon", "Track", "Jpsi", "Upsilon"};
 
 void ParticleCand::AddParticle(const PartType& arg_Type,
                                const PartIdxList_t& arg_IdxList){
@@ -93,6 +96,24 @@ bool ParticleCand::Overlap(const PartIdxSet_ptr& arg_Set1,
     }
     // If no same index is found, return false.
     return false;
+}
+
+std::string ParticleCand::ToString(){
+    // Initialize the output string.
+    std::string output;
+    // Loop over all particles.
+    for(size_t i=0; i < m_TypeList.size(); i++){
+        // Print out the particle type.
+        output += PART_NAME[static_cast<int>(m_TypeList[i])];
+        output += " [ ";
+        // Print out the indices.
+        for(auto& idx : *m_IdxList[i]){
+            output += std::to_string(idx);
+            output += " ";
+        }
+        output += " ] ";
+    }
+    return output;
 }
 
 void ParticleCand::Clear(){

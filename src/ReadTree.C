@@ -59,12 +59,17 @@ void ReadTree::Loop()
             tempList.push_back(Ups_mu_1_Idx->at(iCand));
             tempList.push_back(Ups_mu_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
+
+            // Print out current candidate.
+            std::cout << tempCand.ToString() << std::endl;
             
-            // Print out the overlaps.
-            for(auto& cand : CandList){
-                if(tempCand.Overlap(cand)){
-                    std::cout << "Overlap found!" << std::endl;
-                    
+            // Print out the overlapping candidates with its indices.
+            for(auto it = CandList.begin(); it != CandList.end(); ++it){
+                if(tempCand.Overlap(*it)){
+                    std::cout << "Overlap found at [ ";
+                    std::cout << std::distance(CandList.begin(), it);
+                    std::cout << " ]" << std::endl;
+                    std::cout << it->ToString() << std::endl;
                 }
             }
 
@@ -72,7 +77,6 @@ void ReadTree::Loop()
             CandList.push_back(tempCand);
             tempCand.Clear();
             tempList.clear();
-
         }
     }
 }
