@@ -1,4 +1,5 @@
 #include "../src/ParticleCand.C"
+#include "../src/ReadTree.C"
 
 void runReadTreeX(){
     TChain *chain = new TChain("mkcands/X_data","");

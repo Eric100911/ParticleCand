@@ -46,9 +46,23 @@ void ReadTree::Loop()
         ParticleCand tempCand;
         ParticleCand::PartIdxList_t tempList;
 
+        printf(">>>>> Begin new event %lld <<<<<\n", jentry);
+
         // Loop over all candidates.
-        nCands = Jpsi_1_mass->size();
-        for (Long64_t iCand=0; iCand<nCands; iCand++) {
+        size_t nCands = Jpsi_1_mass->size();
+
+        printf("number of Jpsi_1 candidates = %lld\n", nCands);
+        printf("number of Jpsi_2 candidates = %lld\n", Jpsi_2_mass->size());
+        printf("number of Phi candidates = %lld\n", Phi_mass->size());
+        printf("number of Pri candidates = %lld\n", Pri_mass->size());
+        printf("number of muon_1_1 candidates = %lld\n", Jpsi_1_mu_1_Idx->size());
+        printf("number of muon_1_2 candidates = %lld\n", Jpsi_1_mu_2_Idx->size());
+        printf("number of muon_2_1 candidates = %lld\n", Jpsi_2_mu_1_Idx->size());
+        printf("number of muon_2_2 candidates = %lld\n", Jpsi_2_mu_2_Idx->size());
+        printf("number of track_1 candidates = %lld\n", Phi_pi_1_Idx->size());
+        printf("number of track_2 candidates = %lld\n", Phi_pi_2_Idx->size());
+
+        for (Long64_t iCand=0; iCand < nCands; iCand++) {
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
             // Register the candidate final state muons.
@@ -67,7 +81,7 @@ void ReadTree::Loop()
 
             // Print out current candidate.
             std::cout << tempCand.ToString() << std::endl;
-            
+            /*
             // Print out the overlapping candidates with its indices.
             for(auto it = CandList.begin(); it != CandList.end(); ++it){
                 if(tempCand.Overlap(*it)){
@@ -77,10 +91,13 @@ void ReadTree::Loop()
                     std::cout << it->ToString() << std::endl;
                 }
             }
-
+            */
             // Add the current one into the candidate list.
+            puts("To push back");
             CandList.push_back(tempCand);
+            puts("To flush");
             tempCand.Clear();
         }
+        puts(">>>>> End of event <<<<<");
     }
 }
