@@ -146,8 +146,8 @@ public :
    vector<float>   *Phi_phi;
    vector<float>   *Phi_eta;
    vector<float>   *Phi_pt;
-   vector<float>   *Phi_pi_1_Idx;
-   vector<float>   *Phi_pi_2_Idx;
+   vector<float>   *Phi_K_1_Idx;
+   vector<float>   *Phi_K_2_Idx;
    vector<float>   *Pri_mass;
    vector<float>   *Pri_massErr;
    vector<float>   *Pri_ctau;
@@ -281,8 +281,8 @@ public :
    TBranch        *b_Phi_phi;   //!
    TBranch        *b_Phi_eta;   //!
    TBranch        *b_Phi_pt;   //!
-   TBranch        *b_Phi_pi_1_Idx;   //!
-   TBranch        *b_Phi_pi_2_Idx;   //!
+   TBranch        *b_Phi_K_1_Idx;   //!
+   TBranch        *b_Phi_K_2_Idx;   //!
    TBranch        *b_Pri_mass;   //!
    TBranch        *b_Pri_massErr;   //!
    TBranch        *b_Pri_ctau;   //!
@@ -467,8 +467,8 @@ void ReadTree::Init(TTree *tree)
    Phi_phi = 0;
    Phi_eta = 0;
    Phi_pt = 0;
-   Phi_pi_1_Idx = 0;
-   Phi_pi_2_Idx = 0;
+   Phi_K_1_Idx = 0;
+   Phi_K_2_Idx = 0;
    Pri_mass = 0;
    Pri_massErr = 0;
    Pri_ctau = 0;
@@ -606,8 +606,8 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Phi_phi", &Phi_phi, &b_Phi_phi);
    fChain->SetBranchAddress("Phi_eta", &Phi_eta, &b_Phi_eta);
    fChain->SetBranchAddress("Phi_pt", &Phi_pt, &b_Phi_pt);
-   fChain->SetBranchAddress("Phi_pi_1_Idx", &Phi_pi_1_Idx, &b_Phi_pi_1_Idx);
-   fChain->SetBranchAddress("Phi_pi_2_Idx", &Phi_pi_2_Idx, &b_Phi_pi_2_Idx);
+   fChain->SetBranchAddress("Phi_K_1_Idx", &Phi_K_1_Idx, &b_Phi_K_1_Idx);
+   fChain->SetBranchAddress("Phi_K_2_Idx", &Phi_K_2_Idx, &b_Phi_K_2_Idx);
    fChain->SetBranchAddress("Pri_mass", &Pri_mass, &b_Pri_mass);
    fChain->SetBranchAddress("Pri_massErr", &Pri_massErr, &b_Pri_massErr);
    fChain->SetBranchAddress("Pri_ctau", &Pri_ctau, &b_Pri_ctau);

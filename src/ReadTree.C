@@ -46,10 +46,12 @@ void ReadTree::Loop()
         ParticleCand tempCand;
         ParticleCand::PartIdxList_t tempList;
 
-        printf(">>>>> Begin new event %lld <<<<<\n", jentry);
+        printf("\n>>>>> Begin new event %lld <<<<<\n", jentry);
 
         // Loop over all candidates.
         size_t nCands = Jpsi_1_mass->size();
+        printf("number of candidate = %lld\n", nCands);
+        /*
 
         printf("number of Jpsi_1 candidates = %lld\n", nCands);
         printf("number of Jpsi_2 candidates = %lld\n", Jpsi_2_mass->size());
@@ -61,7 +63,7 @@ void ReadTree::Loop()
         printf("number of muon_2_2 candidates = %lld\n", Jpsi_2_mu_2_Idx->size());
         printf("number of track_1 candidates = %lld\n", Phi_pi_1_Idx->size());
         printf("number of track_2 candidates = %lld\n", Phi_pi_2_Idx->size());
-
+        */
         for (Long64_t iCand=0; iCand < nCands; iCand++) {
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
@@ -71,33 +73,41 @@ void ReadTree::Loop()
             tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
-            tempList.clear();
 
+            printf("Jpsi 1 [ %d %d ] Jpsi 2 [ %d %d ]",
+                   tempList[0], tempList[1], tempList[2], tempList[3]);
+            tempList.clear();
+        
             // Now tracks.
-            tempList.push_back(Phi_pi_1_Idx->at(iCand));
-            tempList.push_back(Phi_pi_2_Idx->at(iCand));
+            tempList.push_back(Phi_K_1_Idx->at(iCand));
+            tempList.push_back(Phi_K_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
+            printf(" Phi [ %d %d ]\n", tempList[0], tempList[1]);
             tempList.clear();
 
-            // Print out current candidate.
-            std::cout << tempCand.ToString() << std::endl;
-            /*
             // Print out the overlapping candidates with its indices.
+            unsigned int cnt = 0;
             for(auto it = CandList.begin(); it != CandList.end(); ++it){
                 if(tempCand.Overlap(*it)){
-                    std::cout << "Overlap found at [ ";
-                    std::cout << std::distance(CandList.begin(), it);
-                    std::cout << " ]" << std::endl;
-                    std::cout << it->ToString() << std::endl;
+            //        std::cout << "Overlap found at [ ";
+            //        std::cout << std::distance(CandList.begin(), it);
+            //        std::cout << " ]" << std::endl;
+                    // std::cout << it->ToString() << std::endl;
+                    cnt++;
                 }
             }
-            */
+
+            if(cnt != 0){
+                printf("Found [ %d ] overlaps.\n", cnt);
+            }
+           
             // Add the current one into the candidate list.
-            puts("To push back");
+            // puts("To push back");
             CandList.push_back(tempCand);
-            puts("To flush");
+            // puts("To flush");
             tempCand.Clear();
         }
+        printf("\n Overall valid candadates: %lld\n \n", CandList.size());
         puts(">>>>> End of event <<<<<");
     }
 }
