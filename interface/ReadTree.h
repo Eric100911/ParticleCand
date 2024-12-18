@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Thu Dec 12 15:37:44 2024 by ROOT version 6.20/04
+// Tue Dec 17 22:30:41 2024 by ROOT version 6.24/06
 // from TTree X_data/X(3872) Data
-// found on file: test_JJP.root
+// found on file: ../../../TripleMeson-ntuple.root
 //////////////////////////////////////////////////////////
 
 #ifndef ReadTree_h
@@ -116,8 +116,8 @@ public :
    vector<float>   *Jpsi_1_phi;
    vector<float>   *Jpsi_1_eta;
    vector<float>   *Jpsi_1_pt;
-   vector<float>   *Jpsi_1_mu_1_Idx;
-   vector<float>   *Jpsi_1_mu_2_Idx;
+   vector<unsigned int> *Jpsi_1_mu_1_Idx;
+   vector<unsigned int> *Jpsi_1_mu_2_Idx;
    vector<float>   *Jpsi_2_mass;
    vector<float>   *Jpsi_2_massErr;
    vector<float>   *Jpsi_2_massDiff;
@@ -132,8 +132,8 @@ public :
    vector<float>   *Jpsi_2_phi;
    vector<float>   *Jpsi_2_eta;
    vector<float>   *Jpsi_2_pt;
-   vector<float>   *Jpsi_2_mu_1_Idx;
-   vector<float>   *Jpsi_2_mu_2_Idx;
+   vector<unsigned int> *Jpsi_2_mu_1_Idx;
+   vector<unsigned int> *Jpsi_2_mu_2_Idx;
    vector<float>   *Phi_mass;
    vector<float>   *Phi_massErr;
    vector<float>   *Phi_massDiff;
@@ -146,8 +146,8 @@ public :
    vector<float>   *Phi_phi;
    vector<float>   *Phi_eta;
    vector<float>   *Phi_pt;
-   vector<float>   *Phi_K_1_Idx;
-   vector<float>   *Phi_K_2_Idx;
+   vector<unsigned int> *Phi_K_1_Idx;
+   vector<unsigned int> *Phi_K_2_Idx;
    vector<float>   *Pri_mass;
    vector<float>   *Pri_massErr;
    vector<float>   *Pri_ctau;
@@ -161,6 +161,18 @@ public :
    vector<float>   *Pri_phi;
    vector<float>   *Pri_eta;
    vector<float>   *Pri_pt;
+   vector<float>   *Phi_K_1_px;
+   vector<float>   *Phi_K_1_py;
+   vector<float>   *Phi_K_1_pz;
+   vector<float>   *Phi_K_1_phi;
+   vector<float>   *Phi_K_1_eta;
+   vector<float>   *Phi_K_1_pt;
+   vector<float>   *Phi_K_2_px;
+   vector<float>   *Phi_K_2_py;
+   vector<float>   *Phi_K_2_pz;
+   vector<float>   *Phi_K_2_phi;
+   vector<float>   *Phi_K_2_eta;
+   vector<float>   *Phi_K_2_pt;
 
    // List of branches
    TBranch        *b_TrigRes;   //!
@@ -171,15 +183,15 @@ public :
    TBranch        *b_runNum;   //!
    TBranch        *b_lumiNum;   //!
    TBranch        *b_nGoodPrimVtx;   //!
-   TBranch        *b_priVtxX;   //!
-   TBranch        *b_priVtxY;   //!
-   TBranch        *b_priVtxZ;   //!
-   TBranch        *b_priVtxXE;   //!
-   TBranch        *b_priVtxYE;   //!
-   TBranch        *b_priVtxZE;   //!
-   TBranch        *b_priVtxChiNorm;   //!
-   TBranch        *b_priVtxChi;   //!
-   TBranch        *b_priVtxCL;   //!
+   TBranch        *b_priVtxX;
+   TBranch        *b_priVtxY;
+   TBranch        *b_priVtxZ;
+   TBranch        *b_priVtxXE;
+   TBranch        *b_priVtxYE;
+   TBranch        *b_priVtxZE;
+   TBranch        *b_priVtxChiNorm;
+   TBranch        *b_priVtxChi;
+   TBranch        *b_priVtxCL;
    TBranch        *b_PriVtxXCorrX;   //!
    TBranch        *b_PriVtxXCorrY;   //!
    TBranch        *b_PriVtxXCorrZ;   //!
@@ -296,6 +308,18 @@ public :
    TBranch        *b_Pri_phi;   //!
    TBranch        *b_Pri_eta;   //!
    TBranch        *b_Pri_pt;   //!
+   TBranch        *b_Phi_K_1_px;   //!
+   TBranch        *b_Phi_K_1_py;   //!
+   TBranch        *b_Phi_K_1_pz;   //!
+   TBranch        *b_Phi_K_1_phi;   //!
+   TBranch        *b_Phi_K_1_eta;   //!
+   TBranch        *b_Phi_K_1_pt;   //!
+   TBranch        *b_Phi_K_2_px;   //!
+   TBranch        *b_Phi_K_2_py;   //!
+   TBranch        *b_Phi_K_2_pz;   //!
+   TBranch        *b_Phi_K_2_phi;   //!
+   TBranch        *b_Phi_K_2_eta;   //!
+   TBranch        *b_Phi_K_2_pt;   //!
 
    ReadTree(TTree *tree=0);
    virtual ~ReadTree();
@@ -316,11 +340,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("test_JJP.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../../../TripleMeson-ntuple.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("test_JJP.root");
+         f = new TFile("../../../TripleMeson-ntuple.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("test_JJP.root:/mkcands");
+      TDirectory * dir = (TDirectory*)f->Get("../../../TripleMeson-ntuple.root:/mkcands");
       dir->GetObject("X_data",tree);
 
    }
@@ -482,6 +506,18 @@ void ReadTree::Init(TTree *tree)
    Pri_phi = 0;
    Pri_eta = 0;
    Pri_pt = 0;
+   Phi_K_1_px = 0;
+   Phi_K_1_py = 0;
+   Phi_K_1_pz = 0;
+   Phi_K_1_phi = 0;
+   Phi_K_1_eta = 0;
+   Phi_K_1_pt = 0;
+   Phi_K_2_px = 0;
+   Phi_K_2_py = 0;
+   Phi_K_2_pz = 0;
+   Phi_K_2_phi = 0;
+   Phi_K_2_eta = 0;
+   Phi_K_2_pt = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -503,8 +539,7 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_priVtxYE);
    fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_priVtxZE);
    fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_priVtxChiNorm);
-   fChain->SetBranchAddress("priVtxChi", &priVtxChi, &b_priVtxChi);
-   fChain->SetBranchAddress("priVtxCL", &priVtxCL, &b_priVtxCL);
+   fChain->SetBranchAddress("priVtxChi",     &priVtxChi,     &b_priVtxChi   );
    fChain->SetBranchAddress("PriVtxXCorrX", &PriVtxXCorrX, &b_PriVtxXCorrX);
    fChain->SetBranchAddress("PriVtxXCorrY", &PriVtxXCorrY, &b_PriVtxXCorrY);
    fChain->SetBranchAddress("PriVtxXCorrZ", &PriVtxXCorrZ, &b_PriVtxXCorrZ);
@@ -621,6 +656,18 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Pri_phi", &Pri_phi, &b_Pri_phi);
    fChain->SetBranchAddress("Pri_eta", &Pri_eta, &b_Pri_eta);
    fChain->SetBranchAddress("Pri_pt", &Pri_pt, &b_Pri_pt);
+   fChain->SetBranchAddress("Phi_K_1_px", &Phi_K_1_px, &b_Phi_K_1_px);
+   fChain->SetBranchAddress("Phi_K_1_py", &Phi_K_1_py, &b_Phi_K_1_py);
+   fChain->SetBranchAddress("Phi_K_1_pz", &Phi_K_1_pz, &b_Phi_K_1_pz);
+   fChain->SetBranchAddress("Phi_K_1_phi", &Phi_K_1_phi, &b_Phi_K_1_phi);
+   fChain->SetBranchAddress("Phi_K_1_eta", &Phi_K_1_eta, &b_Phi_K_1_eta);
+   fChain->SetBranchAddress("Phi_K_1_pt", &Phi_K_1_pt, &b_Phi_K_1_pt);
+   fChain->SetBranchAddress("Phi_K_2_px", &Phi_K_2_px, &b_Phi_K_2_px);
+   fChain->SetBranchAddress("Phi_K_2_py", &Phi_K_2_py, &b_Phi_K_2_py);
+   fChain->SetBranchAddress("Phi_K_2_pz", &Phi_K_2_pz, &b_Phi_K_2_pz);
+   fChain->SetBranchAddress("Phi_K_2_phi", &Phi_K_2_phi, &b_Phi_K_2_phi);
+   fChain->SetBranchAddress("Phi_K_2_eta", &Phi_K_2_eta, &b_Phi_K_2_eta);
+   fChain->SetBranchAddress("Phi_K_2_pt", &Phi_K_2_pt, &b_Phi_K_2_pt);
    Notify();
 }
 
