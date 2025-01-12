@@ -116,8 +116,8 @@ public :
    vector<float>   *Jpsi_1_phi;
    vector<float>   *Jpsi_1_eta;
    vector<float>   *Jpsi_1_pt;
-   vector<unsigned int> *Jpsi_1_mu_1_Idx;
-   vector<unsigned int> *Jpsi_1_mu_2_Idx;
+   vector<float>   *Jpsi_1_mu_1_Idx;
+   vector<float>   *Jpsi_1_mu_2_Idx;
    vector<float>   *Jpsi_2_mass;
    vector<float>   *Jpsi_2_massErr;
    vector<float>   *Jpsi_2_massDiff;
@@ -132,22 +132,8 @@ public :
    vector<float>   *Jpsi_2_phi;
    vector<float>   *Jpsi_2_eta;
    vector<float>   *Jpsi_2_pt;
-   vector<unsigned int> *Jpsi_2_mu_1_Idx;
-   vector<unsigned int> *Jpsi_2_mu_2_Idx;
-   vector<float>   *Phi_mass;
-   vector<float>   *Phi_massErr;
-   vector<float>   *Phi_massDiff;
-   vector<float>   *Phi_Chi2;
-   vector<float>   *Phi_ndof;
-   vector<float>   *Phi_VtxProb;
-   vector<float>   *Phi_px;
-   vector<float>   *Phi_py;
-   vector<float>   *Phi_pz;
-   vector<float>   *Phi_phi;
-   vector<float>   *Phi_eta;
-   vector<float>   *Phi_pt;
-   vector<unsigned int> *Phi_K_1_Idx;
-   vector<unsigned int> *Phi_K_2_Idx;
+   vector<float>   *Jpsi_2_mu_1_Idx;
+   vector<float>   *Jpsi_2_mu_2_Idx;
    vector<float>   *Pri_mass;
    vector<float>   *Pri_massErr;
    vector<float>   *Pri_ctau;
@@ -161,18 +147,20 @@ public :
    vector<float>   *Pri_phi;
    vector<float>   *Pri_eta;
    vector<float>   *Pri_pt;
-   vector<float>   *Phi_K_1_px;
-   vector<float>   *Phi_K_1_py;
-   vector<float>   *Phi_K_1_pz;
-   vector<float>   *Phi_K_1_phi;
-   vector<float>   *Phi_K_1_eta;
-   vector<float>   *Phi_K_1_pt;
-   vector<float>   *Phi_K_2_px;
-   vector<float>   *Phi_K_2_py;
-   vector<float>   *Phi_K_2_pz;
-   vector<float>   *Phi_K_2_phi;
-   vector<float>   *Phi_K_2_eta;
-   vector<float>   *Phi_K_2_pt;
+   vector<float>   *Ups_mass;
+   vector<float>   *Ups_massErr;
+   vector<float>   *Ups_massDiff;
+   vector<float>   *Ups_Chi2;
+   vector<float>   *Ups_ndof;
+   vector<float>   *Ups_VtxProb;
+   vector<float>   *Ups_px;
+   vector<float>   *Ups_py;
+   vector<float>   *Ups_pz;
+   vector<float>   *Ups_phi;
+   vector<float>   *Ups_eta;
+   vector<float>   *Ups_pt;
+   vector<float>   *Ups_mu_1_Idx;
+   vector<float>   *Ups_mu_2_Idx;
 
    // List of branches
    TBranch        *b_TrigRes;   //!
@@ -308,18 +296,20 @@ public :
    TBranch        *b_Pri_phi;   //!
    TBranch        *b_Pri_eta;   //!
    TBranch        *b_Pri_pt;   //!
-   TBranch        *b_Phi_K_1_px;   //!
-   TBranch        *b_Phi_K_1_py;   //!
-   TBranch        *b_Phi_K_1_pz;   //!
-   TBranch        *b_Phi_K_1_phi;   //!
-   TBranch        *b_Phi_K_1_eta;   //!
-   TBranch        *b_Phi_K_1_pt;   //!
-   TBranch        *b_Phi_K_2_px;   //!
-   TBranch        *b_Phi_K_2_py;   //!
-   TBranch        *b_Phi_K_2_pz;   //!
-   TBranch        *b_Phi_K_2_phi;   //!
-   TBranch        *b_Phi_K_2_eta;   //!
-   TBranch        *b_Phi_K_2_pt;   //!
+   TBranch        *b_Ups_mass;   //!
+   TBranch        *b_Ups_massErr;   //!
+   TBranch        *b_Ups_massDiff;   //!
+   TBranch        *b_Ups_Chi2;   //!
+   TBranch        *b_Ups_ndof;   //!
+   TBranch        *b_Ups_VtxProb;   //!
+   TBranch        *b_Ups_px;   //!
+   TBranch        *b_Ups_py;   //!
+   TBranch        *b_Ups_pz;   //!
+   TBranch        *b_Ups_phi;   //!
+   TBranch        *b_Ups_eta;   //!
+   TBranch        *b_Ups_pt;   //!
+   TBranch        *b_Ups_mu_1_Idx;   //!
+   TBranch        *b_Ups_mu_2_Idx;   //!
 
    ReadTree(TTree *tree=0);
    virtual ~ReadTree();
@@ -479,20 +469,6 @@ void ReadTree::Init(TTree *tree)
    Jpsi_2_pt = 0;
    Jpsi_2_mu_1_Idx = 0;
    Jpsi_2_mu_2_Idx = 0;
-   Phi_mass = 0;
-   Phi_massErr = 0;
-   Phi_massDiff = 0;
-   Phi_Chi2 = 0;
-   Phi_ndof = 0;
-   Phi_VtxProb = 0;
-   Phi_px = 0;
-   Phi_py = 0;
-   Phi_pz = 0;
-   Phi_phi = 0;
-   Phi_eta = 0;
-   Phi_pt = 0;
-   Phi_K_1_Idx = 0;
-   Phi_K_2_Idx = 0;
    Pri_mass = 0;
    Pri_massErr = 0;
    Pri_ctau = 0;
@@ -506,18 +482,20 @@ void ReadTree::Init(TTree *tree)
    Pri_phi = 0;
    Pri_eta = 0;
    Pri_pt = 0;
-   Phi_K_1_px = 0;
-   Phi_K_1_py = 0;
-   Phi_K_1_pz = 0;
-   Phi_K_1_phi = 0;
-   Phi_K_1_eta = 0;
-   Phi_K_1_pt = 0;
-   Phi_K_2_px = 0;
-   Phi_K_2_py = 0;
-   Phi_K_2_pz = 0;
-   Phi_K_2_phi = 0;
-   Phi_K_2_eta = 0;
-   Phi_K_2_pt = 0;
+   Ups_mass = 0;
+   Ups_massErr = 0;
+   Ups_massDiff = 0;
+   Ups_Chi2 = 0;
+   Ups_ndof = 0;
+   Ups_VtxProb = 0;
+   Ups_px = 0;
+   Ups_py = 0;
+   Ups_pz = 0;
+   Ups_phi = 0;
+   Ups_eta = 0;
+   Ups_pt = 0;
+   Ups_mu_1_Idx = 0;
+   Ups_mu_2_Idx = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -629,20 +607,6 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Jpsi_2_pt", &Jpsi_2_pt, &b_Jpsi_2_pt);
    fChain->SetBranchAddress("Jpsi_2_mu_1_Idx", &Jpsi_2_mu_1_Idx, &b_Jpsi_2_mu_1_Idx);
    fChain->SetBranchAddress("Jpsi_2_mu_2_Idx", &Jpsi_2_mu_2_Idx, &b_Jpsi_2_mu_2_Idx);
-   fChain->SetBranchAddress("Phi_mass", &Phi_mass, &b_Phi_mass);
-   fChain->SetBranchAddress("Phi_massErr", &Phi_massErr, &b_Phi_massErr);
-   fChain->SetBranchAddress("Phi_massDiff", &Phi_massDiff, &b_Phi_massDiff);
-   fChain->SetBranchAddress("Phi_Chi2", &Phi_Chi2, &b_Phi_Chi2);
-   fChain->SetBranchAddress("Phi_ndof", &Phi_ndof, &b_Phi_ndof);
-   fChain->SetBranchAddress("Phi_VtxProb", &Phi_VtxProb, &b_Phi_VtxProb);
-   fChain->SetBranchAddress("Phi_px", &Phi_px, &b_Phi_px);
-   fChain->SetBranchAddress("Phi_py", &Phi_py, &b_Phi_py);
-   fChain->SetBranchAddress("Phi_pz", &Phi_pz, &b_Phi_pz);
-   fChain->SetBranchAddress("Phi_phi", &Phi_phi, &b_Phi_phi);
-   fChain->SetBranchAddress("Phi_eta", &Phi_eta, &b_Phi_eta);
-   fChain->SetBranchAddress("Phi_pt", &Phi_pt, &b_Phi_pt);
-   fChain->SetBranchAddress("Phi_K_1_Idx", &Phi_K_1_Idx, &b_Phi_K_1_Idx);
-   fChain->SetBranchAddress("Phi_K_2_Idx", &Phi_K_2_Idx, &b_Phi_K_2_Idx);
    fChain->SetBranchAddress("Pri_mass", &Pri_mass, &b_Pri_mass);
    fChain->SetBranchAddress("Pri_massErr", &Pri_massErr, &b_Pri_massErr);
    fChain->SetBranchAddress("Pri_ctau", &Pri_ctau, &b_Pri_ctau);
@@ -656,18 +620,20 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Pri_phi", &Pri_phi, &b_Pri_phi);
    fChain->SetBranchAddress("Pri_eta", &Pri_eta, &b_Pri_eta);
    fChain->SetBranchAddress("Pri_pt", &Pri_pt, &b_Pri_pt);
-   fChain->SetBranchAddress("Phi_K_1_px", &Phi_K_1_px, &b_Phi_K_1_px);
-   fChain->SetBranchAddress("Phi_K_1_py", &Phi_K_1_py, &b_Phi_K_1_py);
-   fChain->SetBranchAddress("Phi_K_1_pz", &Phi_K_1_pz, &b_Phi_K_1_pz);
-   fChain->SetBranchAddress("Phi_K_1_phi", &Phi_K_1_phi, &b_Phi_K_1_phi);
-   fChain->SetBranchAddress("Phi_K_1_eta", &Phi_K_1_eta, &b_Phi_K_1_eta);
-   fChain->SetBranchAddress("Phi_K_1_pt", &Phi_K_1_pt, &b_Phi_K_1_pt);
-   fChain->SetBranchAddress("Phi_K_2_px", &Phi_K_2_px, &b_Phi_K_2_px);
-   fChain->SetBranchAddress("Phi_K_2_py", &Phi_K_2_py, &b_Phi_K_2_py);
-   fChain->SetBranchAddress("Phi_K_2_pz", &Phi_K_2_pz, &b_Phi_K_2_pz);
-   fChain->SetBranchAddress("Phi_K_2_phi", &Phi_K_2_phi, &b_Phi_K_2_phi);
-   fChain->SetBranchAddress("Phi_K_2_eta", &Phi_K_2_eta, &b_Phi_K_2_eta);
-   fChain->SetBranchAddress("Phi_K_2_pt", &Phi_K_2_pt, &b_Phi_K_2_pt);
+   fChain->SetBranchAddress("Ups_mass", &Ups_mass, &b_Ups_mass);
+   fChain->SetBranchAddress("Ups_massErr", &Ups_massErr, &b_Ups_massErr);
+   fChain->SetBranchAddress("Ups_massDiff", &Ups_massDiff, &b_Ups_massDiff);
+   fChain->SetBranchAddress("Ups_Chi2", &Ups_Chi2, &b_Ups_Chi2);
+   fChain->SetBranchAddress("Ups_ndof", &Ups_ndof, &b_Ups_ndof);
+   fChain->SetBranchAddress("Ups_VtxProb", &Ups_VtxProb, &b_Ups_VtxProb);
+   fChain->SetBranchAddress("Ups_px", &Ups_px, &b_Ups_px);
+   fChain->SetBranchAddress("Ups_py", &Ups_py, &b_Ups_py);
+   fChain->SetBranchAddress("Ups_pz", &Ups_pz, &b_Ups_pz);
+   fChain->SetBranchAddress("Ups_phi", &Ups_phi, &b_Ups_phi);
+   fChain->SetBranchAddress("Ups_eta", &Ups_eta, &b_Ups_eta);
+   fChain->SetBranchAddress("Ups_pt", &Ups_pt, &b_Ups_pt);
+   fChain->SetBranchAddress("Ups_mu_1_Idx", &Ups_mu_1_Idx, &b_Ups_mu_1_Idx);
+   fChain->SetBranchAddress("Ups_mu_2_Idx", &Ups_mu_2_Idx, &b_Ups_mu_2_Idx);
    Notify();
 }
 

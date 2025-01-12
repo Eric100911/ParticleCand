@@ -72,19 +72,16 @@ void ReadTree::Loop()
             tempList.push_back(Jpsi_1_mu_2_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
+            tempList.push_back(Ups_mu_1_Idx->at(iCand));
+            tempList.push_back(Ups_mu_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
 
-            printf("Jpsi 1 [ %d %d ] Jpsi 2 [ %d %d ]",
-                   tempList[0], tempList[1], tempList[2], tempList[3]);
+            printf("Jpsi 1 [ %d %d ] Jpsi 2 [ %d %d ] Ups [ %d %d ]\n",
+                   tempList[0], tempList[1], tempList[2], tempList[3],
+                   tempList[4], tempList[5]);
             tempList.clear();
         
-            // Now tracks.
-            tempList.push_back(Phi_K_1_Idx->at(iCand));
-            tempList.push_back(Phi_K_2_Idx->at(iCand));
-            tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
-            printf(" Phi [ %d %d ]\n", tempList[0], tempList[1]);
-            tempList.clear();
-
+            
             // Print out the overlapping candidates with its indices.
             unsigned int cnt = 0;
             for(auto it = CandList.begin(); it != CandList.end(); ++it){
