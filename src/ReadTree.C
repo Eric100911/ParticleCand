@@ -4,6 +4,7 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <memory>
 
 void ReadTree::Loop()
 {
@@ -42,8 +43,8 @@ void ReadTree::Loop()
         // if (Cut(ientry) < 0) continue;
 
         // Initialize the total set of candidates.
-        std::vector<ParticleCand> CandList;
-        ParticleCand tempCand;
+        std::vector<std::shared_ptr<ParticleCand> > CandList;
+        std::shared_ptr<ParticleCand> tempCand;
         ParticleCand::PartIdxList_t tempList;
         double temp_massChi2;
 
@@ -69,13 +70,14 @@ void ReadTree::Loop()
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
             // Register the candidate final state muons.
+            tempCand = new ParticleCand();
             tempList.push_back(Jpsi_1_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_1_mu_2_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
             tempList.push_back(Ups_mu_1_Idx->at(iCand));
             tempList.push_back(Ups_mu_2_Idx->at(iCand));
-            tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
+            tempCand->AddParticle(ParticleCand::PartType::Muon, tempList);
 
             // Calculate Chi2 from massDiff and massErr of Jpsi and Ups.
             temp_massChi2 =   (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
@@ -84,17 +86,16 @@ void ReadTree::Loop()
                             * (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
                             + (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
                             * (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand));
-            tempCand.SetScore(temp_massChi2);
+            tempCand->SetScore(temp_massChi2);
 
             tempList.clear();
 
             CandList.push_back(tempCand);
-            // puts("To flush");
-            tempCand.Clear();
         }
         printf("\n Overall valid candadates: %lld\n \n", CandList.size());
-        std::sort(CandList.begin(), CandList.end(), [](const ParticleCand& a, const ParticleCand& b){
-            return a.GetScore() < b.GetScore();
+        std::sort(CandList.begin(), CandList.end(), [](const std::shared_ptr<ParticleCand>& a, 
+                                                       const std::shared_ptr<ParticleCand>& b){
+            return a->GetScore() < b->GetScore();
         });
         for(auto& cand : CandList){
             printf("Score: %.2f", cand.GetScore());
