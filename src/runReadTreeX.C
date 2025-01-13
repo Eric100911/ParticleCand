@@ -1,3 +1,4 @@
+#include "../src/ReadTree.C"
 #include "../src/ParticleCand.C"
 
 void runReadTreeX(){

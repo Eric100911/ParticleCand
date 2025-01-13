@@ -46,9 +46,11 @@ void ReadTree::Loop()
         ParticleCand tempCand;
         ParticleCand::PartIdxList_t tempList;
 
+        // Print the Event number.
+        std::cout << ">>> Event " << jentry << "<<<" << std::endl;
         // Loop over all candidates.
-        nCands = Jpsi_1_mass->size();
-        for (Long64_t iCand=0; iCand<nCands; iCand++) {
+        size_t nCands = Jpsi_1_mass->size();
+        for (Long64_t iCand=0; iCand < nCands; iCand++) {
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
             // Register the candidate final state particles.
