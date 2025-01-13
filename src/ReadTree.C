@@ -73,6 +73,7 @@ void ReadTree::Loop()
                             + (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
                             * (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand));
             tempCand.SetScore(temp_massChi2);
+            tempCand.SedId(iCand);
             CandList.push_back(std::make_shared<ParticleCand>(tempCand));
             tempList.clear();
             tempCand.Clear();
@@ -109,7 +110,7 @@ void ReadTree::Loop()
         // Print out the selected candidates with the highest score.
         printf("\n Selected candidates: %lld\n", SelectedCands.size());
         for(auto& cand : SelectedCands){
-            printf("%.4f %s\n", cand->GetScore(), cand->ToString().c_str());
+            printf("[ %d ]%.4f %s\n",cand->GetId() ,cand->GetScore(), cand->ToString().c_str());
         }
         puts(">>>>> End of event <<<<<");
     }
