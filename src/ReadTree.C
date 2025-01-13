@@ -44,7 +44,7 @@ void ReadTree::Loop()
 
         // Initialize the total set of candidates.
         std::vector<std::shared_ptr<ParticleCand> > CandList;
-        std::shared_ptr<ParticleCand> tempCand;
+        ParticleCand tempCand;
         ParticleCand::PartIdxList_t tempList;
         double temp_massChi2;
 
@@ -70,14 +70,13 @@ void ReadTree::Loop()
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
             // Register the candidate final state muons.
-            tempCand = new ParticleCand();
             tempList.push_back(Jpsi_1_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_1_mu_2_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
             tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
             tempList.push_back(Ups_mu_1_Idx->at(iCand));
             tempList.push_back(Ups_mu_2_Idx->at(iCand));
-            tempCand->AddParticle(ParticleCand::PartType::Muon, tempList);
+            tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
 
             // Calculate Chi2 from massDiff and massErr of Jpsi and Ups.
             temp_massChi2 =   (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
@@ -86,11 +85,10 @@ void ReadTree::Loop()
                             * (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
                             + (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
                             * (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand));
-            tempCand->SetScore(temp_massChi2);
-
+            tempCand.SetScore(temp_massChi2);
+            CandList.push_back(std::make_shared<ParticleCand>(tempCand));
             tempList.clear();
-
-            CandList.push_back(tempCand);
+            tempCand.Clear();
         }
         printf("\n Overall valid candadates: %lld\n \n", CandList.size());
         std::sort(CandList.begin(), CandList.end(), [](const std::shared_ptr<ParticleCand>& a, 
@@ -98,8 +96,8 @@ void ReadTree::Loop()
             return a->GetScore() < b->GetScore();
         });
         for(auto& cand : CandList){
-            printf("Score: %.2f", cand.GetScore());
-            puts(cand.ToString().c_str());
+            printf("Score: %.2f", cand->GetScore());
+            puts(cand->ToString().c_str());
         }
         puts(">>>>> End of event <<<<<");
     }
