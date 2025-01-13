@@ -83,7 +83,6 @@ public :
    vector<int>     *muIsGoodLooseMuonNew;
    vector<int>     *muIsGoodLooseMuon;
    vector<int>     *muIsGoodTightMuon;
-   vector<int>     *muJpsiFilterRes;
    vector<int>     *muIsPatLooseMuon;
    vector<int>     *muIsPatTightMuon;
    vector<int>     *muIsPatSoftMuon;
@@ -218,7 +217,6 @@ public :
    TBranch        *b_muIsGoodLooseMuonNew;   //!
    TBranch        *b_muIsGoodLooseMuon;   //!
    TBranch        *b_muIsGoodTightMuon;   //!
-   TBranch        *b_muJpsiFilterRes;   //!
    TBranch        *b_muIsPatLooseMuon;   //!
    TBranch        *b_muIsPatTightMuon;   //!
    TBranch        *b_muIsPatSoftMuon;   //!
@@ -418,7 +416,6 @@ void ReadTree::Init(TTree *tree)
    muIsGoodLooseMuonNew = 0;
    muIsGoodLooseMuon = 0;
    muIsGoodTightMuon = 0;
-   muJpsiFilterRes = 0;
    muIsPatLooseMuon = 0;
    muIsPatTightMuon = 0;
    muIsPatSoftMuon = 0;
@@ -556,7 +553,6 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("muIsGoodLooseMuonNew", &muIsGoodLooseMuonNew, &b_muIsGoodLooseMuonNew);
    fChain->SetBranchAddress("muIsGoodLooseMuon", &muIsGoodLooseMuon, &b_muIsGoodLooseMuon);
    fChain->SetBranchAddress("muIsGoodTightMuon", &muIsGoodTightMuon, &b_muIsGoodTightMuon);
-   fChain->SetBranchAddress("muJpsiFilterRes", &muJpsiFilterRes, &b_muJpsiFilterRes);
    fChain->SetBranchAddress("muIsPatLooseMuon", &muIsPatLooseMuon, &b_muIsPatLooseMuon);
    fChain->SetBranchAddress("muIsPatTightMuon", &muIsPatTightMuon, &b_muIsPatTightMuon);
    fChain->SetBranchAddress("muIsPatSoftMuon", &muIsPatSoftMuon, &b_muIsPatSoftMuon);

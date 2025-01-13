@@ -53,19 +53,6 @@ void ReadTree::Loop()
         // Loop over all candidates.
         size_t nCands = Jpsi_1_mass->size();
         printf("number of candidate = %lld\n", nCands);
-        /*
-
-        printf("number of Jpsi_1 candidates = %lld\n", nCands);
-        printf("number of Jpsi_2 candidates = %lld\n", Jpsi_2_mass->size());
-        printf("number of Phi candidates = %lld\n", Phi_mass->size());
-        printf("number of Pri candidates = %lld\n", Pri_mass->size());
-        printf("number of muon_1_1 candidates = %lld\n", Jpsi_1_mu_1_Idx->size());
-        printf("number of muon_1_2 candidates = %lld\n", Jpsi_1_mu_2_Idx->size());
-        printf("number of muon_2_1 candidates = %lld\n", Jpsi_2_mu_1_Idx->size());
-        printf("number of muon_2_2 candidates = %lld\n", Jpsi_2_mu_2_Idx->size());
-        printf("number of track_1 candidates = %lld\n", Phi_pi_1_Idx->size());
-        printf("number of track_2 candidates = %lld\n", Phi_pi_2_Idx->size());
-        */
         for (Long64_t iCand=0; iCand < nCands; iCand++) {
             // Exclude failed fitting.
             if(Pri_mass->at(iCand) <= 0.0) continue;
@@ -90,14 +77,39 @@ void ReadTree::Loop()
             tempList.clear();
             tempCand.Clear();
         }
+        // Sort all candidates for later use.
         printf("\n Overall valid candadates: %lld\n \n", CandList.size());
         std::sort(CandList.begin(), CandList.end(), [](const std::shared_ptr<ParticleCand>& a, 
                                                        const std::shared_ptr<ParticleCand>& b){
             return a->GetScore() < b->GetScore();
         });
+        // Print out the sorted candidates.
         for(auto& cand : CandList){
-            printf("Score: %.2f", cand->GetScore());
-            puts(cand->ToString().c_str());
+            printf("%s\n", cand->ToString().c_str());
+        }
+        // Greedy algorithm to find a non-overlapping combination.
+        std::vector<std::shared_ptr<ParticleCand> > SelectedCands;
+        for(auto& cand : CandList){
+            if(SelectedCands.empty()){
+                SelectedCands.push_back(cand);
+            }
+            else{
+                bool isOverlap = false;
+                for(auto& selCand : SelectedCands){
+                    if(cand->Overlap(*selCand)){
+                        isOverlap = true;
+                        break;
+                    }
+                }
+                if(!isOverlap){
+                    SelectedCands.push_back(cand);
+                }
+            }
+        }
+        // Print out the selected candidates with the highest score.
+        printf("\n Selected candidates: %lld\n", SelectedCands.size());
+        for(auto& cand : SelectedCands){
+            printf("%.4f %s\n", cand->GetScore(), cand->ToString().c_str());
         }
         puts(">>>>> End of event <<<<<");
     }
