@@ -40,6 +40,14 @@ void ParticleCand::AddParticle(const PartType& arg_Type,
     }
 }
 
+void ParticleCand::SetScore(const double& arg_Score){
+    m_Score = arg_Score;
+}
+
+double ParticleCand::GetScore() const{
+    return m_Score;
+}
+
 bool ParticleCand::Overlap(const ParticleCand& arg_Cand) const{
     // Utilize the static function to compare two candidates.
     return Overlap(*this, arg_Cand);

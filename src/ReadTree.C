@@ -45,6 +45,7 @@ void ReadTree::Loop()
         std::vector<ParticleCand> CandList;
         ParticleCand tempCand;
         ParticleCand::PartIdxList_t tempList;
+        double temp_massChi2;
 
         printf("\n>>>>> Begin new event %lld <<<<<\n", jentry);
 
@@ -76,35 +77,29 @@ void ReadTree::Loop()
             tempList.push_back(Ups_mu_2_Idx->at(iCand));
             tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
 
-            printf("Jpsi 1 [ %d %d ] Jpsi 2 [ %d %d ] Ups [ %d %d ]\n",
-                   tempList[0], tempList[1], tempList[2], tempList[3],
-                   tempList[4], tempList[5]);
-            tempList.clear();
-        
-            
-            // Print out the overlapping candidates with its indices.
-            unsigned int cnt = 0;
-            for(auto it = CandList.begin(); it != CandList.end(); ++it){
-                if(tempCand.Overlap(*it)){
-            //        std::cout << "Overlap found at [ ";
-            //        std::cout << std::distance(CandList.begin(), it);
-            //        std::cout << " ]" << std::endl;
-                    // std::cout << it->ToString() << std::endl;
-                    cnt++;
-                }
-            }
+            // Calculate Chi2 from massDiff and massErr of Jpsi and Ups.
+            temp_massChi2 =   (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
+                            * (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
+                            + (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
+                            * (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
+                            + (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
+                            * (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand));
+            tempCand.SetScore(temp_massChi2);
 
-            if(cnt != 0){
-                printf("Found [ %d ] overlaps.\n", cnt);
-            }
-           
-            // Add the current one into the candidate list.
-            // puts("To push back");
+            tempList.clear();
+
             CandList.push_back(tempCand);
             // puts("To flush");
             tempCand.Clear();
         }
         printf("\n Overall valid candadates: %lld\n \n", CandList.size());
+        std::sort(CandList.begin(), CandList.end(), [](const ParticleCand& a, const ParticleCand& b){
+            return a.GetScore() < b.GetScore();
+        });
+        for(auto& cand : CandList){
+            printf("Score: %.2f", cand.GetScore());
+            puts(cand.ToString().c_str());
+        }
         puts(">>>>> End of event <<<<<");
     }
 }

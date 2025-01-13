@@ -52,6 +52,11 @@ public:
     static bool Overlap(const PartIdxSet_ptr& arg_Set1,
                         const PartIdxSet_ptr& arg_Set2);
 
+    // Set the score of the candidate
+    void SetScore(const double& arg_Score);
+
+    double GetScore() const;
+
     // Print out the candidate as human-readable format
     std::string ToString();
 
@@ -60,9 +65,9 @@ public:
 
 private:
     // Member variables
+    double                      m_Score;
     std::vector<PartType>       m_TypeList;
     std::vector<PartIdxSet_ptr> m_IdxList;
-
 };
 
 #endif
