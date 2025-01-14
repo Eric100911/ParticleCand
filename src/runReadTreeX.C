@@ -1,11 +1,15 @@
 #include "../src/ParticleCand.C"
 #include "../src/ReadTree.C"
 
+//#define MINOR_EXAMPLE
+
 void runReadTreeX(){
     TChain *chain = new TChain("mkcands/X_data","");
     // chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JJP/Analysis/MultiCandChecker/TripleMeson-ntuple.root");
     // chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JJP/TripleMeson-ntuple.root");
-    // chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JJP/Analysis/MultiCandChecker/JJU-ntuple.root");
+    #ifdef MINOR_EXAMPLE
+    chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JJP/Analysis/MultiCandChecker/JJU-ntuple.root");
+    #else
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Bv1_MINIAOD/240913_113936/0000/mymultilep_*.root");
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv1_MINIAOD/240913_114848/0000/mymultilep_*.root");
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv2_MINIAOD/240913_114921/0000/mymultilep_*.root");
@@ -78,6 +82,7 @@ void runReadTreeX(){
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass7/crab3_7_Run2023Dv1_MINIAOD/240914_121604/0000/mymultilep_*.root");
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass7/crab3_7_Run2023Dv1_MINIAOD/240914_121604/0001/mymultilep_*.root");
     chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass7/crab3_7_Run2023Dv2_MINIAOD/240914_121614/0000/mymultilep_*.root");
+    #endif
     ReadTree myReadTree(chain);
     myReadTree.Loop();
 }
