@@ -53,9 +53,17 @@ public:
                         const PartIdxSet_ptr& arg_Set2);
 
     // Set the score of the candidate
+    void SetCutResult(const bool& arg_PassCut);
     void SetScore(const double& arg_Score);
+    void SetId(const unsigned int& arg_Id);
 
-    double GetScore() const;
+    // Getters
+    bool       PassCut() const;
+    double    GetScore() const;
+    unsigned int GetId() const;
+    PartIdxSet_ptr GetParticleIdx(const PartType& arg_Type) const;
+    unsigned int   GetParticleIdx(const PartType& arg_Type,
+                                  const unsigned int& arg_Index) const;
 
     // Print out the candidate as human-readable format
     std::string ToString();
@@ -65,7 +73,9 @@ public:
 
 private:
     // Member variables
+    bool                        m_PassCut;
     double                      m_Score;
+    unsigned int                m_Id;
     std::vector<PartType>       m_TypeList;
     std::vector<PartIdxSet_ptr> m_IdxList;
 };

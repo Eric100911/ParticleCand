@@ -307,7 +307,7 @@ void ReadTree::Loop()
     c1->cd(3); hUps->Draw();
     c1->cd(4); hPri->Draw();
     // Save png file.
-    c1->SaveAs("mass_raw_vProb5.png");
+    c1->SaveAs("mass_raw_0Bv1.png");
 
     // pT histograms.
     TCanvas* c3 = new TCanvas("c3", "c3", 800, 600);
@@ -317,7 +317,7 @@ void ReadTree::Loop()
     c3->cd(3); hUps_pT->Draw();
     c3->cd(4); hPri_pT->Draw();
     // Save png file.
-    c3->SaveAs("pT_raw_vProb5.png");
+    c3->SaveAs("pT_raw_0Bv1.png");
 
     // eta histograms.
     TCanvas* c4 = new TCanvas("c4", "c4", 800, 600);
@@ -327,7 +327,7 @@ void ReadTree::Loop()
     c4->cd(3); hUps_eta->Draw();
     c4->cd(4); hPri_eta->Draw();
     // Save png file.
-    c4->SaveAs("eta_raw_vProb5.png");
+    c4->SaveAs("eta_raw_0Bv1.png");
 
     // vertex probability histograms.
     TCanvas* c5 = new TCanvas("c5", "c5", 800, 600);
@@ -337,7 +337,7 @@ void ReadTree::Loop()
     c5->cd(3); hUps_vProb->Draw();
     c5->cd(4); hPri_vProb->Draw();
     // Save png file.
-    c5->SaveAs("vProb_raw_vProb5.png");
+    c5->SaveAs("vProb_raw_0Bv1.png");
 
     // Display the histograms passing the cut.
     TCanvas* c2 = new TCanvas("c2", "c2", 800, 600);
@@ -347,7 +347,7 @@ void ReadTree::Loop()
     c2->cd(3); hUps_cut->Draw();
     c2->cd(4); hPri_cut->Draw();
     // Save png file.
-    c2->SaveAs("mass_cut_vProb5.png");
+    c2->SaveAs("mass_cut_0Bv1.png");
 
     // pT histograms.
     TCanvas* c6 = new TCanvas("c6", "c6", 800, 600);
@@ -357,7 +357,7 @@ void ReadTree::Loop()
     c6->cd(3); hUps_pT_cut->Draw();
     c6->cd(4); hPri_pT_cut->Draw();
     // Save png file.
-    c6->SaveAs("pT_cut_vProb5.png");
+    c6->SaveAs("pT_cut_0Bv1.png");
 
 
     // eta histograms.
@@ -368,7 +368,7 @@ void ReadTree::Loop()
     c7->cd(3); hUps_eta_cut->Draw();
     c7->cd(4); hPri_eta_cut->Draw();
     // Save png file.
-    c7->SaveAs("eta_cut_vProb5.png");
+    c7->SaveAs("eta_cut_0Bv1.png");
 
     // vertex probability histograms.
     TCanvas* c8 = new TCanvas("c8", "c8", 800, 600);
@@ -378,5 +378,5 @@ void ReadTree::Loop()
     c8->cd(3); hUps_vProb_cut->Draw();
     c8->cd(4); hPri_vProb_cut->Draw();
     // Save png file.
-    c8->SaveAs("vProb_cut_vProb5.png");
+    c8->SaveAs("vProb_cut_0Bv1.png");
 }
