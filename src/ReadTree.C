@@ -7,6 +7,8 @@
 //#define CUT_GLOBAL_VTX_PROB
 #define CUT_FROM_3J
 
+#define ALLOW_OVERLAP
+
 #include "../interface/ReadTree.h"
 #include "../src/ParticleCand.C"
 #include <TH2.h>
@@ -193,6 +195,32 @@ void ReadTree::Loop()
         }
         #endif
 
+        #ifdef ALLOW_OVERLAP
+        // Greedy algorithm to mark the top-10 candidates.
+        std::vector<std::shared_ptr<ParticleCand> > SelectedCands_raw;
+        for(auto& cand : CandList){
+            if(SelectedCands_raw.size() < 20){
+                SelectedCands_raw.push_back(cand);
+            }
+            else{
+                break;
+            }
+        }
+
+        std::vector<std::shared_ptr<ParticleCand> > SelectedCands_cut;
+        for(auto& cand : CandList){
+            if(!cand->PassCut()){
+                continue;
+            }
+            if(SelectedCands_cut.size() < 20){
+                SelectedCands_cut.push_back(cand);
+            }
+            else{
+                break;
+            }
+        }
+
+        #else
         // Greedy algorithm to find a non-overlapping combination.
         std::vector<std::shared_ptr<ParticleCand> > SelectedCands_raw;
         for(auto& cand : CandList){
@@ -234,6 +262,7 @@ void ReadTree::Loop()
                 }
             }
         }
+        #endif
 
         // Print out the selected candidates with the highest score.
         #ifdef VERBOSE
@@ -307,7 +336,7 @@ void ReadTree::Loop()
     c1->cd(3); hUps->Draw();
     c1->cd(4); hPri->Draw();
     // Save png file.
-    c1->SaveAs("mass_raw_0Bv1.png");
+    c1->SaveAs("mass_raw_full.png");
 
     // pT histograms.
     TCanvas* c3 = new TCanvas("c3", "c3", 800, 600);
@@ -317,7 +346,7 @@ void ReadTree::Loop()
     c3->cd(3); hUps_pT->Draw();
     c3->cd(4); hPri_pT->Draw();
     // Save png file.
-    c3->SaveAs("pT_raw_0Bv1.png");
+    c3->SaveAs("pT_raw_full.png");
 
     // eta histograms.
     TCanvas* c4 = new TCanvas("c4", "c4", 800, 600);
@@ -327,7 +356,7 @@ void ReadTree::Loop()
     c4->cd(3); hUps_eta->Draw();
     c4->cd(4); hPri_eta->Draw();
     // Save png file.
-    c4->SaveAs("eta_raw_0Bv1.png");
+    c4->SaveAs("eta_raw_full.png");
 
     // vertex probability histograms.
     TCanvas* c5 = new TCanvas("c5", "c5", 800, 600);
@@ -337,7 +366,7 @@ void ReadTree::Loop()
     c5->cd(3); hUps_vProb->Draw();
     c5->cd(4); hPri_vProb->Draw();
     // Save png file.
-    c5->SaveAs("vProb_raw_0Bv1.png");
+    c5->SaveAs("vProb_raw_full.png");
 
     // Display the histograms passing the cut.
     TCanvas* c2 = new TCanvas("c2", "c2", 800, 600);
@@ -347,7 +376,7 @@ void ReadTree::Loop()
     c2->cd(3); hUps_cut->Draw();
     c2->cd(4); hPri_cut->Draw();
     // Save png file.
-    c2->SaveAs("mass_cut_0Bv1.png");
+    c2->SaveAs("mass_cut_full.png");
 
     // pT histograms.
     TCanvas* c6 = new TCanvas("c6", "c6", 800, 600);
@@ -357,7 +386,7 @@ void ReadTree::Loop()
     c6->cd(3); hUps_pT_cut->Draw();
     c6->cd(4); hPri_pT_cut->Draw();
     // Save png file.
-    c6->SaveAs("pT_cut_0Bv1.png");
+    c6->SaveAs("pT_cut_full.png");
 
 
     // eta histograms.
@@ -368,7 +397,7 @@ void ReadTree::Loop()
     c7->cd(3); hUps_eta_cut->Draw();
     c7->cd(4); hPri_eta_cut->Draw();
     // Save png file.
-    c7->SaveAs("eta_cut_0Bv1.png");
+    c7->SaveAs("eta_cut_full.png");
 
     // vertex probability histograms.
     TCanvas* c8 = new TCanvas("c8", "c8", 800, 600);
@@ -378,5 +407,5 @@ void ReadTree::Loop()
     c8->cd(3); hUps_vProb_cut->Draw();
     c8->cd(4); hPri_vProb_cut->Draw();
     // Save png file.
-    c8->SaveAs("vProb_cut_0Bv1.png");
+    c8->SaveAs("vProb_cut_full.png");
 }

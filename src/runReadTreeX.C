@@ -1,7 +1,7 @@
 #include "../src/ParticleCand.C"
 #include "../src/ReadTree.C"
 
-//#define MINOR_EXAMPLE
+// #define MINOR_EXAMPLE
 
 void runReadTreeX(){
     TChain *chain = new TChain("mkcands/X_data","");
