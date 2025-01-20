@@ -7,6 +7,12 @@
 //#define CUT_GLOBAL_VTX_PROB
 #define CUT_FROM_3J
 
+//#define CUT_MUON_ID_LOOSE
+
+#define CUT_MUON_ID_SOFT
+
+#define CUT_UPS_TRY
+
 #define ALLOW_OVERLAP
 
 #include "../interface/ReadTree.h"
@@ -22,7 +28,7 @@ void ReadTree::Loop()
 
     Long64_t nentries = fChain->GetEntriesFast();
 
-    const unsigned int nBin = 40;
+    const unsigned int nBin = 20;
 
     // Define mass histograms for Jpsi, Ups and Pri.
     TH1F* hJpsi1 = new TH1F("hJpsi1", "Jpsi1 mass", nBin, 2.5, 3.5);
@@ -49,28 +55,28 @@ void ReadTree::Loop()
     TH1F* hPri_vProb   = new TH1F("hPri_vProb", "Pri vertex probability", nBin, 0.0, 1.0);
 
     // Define mass histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_cut = new TH1F("hJpsi1_cut", "Jpsi1 mass after muon pT cut", nBin, 2.5, 3.5);
-    TH1F* hJpsi2_cut = new TH1F("hJpsi2_cut", "Jpsi2 mass after muon pT cut", nBin, 2.5, 3.5);
-    TH1F* hUps_cut   = new TH1F("hUps_cut", "Ups mass after muon pT cut", nBin, 8.0, 12.0);
-    TH1F* hPri_cut   = new TH1F("hPri_cut", "Pri mass after muon pT cut", nBin, 0.0, 100.0);
+    TH1F* hJpsi1_cut = new TH1F("hJpsi1_cut", "Jpsi1 mass cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 2.5, 3.5);
+    TH1F* hJpsi2_cut = new TH1F("hJpsi2_cut", "Jpsi2 mass cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 2.5, 3.5);
+    TH1F* hUps_cut   = new TH1F("hUps_cut", "Ups mass cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 8.0, 12.0);
+    TH1F* hPri_cut   = new TH1F("hPri_cut", "Pri mass cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 100.0);
 
     // Define pT histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_pT_cut = new TH1F("hJpsi1_pT_cut", "Jpsi1 pT after muon pT cut", nBin, 0.0, 40.0);
-    TH1F* hJpsi2_pT_cut = new TH1F("hJpsi2_pT_cut", "Jpsi2 pT cut", nBin, 0.0, 40.0);
-    TH1F* hUps_pT_cut   = new TH1F("hUps_pT_cut", "Ups pT after muon pT cut", nBin, 0.0, 40.0);
-    TH1F* hPri_pT_cut   = new TH1F("hPri_pT_cut", "Pri pT after muon pT cut", nBin, 0.0, 40.0);
+    TH1F* hJpsi1_pT_cut = new TH1F("hJpsi1_pT_cut", "Jpsi1 pT cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 40.0);
+    TH1F* hJpsi2_pT_cut = new TH1F("hJpsi2_pT_cut", "Jpsi2 pT cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 40.0);
+    TH1F* hUps_pT_cut   = new TH1F("hUps_pT_cut", "Ups pT cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 40.0);
+    TH1F* hPri_pT_cut   = new TH1F("hPri_pT_cut", "Pri pT cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 40.0);
 
     // Define eta histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_eta_cut = new TH1F("hJpsi1_eta_cut", "Jpsi1 eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hJpsi2_eta_cut = new TH1F("hJpsi2_eta_cut", "Jpsi2 eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hUps_eta_cut   = new TH1F("hUps_eta_cut", "Ups eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hPri_eta_cut   = new TH1F("hPri_eta_cut", "Pri eta after muon pT cut", nBin, -3.0, 3.0);
+    TH1F* hJpsi1_eta_cut = new TH1F("hJpsi1_eta_cut", "Jpsi1 eta cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, -3.0, 3.0);
+    TH1F* hJpsi2_eta_cut = new TH1F("hJpsi2_eta_cut", "Jpsi2 eta cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, -3.0, 3.0);
+    TH1F* hUps_eta_cut   = new TH1F("hUps_eta_cut", "Ups eta cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, -3.0, 3.0);
+    TH1F* hPri_eta_cut   = new TH1F("hPri_eta_cut", "Pri eta cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, -3.0, 3.0);
 
     // Define vertex probability histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_vProb_cut = new TH1F("hJpsi1_vProb_cut", "Jpsi1 vertex probability after muon pT cut", nBin, 0.0, 1.0);
-    TH1F* hJpsi2_vProb_cut = new TH1F("hJpsi2_vProb_cut", "Jpsi2 vertex probability after muon pT cut", nBin, 0.0, 1.0);
-    TH1F* hUps_vProb_cut   = new TH1F("hUps_vProb_cut", "Ups vertex after muon pT probability cut", nBin, 0.0, 1.0);
-    TH1F* hPri_vProb_cut   = new TH1F("hPri_vProb_cut", "Pri vertex after muon pT probability cut", nBin, 0.0, 1.0);
+    TH1F* hJpsi1_vProb_cut = new TH1F("hJpsi1_vProb_cut", "Jpsi1 vertex probability cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 1.0);
+    TH1F* hJpsi2_vProb_cut = new TH1F("hJpsi2_vProb_cut", "Jpsi2 vertex probability cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 1.0);
+    TH1F* hUps_vProb_cut   = new TH1F("hUps_vProb_cut", "Ups vertex probability cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 1.0);
+    TH1F* hPri_vProb_cut   = new TH1F("hPri_vProb_cut", "Pri vertex probability cut pT [Jpsi6 Ups4 Mu Ups_Mu4] MuID Soft", nBin, 0.0, 1.0);
 
 
     Long64_t nbytes = 0, nb = 0;
@@ -164,7 +170,50 @@ void ReadTree::Loop()
                 }
             }
 
+            // For Jpsi: require pT > 6GeV/c and abs(eta) < 2.4
+            if(Jpsi_1_pt->at(iCand) <= 6.0 || abs(Jpsi_1_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+            if(Jpsi_2_pt->at(iCand) <= 6.0 || abs(Jpsi_2_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+
             #endif
+
+            #ifdef CUT_MUON_ID_LOOSE
+            // Check by muIsPatLooseMuon
+            for(auto idx : tempList){
+                if(!muIsPatLooseMuon->at(idx)){
+                    passCut = false;
+                    break;
+                }
+            }
+
+            #endif
+
+            #ifdef CUT_MUON_ID_SOFT
+            // Check by muIsPatSoftMuon
+            for(auto idx : tempList){
+                if(!muIsPatSoftMuon->at(idx)){
+                    passCut = false;
+                    break;
+                }
+            }
+
+            #endif
+
+            #ifdef CUT_UPS_TRY
+            // For Upsilon: try a loose cut. pT > 6GeV/c and abs(eta) < 2.4
+            if(Ups_pt->at(iCand) <= 6.0 || abs(Ups_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+            // Additional cut for muons from Ups: pT > 4 GeV/c
+            if(mu_pT[Ups_mu_1_Idx->at(iCand)] <= 4.0 || mu_pT[Ups_mu_2_Idx->at(iCand)] <= 4.0){
+                passCut = false;
+            }
+            #endif
+
+
 
 
             // Calculate Chi2 from massDiff and massErr of Jpsi and Ups.
@@ -336,7 +385,7 @@ void ReadTree::Loop()
     c1->cd(3); hUps->Draw();
     c1->cd(4); hPri->Draw();
     // Save png file.
-    c1->SaveAs("mass_raw_full.png");
+    c1->SaveAs("mass_raw_0Bv1.png");
 
     // pT histograms.
     TCanvas* c3 = new TCanvas("c3", "c3", 800, 600);
@@ -346,7 +395,7 @@ void ReadTree::Loop()
     c3->cd(3); hUps_pT->Draw();
     c3->cd(4); hPri_pT->Draw();
     // Save png file.
-    c3->SaveAs("pT_raw_full.png");
+    c3->SaveAs("pT_raw_0Bv1.png");
 
     // eta histograms.
     TCanvas* c4 = new TCanvas("c4", "c4", 800, 600);
@@ -356,7 +405,7 @@ void ReadTree::Loop()
     c4->cd(3); hUps_eta->Draw();
     c4->cd(4); hPri_eta->Draw();
     // Save png file.
-    c4->SaveAs("eta_raw_full.png");
+    c4->SaveAs("eta_raw_0Bv1.png");
 
     // vertex probability histograms.
     TCanvas* c5 = new TCanvas("c5", "c5", 800, 600);
@@ -366,7 +415,7 @@ void ReadTree::Loop()
     c5->cd(3); hUps_vProb->Draw();
     c5->cd(4); hPri_vProb->Draw();
     // Save png file.
-    c5->SaveAs("vProb_raw_full.png");
+    c5->SaveAs("vProb_raw_0Bv1.png");
 
     // Display the histograms passing the cut.
     TCanvas* c2 = new TCanvas("c2", "c2", 800, 600);
@@ -376,7 +425,7 @@ void ReadTree::Loop()
     c2->cd(3); hUps_cut->Draw();
     c2->cd(4); hPri_cut->Draw();
     // Save png file.
-    c2->SaveAs("mass_cut_full.png");
+    c2->SaveAs("mass_cut_0Bv1.png");
 
     // pT histograms.
     TCanvas* c6 = new TCanvas("c6", "c6", 800, 600);
@@ -386,7 +435,7 @@ void ReadTree::Loop()
     c6->cd(3); hUps_pT_cut->Draw();
     c6->cd(4); hPri_pT_cut->Draw();
     // Save png file.
-    c6->SaveAs("pT_cut_full.png");
+    c6->SaveAs("pT_cut_0Bv1.png");
 
 
     // eta histograms.
@@ -397,7 +446,7 @@ void ReadTree::Loop()
     c7->cd(3); hUps_eta_cut->Draw();
     c7->cd(4); hPri_eta_cut->Draw();
     // Save png file.
-    c7->SaveAs("eta_cut_full.png");
+    c7->SaveAs("eta_cut_0Bv1.png");
 
     // vertex probability histograms.
     TCanvas* c8 = new TCanvas("c8", "c8", 800, 600);
@@ -407,5 +456,5 @@ void ReadTree::Loop()
     c8->cd(3); hUps_vProb_cut->Draw();
     c8->cd(4); hPri_vProb_cut->Draw();
     // Save png file.
-    c8->SaveAs("vProb_cut_full.png");
+    c8->SaveAs("vProb_cut_0Bv1.png");
 }
