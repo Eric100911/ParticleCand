@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Dec 17 22:30:41 2024 by ROOT version 6.24/06
+// Tue Jan 21 07:21:17 2025 by ROOT version 6.34.02
 // from TTree X_data/X(3872) Data
-// found on file: ../../../TripleMeson-ntuple.root
+// found on file: root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_JJU_19Jan2025_0_Run2023Cv1_MINIAOD/250119_152657/0000/mymultilep_120.root
 //////////////////////////////////////////////////////////
 
 #ifndef ReadTree_h
@@ -30,7 +30,8 @@ public :
    // Declaration of leaf types
    vector<unsigned int> *TrigRes;
    vector<string>  *TrigNames;
-   vector<string>  *MatchTriggerNames;
+   vector<string>  *MatchJpsiTriggerNames;
+   vector<string>  *MatchUpsTriggerNames;
    vector<unsigned int> *L1TrigRes;
    UInt_t          evtNum;
    UInt_t          runNum;
@@ -89,6 +90,8 @@ public :
    vector<int>     *muIsPatMediumMuon;
    vector<int>     *muIsJpsiTrigMatch;
    vector<int>     *muIsUpsTrigMatch;
+   vector<int>     *muIsJpsiFilterMatch;
+   vector<int>     *muIsUpsFilterMatch;
    vector<float>   *muMVAMuonID;
    vector<float>   *musegmentCompatibility;
    vector<float>   *mupulldXdZ_pos_noArb;
@@ -99,8 +102,10 @@ public :
    vector<float>   *mupulldYdZ_pos_ArbST;
    vector<float>   *mupulldXdZ_pos_noArb_any;
    vector<float>   *mupulldYdZ_pos_noArb_any;
-   vector<int>     *muUpsVrtxMatch;
-   vector<int>     *muL3TriggerMatch;
+   vector<float>   *Jpsi_cand_mass_p4;
+   vector<float>   *Jpsi_cand_mass_fit;
+   vector<float>   *Ups_cand_mass_p4;
+   vector<float>   *Ups_cand_mass_fit;
    vector<float>   *Jpsi_1_mass;
    vector<float>   *Jpsi_1_massErr;
    vector<float>   *Jpsi_1_massDiff;
@@ -133,19 +138,6 @@ public :
    vector<float>   *Jpsi_2_pt;
    vector<float>   *Jpsi_2_mu_1_Idx;
    vector<float>   *Jpsi_2_mu_2_Idx;
-   vector<float>   *Pri_mass;
-   vector<float>   *Pri_massErr;
-   vector<float>   *Pri_ctau;
-   vector<float>   *Pri_ctauErr;
-   vector<float>   *Pri_Chi2;
-   vector<float>   *Pri_ndof;
-   vector<float>   *Pri_VtxProb;
-   vector<float>   *Pri_px;
-   vector<float>   *Pri_py;
-   vector<float>   *Pri_pz;
-   vector<float>   *Pri_phi;
-   vector<float>   *Pri_eta;
-   vector<float>   *Pri_pt;
    vector<float>   *Ups_mass;
    vector<float>   *Ups_massErr;
    vector<float>   *Ups_massDiff;
@@ -160,11 +152,25 @@ public :
    vector<float>   *Ups_pt;
    vector<float>   *Ups_mu_1_Idx;
    vector<float>   *Ups_mu_2_Idx;
+   vector<float>   *Pri_mass;
+   vector<float>   *Pri_massErr;
+   vector<float>   *Pri_ctau;
+   vector<float>   *Pri_ctauErr;
+   vector<float>   *Pri_Chi2;
+   vector<float>   *Pri_ndof;
+   vector<float>   *Pri_VtxProb;
+   vector<float>   *Pri_px;
+   vector<float>   *Pri_py;
+   vector<float>   *Pri_pz;
+   vector<float>   *Pri_phi;
+   vector<float>   *Pri_eta;
+   vector<float>   *Pri_pt;
 
    // List of branches
    TBranch        *b_TrigRes;   //!
    TBranch        *b_TrigNames;   //!
-   TBranch        *b_MatchTriggerNames;   //!
+   TBranch        *b_MatchJpsiTriggerNames;   //!
+   TBranch        *b_MatchUpsTriggerNames;   //!
    TBranch        *b_L1TrigRes;   //!
    TBranch        *b_evtNum;   //!
    TBranch        *b_runNum;   //!
@@ -223,6 +229,8 @@ public :
    TBranch        *b_muIsPatMediumMuon;   //!
    TBranch        *b_muIsJpsiTrigMatch;   //!
    TBranch        *b_muIsUpsTrigMatch;   //!
+   TBranch        *b_muIsJpsiFilterMatch;   //!
+   TBranch        *b_muIsUpsFilterMatch;   //!
    TBranch        *b_muMVAMuonID;   //!
    TBranch        *b_musegmentCompatibility;   //!
    TBranch        *b_mupulldXdZ_pos_noArb;   //!
@@ -233,8 +241,10 @@ public :
    TBranch        *b_mupulldYdZ_pos_ArbST;   //!
    TBranch        *b_mupulldXdZ_pos_noArb_any;   //!
    TBranch        *b_mupulldYdZ_pos_noArb_any;   //!
-   TBranch        *b_muUpsVrtxMatch;   //!
-   TBranch        *b_muL3TriggerMatch;   //!
+   TBranch        *b_Jpsi_cand_mass_p4;   //!
+   TBranch        *b_Jpsi_cand_mass_fit;   //!
+   TBranch        *b_Ups_cand_mass_p4;   //!
+   TBranch        *b_Ups_cand_mass_fit;   //!
    TBranch        *b_Jpsi_1_mass;   //!
    TBranch        *b_Jpsi_1_massErr;   //!
    TBranch        *b_Jpsi_1_massDiff;   //!
@@ -267,33 +277,6 @@ public :
    TBranch        *b_Jpsi_2_pt;   //!
    TBranch        *b_Jpsi_2_mu_1_Idx;   //!
    TBranch        *b_Jpsi_2_mu_2_Idx;   //!
-   TBranch        *b_Phi_mass;   //!
-   TBranch        *b_Phi_massErr;   //!
-   TBranch        *b_Phi_massDiff;   //!
-   TBranch        *b_Phi_Chi2;   //!
-   TBranch        *b_Phi_ndof;   //!
-   TBranch        *b_Phi_VtxProb;   //!
-   TBranch        *b_Phi_px;   //!
-   TBranch        *b_Phi_py;   //!
-   TBranch        *b_Phi_pz;   //!
-   TBranch        *b_Phi_phi;   //!
-   TBranch        *b_Phi_eta;   //!
-   TBranch        *b_Phi_pt;   //!
-   TBranch        *b_Phi_K_1_Idx;   //!
-   TBranch        *b_Phi_K_2_Idx;   //!
-   TBranch        *b_Pri_mass;   //!
-   TBranch        *b_Pri_massErr;   //!
-   TBranch        *b_Pri_ctau;   //!
-   TBranch        *b_Pri_ctauErr;   //!
-   TBranch        *b_Pri_Chi2;   //!
-   TBranch        *b_Pri_ndof;   //!
-   TBranch        *b_Pri_VtxProb;   //!
-   TBranch        *b_Pri_px;   //!
-   TBranch        *b_Pri_py;   //!
-   TBranch        *b_Pri_pz;   //!
-   TBranch        *b_Pri_phi;   //!
-   TBranch        *b_Pri_eta;   //!
-   TBranch        *b_Pri_pt;   //!
    TBranch        *b_Ups_mass;   //!
    TBranch        *b_Ups_massErr;   //!
    TBranch        *b_Ups_massDiff;   //!
@@ -308,6 +291,19 @@ public :
    TBranch        *b_Ups_pt;   //!
    TBranch        *b_Ups_mu_1_Idx;   //!
    TBranch        *b_Ups_mu_2_Idx;   //!
+   TBranch        *b_Pri_mass;   //!
+   TBranch        *b_Pri_massErr;   //!
+   TBranch        *b_Pri_ctau;   //!
+   TBranch        *b_Pri_ctauErr;   //!
+   TBranch        *b_Pri_Chi2;   //!
+   TBranch        *b_Pri_ndof;   //!
+   TBranch        *b_Pri_VtxProb;   //!
+   TBranch        *b_Pri_px;   //!
+   TBranch        *b_Pri_py;   //!
+   TBranch        *b_Pri_pz;   //!
+   TBranch        *b_Pri_phi;   //!
+   TBranch        *b_Pri_eta;   //!
+   TBranch        *b_Pri_pt;   //!
 
    ReadTree(TTree *tree=0);
    virtual ~ReadTree();
@@ -316,7 +312,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    virtual void     Loop();
-   virtual Bool_t   Notify();
+   virtual bool     Notify();
    virtual void     Show(Long64_t entry = -1);
 };
 
@@ -328,11 +324,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../../../TripleMeson-ntuple.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_JJU_19Jan2025_0_Run2023Cv1_MINIAOD/250119_152657/0000/mymultilep_120.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("../../../TripleMeson-ntuple.root");
+         f = new TFile("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_JJU_19Jan2025_0_Run2023Cv1_MINIAOD/250119_152657/0000/mymultilep_120.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("../../../TripleMeson-ntuple.root:/mkcands");
+      TDirectory * dir = (TDirectory*)f->Get("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiJpsiUps/rootNtuple/ParkingDoubleMuonLowMass0/crab3_JJU_19Jan2025_0_Run2023Cv1_MINIAOD/250119_152657/0000/mymultilep_120.root:/mkcands");
       dir->GetObject("X_data",tree);
 
    }
@@ -377,7 +373,8 @@ void ReadTree::Init(TTree *tree)
    // Set object pointer
    TrigRes = 0;
    TrigNames = 0;
-   MatchTriggerNames = 0;
+   MatchJpsiTriggerNames = 0;
+   MatchUpsTriggerNames = 0;
    L1TrigRes = 0;
    PriVtxXCorrX = 0;
    PriVtxXCorrY = 0;
@@ -422,6 +419,8 @@ void ReadTree::Init(TTree *tree)
    muIsPatMediumMuon = 0;
    muIsJpsiTrigMatch = 0;
    muIsUpsTrigMatch = 0;
+   muIsJpsiFilterMatch = 0;
+   muIsUpsFilterMatch = 0;
    muMVAMuonID = 0;
    musegmentCompatibility = 0;
    mupulldXdZ_pos_noArb = 0;
@@ -432,8 +431,10 @@ void ReadTree::Init(TTree *tree)
    mupulldYdZ_pos_ArbST = 0;
    mupulldXdZ_pos_noArb_any = 0;
    mupulldYdZ_pos_noArb_any = 0;
-   muUpsVrtxMatch = 0;
-   muL3TriggerMatch = 0;
+   Jpsi_cand_mass_p4 = 0;
+   Jpsi_cand_mass_fit = 0;
+   Ups_cand_mass_p4 = 0;
+   Ups_cand_mass_fit = 0;
    Jpsi_1_mass = 0;
    Jpsi_1_massErr = 0;
    Jpsi_1_massDiff = 0;
@@ -466,19 +467,6 @@ void ReadTree::Init(TTree *tree)
    Jpsi_2_pt = 0;
    Jpsi_2_mu_1_Idx = 0;
    Jpsi_2_mu_2_Idx = 0;
-   Pri_mass = 0;
-   Pri_massErr = 0;
-   Pri_ctau = 0;
-   Pri_ctauErr = 0;
-   Pri_Chi2 = 0;
-   Pri_ndof = 0;
-   Pri_VtxProb = 0;
-   Pri_px = 0;
-   Pri_py = 0;
-   Pri_pz = 0;
-   Pri_phi = 0;
-   Pri_eta = 0;
-   Pri_pt = 0;
    Ups_mass = 0;
    Ups_massErr = 0;
    Ups_massDiff = 0;
@@ -493,6 +481,19 @@ void ReadTree::Init(TTree *tree)
    Ups_pt = 0;
    Ups_mu_1_Idx = 0;
    Ups_mu_2_Idx = 0;
+   Pri_mass = 0;
+   Pri_massErr = 0;
+   Pri_ctau = 0;
+   Pri_ctauErr = 0;
+   Pri_Chi2 = 0;
+   Pri_ndof = 0;
+   Pri_VtxProb = 0;
+   Pri_px = 0;
+   Pri_py = 0;
+   Pri_pz = 0;
+   Pri_phi = 0;
+   Pri_eta = 0;
+   Pri_pt = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -501,20 +502,22 @@ void ReadTree::Init(TTree *tree)
 
    fChain->SetBranchAddress("TrigRes", &TrigRes, &b_TrigRes);
    fChain->SetBranchAddress("TrigNames", &TrigNames, &b_TrigNames);
-   fChain->SetBranchAddress("MatchTriggerNames", &MatchTriggerNames, &b_MatchTriggerNames);
+   fChain->SetBranchAddress("MatchJpsiTriggerNames", &MatchJpsiTriggerNames, &b_MatchJpsiTriggerNames);
+   fChain->SetBranchAddress("MatchUpsTriggerNames", &MatchUpsTriggerNames, &b_MatchUpsTriggerNames);
    fChain->SetBranchAddress("L1TrigRes", &L1TrigRes, &b_L1TrigRes);
    fChain->SetBranchAddress("evtNum", &evtNum, &b_evtNum);
    fChain->SetBranchAddress("runNum", &runNum, &b_runNum);
    fChain->SetBranchAddress("lumiNum", &lumiNum, &b_lumiNum);
-   fChain->SetBranchAddress("nGoodPrimVtx", &nGoodPrimVtx, &b_nGoodPrimVtx);
-   fChain->SetBranchAddress("priVtxX", &priVtxX, &b_priVtxX);
-   fChain->SetBranchAddress("priVtxY", &priVtxY, &b_priVtxY);
-   fChain->SetBranchAddress("priVtxZ", &priVtxZ, &b_priVtxZ);
-   fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_priVtxXE);
-   fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_priVtxYE);
-   fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_priVtxZE);
-   fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_priVtxChiNorm);
-   fChain->SetBranchAddress("priVtxChi",     &priVtxChi,     &b_priVtxChi   );
+   fChain->SetBranchAddress("nGoodPrimVtx",     &nGoodPrimVtx, &b_nGoodPrimVtx);
+   fChain->SetBranchAddress("priVtxX",          &priVtxX,       &b_priVtxX);
+   fChain->SetBranchAddress("priVtxY",          &priVtxY,       &b_priVtxY);
+   fChain->SetBranchAddress("priVtxZ",          &priVtxZ,       &b_priVtxZ);
+   fChain->SetBranchAddress("priVtxXE",         &priVtxXE,      &b_priVtxXE);
+   fChain->SetBranchAddress("priVtxYE",         &priVtxYE,      &b_priVtxYE);
+   fChain->SetBranchAddress("priVtxZE",         &priVtxZE,      &b_priVtxZE);
+   fChain->SetBranchAddress("priVtxChiNorm",    &priVtxChiNorm, &b_priVtxChiNorm);
+   fChain->SetBranchAddress("priVtxChi",        &priVtxChi,     &b_priVtxChi);
+   fChain->SetBranchAddress("priVtxCL",         &priVtxCL,      &b_priVtxCL);
    fChain->SetBranchAddress("PriVtxXCorrX", &PriVtxXCorrX, &b_PriVtxXCorrX);
    fChain->SetBranchAddress("PriVtxXCorrY", &PriVtxXCorrY, &b_PriVtxXCorrY);
    fChain->SetBranchAddress("PriVtxXCorrZ", &PriVtxXCorrZ, &b_PriVtxXCorrZ);
@@ -559,6 +562,8 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("muIsPatMediumMuon", &muIsPatMediumMuon, &b_muIsPatMediumMuon);
    fChain->SetBranchAddress("muIsJpsiTrigMatch", &muIsJpsiTrigMatch, &b_muIsJpsiTrigMatch);
    fChain->SetBranchAddress("muIsUpsTrigMatch", &muIsUpsTrigMatch, &b_muIsUpsTrigMatch);
+   fChain->SetBranchAddress("muIsJpsiFilterMatch", &muIsJpsiFilterMatch, &b_muIsJpsiFilterMatch);
+   fChain->SetBranchAddress("muIsUpsFilterMatch", &muIsUpsFilterMatch, &b_muIsUpsFilterMatch);
    fChain->SetBranchAddress("muMVAMuonID", &muMVAMuonID, &b_muMVAMuonID);
    fChain->SetBranchAddress("musegmentCompatibility", &musegmentCompatibility, &b_musegmentCompatibility);
    fChain->SetBranchAddress("mupulldXdZ_pos_noArb", &mupulldXdZ_pos_noArb, &b_mupulldXdZ_pos_noArb);
@@ -569,8 +574,10 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("mupulldYdZ_pos_ArbST", &mupulldYdZ_pos_ArbST, &b_mupulldYdZ_pos_ArbST);
    fChain->SetBranchAddress("mupulldXdZ_pos_noArb_any", &mupulldXdZ_pos_noArb_any, &b_mupulldXdZ_pos_noArb_any);
    fChain->SetBranchAddress("mupulldYdZ_pos_noArb_any", &mupulldYdZ_pos_noArb_any, &b_mupulldYdZ_pos_noArb_any);
-   fChain->SetBranchAddress("muUpsVrtxMatch", &muUpsVrtxMatch, &b_muUpsVrtxMatch);
-   fChain->SetBranchAddress("muL3TriggerMatch", &muL3TriggerMatch, &b_muL3TriggerMatch);
+   fChain->SetBranchAddress("Jpsi_cand_mass_p4", &Jpsi_cand_mass_p4, &b_Jpsi_cand_mass_p4);
+   fChain->SetBranchAddress("Jpsi_cand_mass_fit", &Jpsi_cand_mass_fit, &b_Jpsi_cand_mass_fit);
+   fChain->SetBranchAddress("Ups_cand_mass_p4", &Ups_cand_mass_p4, &b_Ups_cand_mass_p4);
+   fChain->SetBranchAddress("Ups_cand_mass_fit", &Ups_cand_mass_fit, &b_Ups_cand_mass_fit);
    fChain->SetBranchAddress("Jpsi_1_mass", &Jpsi_1_mass, &b_Jpsi_1_mass);
    fChain->SetBranchAddress("Jpsi_1_massErr", &Jpsi_1_massErr, &b_Jpsi_1_massErr);
    fChain->SetBranchAddress("Jpsi_1_massDiff", &Jpsi_1_massDiff, &b_Jpsi_1_massDiff);
@@ -603,19 +610,6 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Jpsi_2_pt", &Jpsi_2_pt, &b_Jpsi_2_pt);
    fChain->SetBranchAddress("Jpsi_2_mu_1_Idx", &Jpsi_2_mu_1_Idx, &b_Jpsi_2_mu_1_Idx);
    fChain->SetBranchAddress("Jpsi_2_mu_2_Idx", &Jpsi_2_mu_2_Idx, &b_Jpsi_2_mu_2_Idx);
-   fChain->SetBranchAddress("Pri_mass", &Pri_mass, &b_Pri_mass);
-   fChain->SetBranchAddress("Pri_massErr", &Pri_massErr, &b_Pri_massErr);
-   fChain->SetBranchAddress("Pri_ctau", &Pri_ctau, &b_Pri_ctau);
-   fChain->SetBranchAddress("Pri_ctauErr", &Pri_ctauErr, &b_Pri_ctauErr);
-   fChain->SetBranchAddress("Pri_Chi2", &Pri_Chi2, &b_Pri_Chi2);
-   fChain->SetBranchAddress("Pri_ndof", &Pri_ndof, &b_Pri_ndof);
-   fChain->SetBranchAddress("Pri_VtxProb", &Pri_VtxProb, &b_Pri_VtxProb);
-   fChain->SetBranchAddress("Pri_px", &Pri_px, &b_Pri_px);
-   fChain->SetBranchAddress("Pri_py", &Pri_py, &b_Pri_py);
-   fChain->SetBranchAddress("Pri_pz", &Pri_pz, &b_Pri_pz);
-   fChain->SetBranchAddress("Pri_phi", &Pri_phi, &b_Pri_phi);
-   fChain->SetBranchAddress("Pri_eta", &Pri_eta, &b_Pri_eta);
-   fChain->SetBranchAddress("Pri_pt", &Pri_pt, &b_Pri_pt);
    fChain->SetBranchAddress("Ups_mass", &Ups_mass, &b_Ups_mass);
    fChain->SetBranchAddress("Ups_massErr", &Ups_massErr, &b_Ups_massErr);
    fChain->SetBranchAddress("Ups_massDiff", &Ups_massDiff, &b_Ups_massDiff);
@@ -630,10 +624,23 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("Ups_pt", &Ups_pt, &b_Ups_pt);
    fChain->SetBranchAddress("Ups_mu_1_Idx", &Ups_mu_1_Idx, &b_Ups_mu_1_Idx);
    fChain->SetBranchAddress("Ups_mu_2_Idx", &Ups_mu_2_Idx, &b_Ups_mu_2_Idx);
+   fChain->SetBranchAddress("Pri_mass", &Pri_mass, &b_Pri_mass);
+   fChain->SetBranchAddress("Pri_massErr", &Pri_massErr, &b_Pri_massErr);
+   fChain->SetBranchAddress("Pri_ctau", &Pri_ctau, &b_Pri_ctau);
+   fChain->SetBranchAddress("Pri_ctauErr", &Pri_ctauErr, &b_Pri_ctauErr);
+   fChain->SetBranchAddress("Pri_Chi2", &Pri_Chi2, &b_Pri_Chi2);
+   fChain->SetBranchAddress("Pri_ndof", &Pri_ndof, &b_Pri_ndof);
+   fChain->SetBranchAddress("Pri_VtxProb", &Pri_VtxProb, &b_Pri_VtxProb);
+   fChain->SetBranchAddress("Pri_px", &Pri_px, &b_Pri_px);
+   fChain->SetBranchAddress("Pri_py", &Pri_py, &b_Pri_py);
+   fChain->SetBranchAddress("Pri_pz", &Pri_pz, &b_Pri_pz);
+   fChain->SetBranchAddress("Pri_phi", &Pri_phi, &b_Pri_phi);
+   fChain->SetBranchAddress("Pri_eta", &Pri_eta, &b_Pri_eta);
+   fChain->SetBranchAddress("Pri_pt", &Pri_pt, &b_Pri_pt);
    Notify();
 }
 
-Bool_t ReadTree::Notify()
+bool ReadTree::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -641,7 +648,7 @@ Bool_t ReadTree::Notify()
    // to the generated code, but the routine can be extended by the
    // user if needed. The return value is currently not used.
 
-   return kTRUE;
+   return true;
 }
 
 void ReadTree::Show(Long64_t entry)
