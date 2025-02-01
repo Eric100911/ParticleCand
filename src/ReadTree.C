@@ -4,15 +4,34 @@
 #define VERBOSE
 #endif
 
+#define DRAW_RAW
+
 //#define CUT_GLOBAL_VTX_PROB
 #define CUT_FROM_3J
 
-#include "../interface/ReadTree.h"
-#include "../src/ParticleCand.C"
+//#define CUT_MUON_ID_LOOSE
+
+#define CUT_MUON_ID_SOFT
+
+#define CUT_UPS_TRY
+
+#define ALLOW_OVERLAP
+
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/interface/ReadTree.h"
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/src/ParticleCand.C"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <memory>
+
+// Include the header file for the roofit.
+#include "RooRealVar.h"
+#include "RooDataSet.h"
+#include "RooPlot.h"
+#include "RooGaussian.h"
+#include "RooArgList.h"
+#include "RooFitResult.h"
+#include "RooChebychev.h"
 
 void ReadTree::Loop()
 {
@@ -21,54 +40,36 @@ void ReadTree::Loop()
     Long64_t nentries = fChain->GetEntriesFast();
 
     const unsigned int nBin = 40;
+    const unsigned int nBin_cut = 20;
+    const unsigned int nCandsAllowed = 20;
 
-    // Define mass histograms for Jpsi, Ups and Pri.
-    TH1F* hJpsi1 = new TH1F("hJpsi1", "Jpsi1 mass", nBin, 2.5, 3.5);
-    TH1F* hJpsi2 = new TH1F("hJpsi2", "Jpsi2 mass", nBin, 2.5, 3.5);
-    TH1F* hUps   = new TH1F("hUps", "Ups mass", nBin, 8.0, 12.0);
-    TH1F* hPri   = new TH1F("hPri", "Pri mass", nBin, 0.0, 100.0);
+    // Use Roofit to draw the plot with proper error bars.
+    // May try fitting later.
+    #ifdef DRAW_RAW
+    // Define mass histograms for Jpsi, Ups and Pri. Using Roofit.
+    RooRealVar Jpsi1_mass_var("Jpsi1_mass", "Jpsi1_mass", 2.5, 3.5);
+    RooRealVar Jpsi2_mass_var("Jpsi2_mass", "Jpsi2_mass", 2.5, 3.5);
+    RooRealVar Ups_mass_var("Ups_mass","Ups_mass", 8.0, 12.0);
+    RooRealVar Pri_mass_var("Pri_mass","Pri_mass", 0.0, 100.);
+    #endif
+    // Define mass histograms for Jpsi, Ups and Pri passing the cut. Using Roofit.
+    RooRealVar Jpsi1_mass_cut_var("Jpsi1_mass_cut", "Jpsi1_mass_cut", 2.5, 3.5);
+    RooRealVar Jpsi2_mass_cut_var("Jpsi2_mass_cut", "Jpsi2_mass_cut", 2.5, 3.5);
+    RooRealVar Ups_mass_cut_var("Ups_mass_cut","Ups_mass_cut", 8.0, 12.0);
+    RooRealVar Pri_mass_cut_var("Pri_mass_cut","Pri_mass_cut", 0.0, 100.0);
 
-    // Define pT histograms for Jpsi, Ups and Pri.
-    TH1F* hJpsi1_pT = new TH1F("hJpsi1_pT", "Jpsi1 pT", nBin, 0.0, 100.0);
-    TH1F* hJpsi2_pT = new TH1F("hJpsi2_pT", "Jpsi2 pT", nBin, 0.0, 100.0);
-    TH1F* hUps_pT   = new TH1F("hUps_pT", "Ups pT", nBin, 0.0, 100.0);
-    TH1F* hPri_pT   = new TH1F("hPri_pT", "Pri pT", nBin, 0.0, 100.0);
-
-    // Define eta histograms for Jpsi, Ups and Pri.
-    TH1F* hJpsi1_eta = new TH1F("hJpsi1_eta", "Jpsi1 eta", nBin, -3.0, 3.0);
-    TH1F* hJpsi2_eta = new TH1F("hJpsi2_eta", "Jpsi2 eta", nBin, -3.0, 3.0);
-    TH1F* hUps_eta   = new TH1F("hUps_eta", "Ups eta", nBin, -3.0, 3.0);
-    TH1F* hPri_eta   = new TH1F("hPri_eta", "Pri eta", nBin, -3.0, 3.0);
-
-    // Define vertex probability histograms for Jpsi, Ups and Pri.
-    TH1F* hJpsi1_vProb = new TH1F("hJpsi1_vProb", "Jpsi1 vertex probability", nBin, 0.0, 1.0);
-    TH1F* hJpsi2_vProb = new TH1F("hJpsi2_vProb", "Jpsi2 vertex probability", nBin, 0.0, 1.0);
-    TH1F* hUps_vProb   = new TH1F("hUps_vProb", "Ups vertex probability", nBin, 0.0, 1.0);
-    TH1F* hPri_vProb   = new TH1F("hPri_vProb", "Pri vertex probability", nBin, 0.0, 1.0);
-
-    // Define mass histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_cut = new TH1F("hJpsi1_cut", "Jpsi1 mass after muon pT cut", nBin, 2.5, 3.5);
-    TH1F* hJpsi2_cut = new TH1F("hJpsi2_cut", "Jpsi2 mass after muon pT cut", nBin, 2.5, 3.5);
-    TH1F* hUps_cut   = new TH1F("hUps_cut", "Ups mass after muon pT cut", nBin, 8.0, 12.0);
-    TH1F* hPri_cut   = new TH1F("hPri_cut", "Pri mass after muon pT cut", nBin, 0.0, 100.0);
-
-    // Define pT histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_pT_cut = new TH1F("hJpsi1_pT_cut", "Jpsi1 pT after muon pT cut", nBin, 0.0, 40.0);
-    TH1F* hJpsi2_pT_cut = new TH1F("hJpsi2_pT_cut", "Jpsi2 pT cut", nBin, 0.0, 40.0);
-    TH1F* hUps_pT_cut   = new TH1F("hUps_pT_cut", "Ups pT after muon pT cut", nBin, 0.0, 40.0);
-    TH1F* hPri_pT_cut   = new TH1F("hPri_pT_cut", "Pri pT after muon pT cut", nBin, 0.0, 40.0);
-
-    // Define eta histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_eta_cut = new TH1F("hJpsi1_eta_cut", "Jpsi1 eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hJpsi2_eta_cut = new TH1F("hJpsi2_eta_cut", "Jpsi2 eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hUps_eta_cut   = new TH1F("hUps_eta_cut", "Ups eta after muon pT cut", nBin, -3.0, 3.0);
-    TH1F* hPri_eta_cut   = new TH1F("hPri_eta_cut", "Pri eta after muon pT cut", nBin, -3.0, 3.0);
-
-    // Define vertex probability histograms for Jpsi, Ups and Pri passing the cut.
-    TH1F* hJpsi1_vProb_cut = new TH1F("hJpsi1_vProb_cut", "Jpsi1 vertex probability after muon pT cut", nBin, 0.0, 1.0);
-    TH1F* hJpsi2_vProb_cut = new TH1F("hJpsi2_vProb_cut", "Jpsi2 vertex probability after muon pT cut", nBin, 0.0, 1.0);
-    TH1F* hUps_vProb_cut   = new TH1F("hUps_vProb_cut", "Ups vertex after muon pT probability cut", nBin, 0.0, 1.0);
-    TH1F* hPri_vProb_cut   = new TH1F("hPri_vProb_cut", "Pri vertex after muon pT probability cut", nBin, 0.0, 1.0);
+    #ifdef DRAW_RAW
+    // Define dataset for Jpsi, Ups and Pri. Using Roofit.
+    RooDataSet Jpsi1_mass_data("Jpsi1_mass_data", "Jpsi1_mass_data", RooArgList(Jpsi1_mass_var));
+    RooDataSet Jpsi2_mass_data("Jpsi2_mass_data", "Jpsi2_mass_data", RooArgList(Jpsi2_mass_var));
+    RooDataSet Ups_mass_data("Ups_mass_data", "Ups_mass_data", RooArgList(Ups_mass_var));
+    RooDataSet Pri_mass_data("Pri_mass_data", "Pri_mass_data", RooArgList(Pri_mass_var));
+    #endif
+    // Define dataset for Jpsi, Ups and Pri passing the cut. Using Roofit.
+    RooDataSet Jpsi1_mass_cut_data("Jpsi1_mass_cut_data", "Jpsi1_mass_cut_data", RooArgList(Jpsi1_mass_cut_var));
+    RooDataSet Jpsi2_mass_cut_data("Jpsi2_mass_cut_data", "Jpsi2_mass_cut_data", RooArgList(Jpsi2_mass_cut_var));
+    RooDataSet Ups_mass_cut_data("Ups_mass_cut_data", "Ups_mass_cut_data", RooArgList(Ups_mass_cut_var));
+    RooDataSet Pri_mass_cut_data("Pri_mass_cut_data", "Pri_mass_cut_data", RooArgList(Pri_mass_cut_var));
 
 
     Long64_t nbytes = 0, nb = 0;
@@ -162,7 +163,56 @@ void ReadTree::Loop()
                 }
             }
 
+            // For Jpsi: require pT > 6GeV/c and abs(eta) < 2.4
+            if(Jpsi_1_pt->at(iCand) <= 6.0 || abs(Jpsi_1_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+            if(Jpsi_2_pt->at(iCand) <= 6.0 || abs(Jpsi_2_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+
             #endif
+
+            #ifdef CUT_MUON_ID_LOOSE
+            // Check by muIsPatLooseMuon
+            for(auto idx : tempList){
+                if(!muIsPatLooseMuon->at(idx)){
+                    passCut = false;
+                    break;
+                }
+            }
+
+            #endif
+
+            #ifdef CUT_MUON_ID_SOFT
+            // Check by muIsPatSoftMuon
+            for(auto idx : tempList){
+                if(!muIsPatSoftMuon->at(idx)){
+                    passCut = false;
+                    break;
+                }
+            }
+
+            #endif
+
+            #ifdef CUT_UPS_TRY
+            // For Upsilon: try a loose cut. pT > 6GeV/c and abs(eta) < 2.4
+            if(Ups_pt->at(iCand) <= 6.0 || abs(Ups_eta->at(iCand)) > 2.4){
+                passCut = false;
+            }
+            // Additional cut for muons from Ups: pT > 4 GeV/c
+            if(mu_pT[Ups_mu_1_Idx->at(iCand)] <= 4.0 || mu_pT[Ups_mu_2_Idx->at(iCand)] <= 4.0){
+                passCut = false;
+            }
+            if(!muIsPatMediumMuon->at(Ups_mu_1_Idx->at(iCand))){
+                passCut = false;
+            }
+            if(!muIsPatMediumMuon->at(Ups_mu_2_Idx->at(iCand))){
+                passCut = false;
+	        }
+            #endif
+
+
 
 
             // Calculate Chi2 from massDiff and massErr of Jpsi and Ups.
@@ -193,6 +243,32 @@ void ReadTree::Loop()
         }
         #endif
 
+        #ifdef ALLOW_OVERLAP
+        // Greedy algorithm to mark the top-10 candidates.
+        std::vector<std::shared_ptr<ParticleCand> > SelectedCands_raw;
+        for(auto& cand : CandList){
+            if(SelectedCands_raw.size() < nCandsAllowed){
+                SelectedCands_raw.push_back(cand);
+            }
+            else{
+                break;
+            }
+        }
+
+        std::vector<std::shared_ptr<ParticleCand> > SelectedCands_cut;
+        for(auto& cand : CandList){
+            if(!cand->PassCut()){
+                continue;
+            }
+            if(SelectedCands_cut.size() < nCandsAllowed){
+                SelectedCands_cut.push_back(cand);
+            }
+            else{
+                break;
+            }
+        }
+
+        #else
         // Greedy algorithm to find a non-overlapping combination.
         std::vector<std::shared_ptr<ParticleCand> > SelectedCands_raw;
         for(auto& cand : CandList){
@@ -234,6 +310,7 @@ void ReadTree::Loop()
                 }
             }
         }
+        #endif
 
         // Print out the selected candidates with the highest score.
         #ifdef VERBOSE
@@ -244,52 +321,44 @@ void ReadTree::Loop()
         }
         #endif
 
-        // Draw the selected candidates.
+        #ifdef DRAW_RAW
+        // Draw the selected candidates. Fill the dataset.
         for(auto& cand : SelectedCands_raw){
-            // Fill mass histograms.
-            hJpsi1->Fill(Jpsi_1_mass->at(cand->GetId()));
-            hJpsi2->Fill(Jpsi_2_mass->at(cand->GetId()));
-            hUps->Fill(Ups_mass->at(cand->GetId()));
-            hPri->Fill(Pri_mass->at(cand->GetId()));
-            // Fill pT histograms.
-            hJpsi1_pT->Fill(Jpsi_1_pt->at(cand->GetId()));
-            hJpsi2_pT->Fill(Jpsi_2_pt->at(cand->GetId()));
-            hUps_pT->Fill(Ups_pt->at(cand->GetId()));
-            hPri_pT->Fill(Pri_pt->at(cand->GetId()));
-            // Fill eta histograms.
-            hJpsi1_eta->Fill(Jpsi_1_eta->at(cand->GetId()));
-            hJpsi2_eta->Fill(Jpsi_2_eta->at(cand->GetId()));
-            hUps_eta->Fill(Ups_eta->at(cand->GetId()));
-            hPri_eta->Fill(Pri_eta->at(cand->GetId()));
-            // Fill vertex probability histograms.
-            hJpsi1_vProb->Fill(Jpsi_1_VtxProb->at(cand->GetId()));
-            hJpsi2_vProb->Fill(Jpsi_2_VtxProb->at(cand->GetId()));
-            hUps_vProb->Fill(Ups_VtxProb->at(cand->GetId()));
-            hPri_vProb->Fill(Pri_VtxProb->at(cand->GetId()));
+            // Set the mass.
+            Jpsi1_mass_var.setVal(Jpsi_1_mass->at(cand->GetId()));
+            Jpsi2_mass_var.setVal(Jpsi_2_mass->at(cand->GetId()));
+            Ups_mass_var.setVal(Ups_mass->at(cand->GetId()));
+            Pri_mass_var.setVal(Pri_mass->at(cand->GetId()));
+            // Set the mass error.
+            Jpsi1_mass_var.setError(Jpsi_1_massErr->at(cand->GetId()));
+            Jpsi2_mass_var.setError(Jpsi_2_massErr->at(cand->GetId()));
+            Ups_mass_var.setError(Ups_massErr->at(cand->GetId()));
+            Pri_mass_var.setError(Pri_massErr->at(cand->GetId()));
+            // Add the data to the dataset.
+            Jpsi1_mass_data.add(RooArgSet(Jpsi1_mass_var));
+            Jpsi2_mass_data.add(RooArgSet(Jpsi2_mass_var));
+            Ups_mass_data.add(RooArgSet(Ups_mass_var));
+            Pri_mass_data.add(RooArgSet(Pri_mass_var));
         }
+        #endif
 
         // Draw the selected candidates passing the cut.
         for(auto& cand : SelectedCands_cut){
-            // Fill mass histograms.
-            hJpsi1_cut->Fill(Jpsi_1_mass->at(cand->GetId()));
-            hJpsi2_cut->Fill(Jpsi_2_mass->at(cand->GetId()));
-            hUps_cut->Fill(Ups_mass->at(cand->GetId()));
-            hPri_cut->Fill(Pri_mass->at(cand->GetId()));
-            // Fill pT histograms.
-            hJpsi1_pT_cut->Fill(Jpsi_1_pt->at(cand->GetId()));
-            hJpsi2_pT_cut->Fill(Jpsi_2_pt->at(cand->GetId()));
-            hUps_pT_cut->Fill(Ups_pt->at(cand->GetId()));
-            hPri_pT_cut->Fill(Pri_pt->at(cand->GetId()));
-            // Fill eta histograms.
-            hJpsi1_eta_cut->Fill(Jpsi_1_eta->at(cand->GetId()));
-            hJpsi2_eta_cut->Fill(Jpsi_2_eta->at(cand->GetId()));
-            hUps_eta_cut->Fill(Ups_eta->at(cand->GetId()));
-            hPri_eta_cut->Fill(Pri_eta->at(cand->GetId()));
-            // Fill vertex probability histograms.
-            hJpsi1_vProb_cut->Fill(Jpsi_1_VtxProb->at(cand->GetId()));
-            hJpsi2_vProb_cut->Fill(Jpsi_2_VtxProb->at(cand->GetId()));
-            hUps_vProb_cut->Fill(Ups_VtxProb->at(cand->GetId()));
-            hPri_vProb_cut->Fill(Pri_VtxProb->at(cand->GetId()));
+            // Set the mass.
+            Jpsi1_mass_cut_var.setVal(Jpsi_1_mass->at(cand->GetId()));
+            Jpsi2_mass_cut_var.setVal(Jpsi_2_mass->at(cand->GetId()));
+            Ups_mass_cut_var.setVal(Ups_mass->at(cand->GetId()));
+            Pri_mass_cut_var.setVal(Pri_mass->at(cand->GetId()));
+            // Set the mass error.
+            Jpsi1_mass_cut_var.setError(Jpsi_1_massErr->at(cand->GetId()));
+            Jpsi2_mass_cut_var.setError(Jpsi_2_massErr->at(cand->GetId()));
+            Ups_mass_cut_var.setError(Ups_massErr->at(cand->GetId()));
+            Pri_mass_cut_var.setError(Pri_massErr->at(cand->GetId()));
+            // Add the data to the dataset.
+            Jpsi1_mass_cut_data.add(RooArgSet(Jpsi1_mass_cut_var));
+            Jpsi2_mass_cut_data.add(RooArgSet(Jpsi2_mass_cut_var));
+            Ups_mass_cut_data.add(RooArgSet(Ups_mass_cut_var));
+            Pri_mass_cut_data.add(RooArgSet(Pri_mass_cut_var));
         }
 
 
@@ -299,84 +368,39 @@ void ReadTree::Loop()
         #endif
     }
     // Display the histograms.
-    // Mass histograms.
-    TCanvas* c1 = new TCanvas("c1", "c1", 800, 600);
+    // Mass histograms are drawn using Roofit.
+    TCanvas* c1 = new TCanvas("c1", "c1", 1600, 1200);
     c1->Divide(2,2);
-    c1->cd(1); hJpsi1->Draw();
-    c1->cd(2); hJpsi2->Draw();
-    c1->cd(3); hUps->Draw();
-    c1->cd(4); hPri->Draw();
-    // Save png file.
-    c1->SaveAs("mass_raw_vProb5.png");
-
-    // pT histograms.
-    TCanvas* c3 = new TCanvas("c3", "c3", 800, 600);
-    c3->Divide(2,2);
-    c3->cd(1); hJpsi1_pT->Draw();
-    c3->cd(2); hJpsi2_pT->Draw();
-    c3->cd(3); hUps_pT->Draw();
-    c3->cd(4); hPri_pT->Draw();
-    // Save png file.
-    c3->SaveAs("pT_raw_vProb5.png");
-
-    // eta histograms.
-    TCanvas* c4 = new TCanvas("c4", "c4", 800, 600);
-    c4->Divide(2,2);
-    c4->cd(1); hJpsi1_eta->Draw();
-    c4->cd(2); hJpsi2_eta->Draw();
-    c4->cd(3); hUps_eta->Draw();
-    c4->cd(4); hPri_eta->Draw();
-    // Save png file.
-    c4->SaveAs("eta_raw_vProb5.png");
-
-    // vertex probability histograms.
-    TCanvas* c5 = new TCanvas("c5", "c5", 800, 600);
-    c5->Divide(2,2);
-    c5->cd(1); hJpsi1_vProb->Draw();
-    c5->cd(2); hJpsi2_vProb->Draw();
-    c5->cd(3); hUps_vProb->Draw();
-    c5->cd(4); hPri_vProb->Draw();
-    // Save png file.
-    c5->SaveAs("vProb_raw_vProb5.png");
-
-    // Display the histograms passing the cut.
-    TCanvas* c2 = new TCanvas("c2", "c2", 800, 600);
+    RooPlot* frame1 = Jpsi1_mass_var.frame();
+    RooPlot* frame2 = Jpsi2_mass_var.frame();
+    RooPlot* frame3 = Ups_mass_var.frame();
+    RooPlot* frame4 = Pri_mass_var.frame();
+    Jpsi1_mass_data.plotOn(frame1);
+    Jpsi2_mass_data.plotOn(frame2);
+    Ups_mass_data.plotOn(frame3);
+    Pri_mass_data.plotOn(frame4);
+    // Draw the histograms.
+    c1->cd(1); frame1->Draw();
+    c1->cd(2); frame2->Draw();
+    c1->cd(3); frame3->Draw();
+    c1->cd(4); frame4->Draw();
+    // Mass histograms passing the cut are drawn using Roofit.
+    TCanvas* c2 = new TCanvas("c2", "c2", 1600, 1200);
     c2->Divide(2,2);
-    c2->cd(1); hJpsi1_cut->Draw();
-    c2->cd(2); hJpsi2_cut->Draw();
-    c2->cd(3); hUps_cut->Draw();
-    c2->cd(4); hPri_cut->Draw();
+    RooPlot* frame5 = Jpsi1_mass_cut_var.frame();
+    RooPlot* frame6 = Jpsi2_mass_cut_var.frame();
+    RooPlot* frame7 = Ups_mass_cut_var.frame();
+    RooPlot* frame8 = Pri_mass_cut_var.frame();
+    Jpsi1_mass_cut_data.plotOn(frame5);
+    Jpsi2_mass_cut_data.plotOn(frame6);
+    Ups_mass_cut_data.plotOn(frame7);
+    Pri_mass_cut_data.plotOn(frame8);
+    // Draw the histograms.
+    c2->cd(1); frame5->Draw();
+    c2->cd(2); frame6->Draw();
+    c2->cd(3); frame7->Draw();
+    c2->cd(4); frame8->Draw();
     // Save png file.
-    c2->SaveAs("mass_cut_vProb5.png");
-
-    // pT histograms.
-    TCanvas* c6 = new TCanvas("c6", "c6", 800, 600);
-    c6->Divide(2,2);
-    c6->cd(1); hJpsi1_pT_cut->Draw();
-    c6->cd(2); hJpsi2_pT_cut->Draw();
-    c6->cd(3); hUps_pT_cut->Draw();
-    c6->cd(4); hPri_pT_cut->Draw();
-    // Save png file.
-    c6->SaveAs("pT_cut_vProb5.png");
-
-
-    // eta histograms.
-    TCanvas* c7 = new TCanvas("c7", "c7", 800, 600);
-    c7->Divide(2,2);
-    c7->cd(1); hJpsi1_eta_cut->Draw();
-    c7->cd(2); hJpsi2_eta_cut->Draw();
-    c7->cd(3); hUps_eta_cut->Draw();
-    c7->cd(4); hPri_eta_cut->Draw();
-    // Save png file.
-    c7->SaveAs("eta_cut_vProb5.png");
-
-    // vertex probability histograms.
-    TCanvas* c8 = new TCanvas("c8", "c8", 800, 600);
-    c8->Divide(2,2);
-    c8->cd(1); hJpsi1_vProb_cut->Draw();
-    c8->cd(2); hJpsi2_vProb_cut->Draw();
-    c8->cd(3); hUps_vProb_cut->Draw();
-    c8->cd(4); hPri_vProb_cut->Draw();
-    // Save png file.
-    c8->SaveAs("vProb_cut_vProb5.png");
+    c1->SaveAs("mass_raw.png");
+    c2->SaveAs("mass_cut.png");
 }
