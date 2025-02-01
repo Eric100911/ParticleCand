@@ -403,4 +403,149 @@ void ReadTree::Loop()
     // Save png file.
     c1->SaveAs("mass_raw.png");
     c2->SaveAs("mass_cut.png");
+
+    // Storing the filtered candidates.
+    // Create a new ROOT file to save the filtered data.
+    TFile* outputFile = new TFile("filtered_data.root", "RECREATE");
+
+    // Use the pre-defined outputTree to store the filtered data.
+    for(auto& cand : SelectedCands_cut){
+        filtered_Jpsi_1_mass.push_back(Jpsi_1_mass->at(cand->GetId()));
+        filtered_Jpsi_1_massErr.push_back(Jpsi_1_massErr->at(cand->GetId()));
+        filtered_Jpsi_1_massDiff.push_back(Jpsi_1_massDiff->at(cand->GetId()));
+        filtered_Jpsi_1_ctau.push_back(Jpsi_1_ctau->at(cand->GetId()));
+        filtered_Jpsi_1_ctauErr.push_back(Jpsi_1_ctauErr->at(cand->GetId()));
+        filtered_Jpsi_1_Chi2.push_back(Jpsi_1_Chi2->at(cand->GetId()));
+        filtered_Jpsi_1_ndof.push_back(Jpsi_1_ndof->at(cand->GetId()));
+        filtered_Jpsi_1_VtxProb.push_back(Jpsi_1_VtxProb->at(cand->GetId()));
+        filtered_Jpsi_1_px.push_back(Jpsi_1_px->at(cand->GetId()));
+        filtered_Jpsi_1_py.push_back(Jpsi_1_py->at(cand->GetId()));
+        filtered_Jpsi_1_pz.push_back(Jpsi_1_pz->at(cand->GetId()));
+        filtered_Jpsi_1_phi.push_back(Jpsi_1_phi->at(cand->GetId()));
+        filtered_Jpsi_1_eta.push_back(Jpsi_1_eta->at(cand->GetId()));
+        filtered_Jpsi_1_pt.push_back(Jpsi_1_pt->at(cand->GetId()));
+        filtered_Jpsi_1_mu_1_Idx.push_back(Jpsi_1_mu_1_Idx->at(cand->GetId()));
+        filtered_Jpsi_1_mu_2_Idx.push_back(Jpsi_1_mu_2_Idx->at(cand->GetId()));
+
+        filtered_Jpsi_2_mass.push_back(Jpsi_2_mass->at(cand->GetId()));
+        filtered_Jpsi_2_massErr.push_back(Jpsi_2_massErr->at(cand->GetId()));
+        filtered_Jpsi_2_massDiff.push_back(Jpsi_2_massDiff->at(cand->GetId()));
+        filtered_Jpsi_2_ctau.push_back(Jpsi_2_ctau->at(cand->GetId()));
+        filtered_Jpsi_2_ctauErr.push_back(Jpsi_2_ctauErr->at(cand->GetId()));
+        filtered_Jpsi_2_Chi2.push_back(Jpsi_2_Chi2->at(cand->GetId()));
+        filtered_Jpsi_2_ndof.push_back(Jpsi_2_ndof->at(cand->GetId()));
+        filtered_Jpsi_2_VtxProb.push_back(Jpsi_2_VtxProb->at(cand->GetId()));
+        filtered_Jpsi_2_px.push_back(Jpsi_2_px->at(cand->GetId()));
+        filtered_Jpsi_2_py.push_back(Jpsi_2_py->at(cand->GetId()));
+        filtered_Jpsi_2_pz.push_back(Jpsi_2_pz->at(cand->GetId()));
+        filtered_Jpsi_2_phi.push_back(Jpsi_2_phi->at(cand->GetId()));
+        filtered_Jpsi_2_eta.push_back(Jpsi_2_eta->at(cand->GetId()));
+        filtered_Jpsi_2_pt.push_back(Jpsi_2_pt->at(cand->GetId()));
+        filtered_Jpsi_2_mu_1_Idx.push_back(Jpsi_2_mu_1_Idx->at(cand->GetId()));
+        filtered_Jpsi_2_mu_2_Idx.push_back(Jpsi_2_mu_2_Idx->at(cand->GetId()));
+
+        filtered_Pri_mass.push_back(Pri_mass->at(cand->GetId()));
+        filtered_Pri_massErr.push_back(Pri_massErr->at(cand->GetId()));
+        filtered_Pri_ctau.push_back(Pri_ctau->at(cand->GetId()));
+        filtered_Pri_ctauErr.push_back(Pri_ctauErr->at(cand->GetId()));
+        filtered_Pri_Chi2.push_back(Pri_Chi2->at(cand->GetId()));
+        filtered_Pri_ndof.push_back(Pri_ndof->at(cand->GetId()));
+        filtered_Pri_VtxProb.push_back(Pri_VtxProb->at(cand->GetId()));
+        filtered_Pri_px.push_back(Pri_px->at(cand->GetId()));
+        filtered_Pri_py.push_back(Pri_py->at(cand->GetId()));
+        filtered_Pri_pz.push_back(Pri_pz->at(cand->GetId()));
+        filtered_Pri_phi.push_back(Pri_phi->at(cand->GetId()));
+        filtered_Pri_eta.push_back(Pri_eta->at(cand->GetId()));
+        filtered_Pri_pt.push_back(Pri_pt->at(cand->GetId()));
+
+        filtered_Ups_mass.push_back(Ups_mass->at(cand->GetId()));
+        filtered_Ups_massErr.push_back(Ups_massErr->at(cand->GetId()));
+        filtered_Ups_massDiff.push_back(Ups_massDiff->at(cand->GetId()));
+        filtered_Ups_Chi2.push_back(Ups_Chi2->at(cand->GetId()));
+        filtered_Ups_ndof.push_back(Ups_ndof->at(cand->GetId()));
+        filtered_Ups_VtxProb.push_back(Ups_VtxProb->at(cand->GetId()));
+        filtered_Ups_px.push_back(Ups_px->at(cand->GetId()));
+        filtered_Ups_py.push_back(Ups_py->at(cand->GetId()));
+        filtered_Ups_pz.push_back(Ups_pz->at(cand->GetId()));
+        filtered_Ups_phi.push_back(Ups_phi->at(cand->GetId()));
+        filtered_Ups_eta.push_back(Ups_eta->at(cand->GetId()));
+        filtered_Ups_pt.push_back(Ups_pt->at(cand->GetId()));
+        filtered_Ups_mu_1_Idx.push_back(Ups_mu_1_Idx->at(cand->GetId()));
+        filtered_Ups_mu_2_Idx.push_back(Ups_mu_2_Idx->at(cand->GetId()));
+
+        // For the muons
+        filtered_Jpsi_1_mu_1_px.push_back(muPx->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_py.push_back(muPy->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_pz.push_back(muPz->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_eta.push_back(mu_eta[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_1_phi.push_back(mu_phi[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_1_pT.push_back(mu_pT[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_1_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_1_isPatTightMuon.push_back(muIsPatTightMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+
+        filtered_Jpsi_1_mu_2_px.push_back(muPx->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_py.push_back(muPy->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_pz.push_back(muPz->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_eta.push_back(mu_eta[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_2_phi.push_back(mu_phi[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_2_pT.push_back(mu_pT[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_1_mu_2_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_1_mu_2_isPatTightMuon.push_back(muIsPatTightMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+
+        filtered_Jpsi_2_mu_1_px.push_back(muPx->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_py.push_back(muPy->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_pz.push_back(muPz->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_eta.push_back(mu_eta[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_1_phi.push_back(mu_phi[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_1_pT.push_back(mu_pT[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_1_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_1_isPatTightMuon.push_back(muIsPatTightMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+
+        filtered_Jpsi_2_mu_2_px.push_back(muPx->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_py.push_back(muPy->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_pz.push_back(muPz->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_eta.push_back(mu_eta[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_2_phi.push_back(mu_phi[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_2_pT.push_back(mu_pT[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
+        filtered_Jpsi_2_mu_2_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+        filtered_Jpsi_2_mu_2_isPatTightMuon.push_back(muIsPatTightMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+
+        filtered_Ups_mu_1_px.push_back(muPx->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_py.push_back(muPy->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_pz.push_back(muPz->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_eta.push_back(mu_eta[Ups_mu_1_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_1_phi.push_back(mu_phi[Ups_mu_1_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_1_pT.push_back(mu_pT[Ups_mu_1_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_1_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+        filtered_Ups_mu_1_isPatTightMuon.push_back(muIsPatTightMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+
+        filtered_Ups_mu_2_px.push_back(muPx->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_py.push_back(muPy->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_pz.push_back(muPz->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_eta.push_back(mu_eta[Ups_mu_2_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_2_phi.push_back(mu_phi[Ups_mu_2_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_2_pT.push_back(mu_pT[Ups_mu_2_Idx->at(cand->GetId())]);
+        filtered_Ups_mu_2_isPatLooseMuon.push_back(muIsPatLooseMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_isPatSoftMuon.push_back(muIsPatSoftMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_isPatMediumMuon.push_back(muIsPatMediumMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+        filtered_Ups_mu_2_isPatTightMuon.push_back(muIsPatTightMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+
+
+        // 填充TTree
+        outputTree->Fill();
+    }
+
+    // Write the output file.
+    outputFile->Write();
+    outputFile->Close();
 }
