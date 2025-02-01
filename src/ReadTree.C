@@ -15,8 +15,8 @@
 
 #define ALLOW_OVERLAP
 
-#include "../interface/ReadTree.h"
-#include "../src/ParticleCand.C"
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/interface/ReadTree.h"
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/src/ParticleCand.C"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>

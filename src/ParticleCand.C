@@ -14,7 +14,7 @@
 #ifndef ParticleCand_C
 #define ParticleCand_C
 
-#include "../interface/ParticleCand.h"
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/interface/ParticleCand.h"
 #include <algorithm>
 #include <string>
 

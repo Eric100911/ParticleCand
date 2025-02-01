@@ -1,2 +1,8 @@
 .vscode
-
+*.png
+src/*.png
+src/*cands*
+src/*cands*/*
+*.log
+*.sh
+*.old
