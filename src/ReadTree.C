@@ -17,13 +17,13 @@
 
 #define ALLOW_OVERLAP
 
-#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/interface/ReadTree.h"
-#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/ParticleCand/src/ParticleCand.C"
+#include "../interface/ReadTree.h"
+#include "../src/ParticleCand.C"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <memory>
-
+#include <cstdio>
 // Include the header file for the roofit.
 #include "RooRealVar.h"
 #include "RooDataSet.h"
@@ -38,6 +38,8 @@ void ReadTree::Loop()
     if (fChain == 0) return;
 
     Long64_t nentries = fChain->GetEntriesFast();
+
+    printf("Entries: %ld\n", nentries);
 
     const unsigned int nBin = 40;
     const unsigned int nBin_cut = 20;

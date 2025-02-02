@@ -60,6 +60,10 @@ void ParticleCand::SetScore(const double& arg_Score){
     m_Score = arg_Score;
 }
 
+void ParticleCand::SetId(const unsigned int& arg_Id){
+    m_Id = arg_Id;
+}
+
 double ParticleCand::GetScore() const{
     return m_Score;
 }

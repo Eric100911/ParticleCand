@@ -756,7 +756,6 @@ void ReadTree::Init(TTree *tree)
 
    fChain->SetBranchAddress("TrigRes", &TrigRes, &b_TrigRes);
    fChain->SetBranchAddress("TrigNames", &TrigNames, &b_TrigNames);
-   fChain->SetBranchAddress("MatchTriggerNames", &MatchTriggerNames, &b_MatchTriggerNames);
    fChain->SetBranchAddress("L1TrigRes", &L1TrigRes, &b_L1TrigRes);
    fChain->SetBranchAddress("evtNum", &evtNum, &b_evtNum);
    fChain->SetBranchAddress("runNum", &runNum, &b_runNum);
@@ -824,8 +823,6 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("mupulldYdZ_pos_ArbST", &mupulldYdZ_pos_ArbST, &b_mupulldYdZ_pos_ArbST);
    fChain->SetBranchAddress("mupulldXdZ_pos_noArb_any", &mupulldXdZ_pos_noArb_any, &b_mupulldXdZ_pos_noArb_any);
    fChain->SetBranchAddress("mupulldYdZ_pos_noArb_any", &mupulldYdZ_pos_noArb_any, &b_mupulldYdZ_pos_noArb_any);
-   fChain->SetBranchAddress("muUpsVrtxMatch", &muUpsVrtxMatch, &b_muUpsVrtxMatch);
-   fChain->SetBranchAddress("muL3TriggerMatch", &muL3TriggerMatch, &b_muL3TriggerMatch);
    fChain->SetBranchAddress("Jpsi_1_mass", &Jpsi_1_mass, &b_Jpsi_1_mass);
    fChain->SetBranchAddress("Jpsi_1_massErr", &Jpsi_1_massErr, &b_Jpsi_1_massErr);
    fChain->SetBranchAddress("Jpsi_1_massDiff", &Jpsi_1_massDiff, &b_Jpsi_1_massDiff);
