@@ -394,10 +394,10 @@ public :
    std::vector<float> filtered_Jpsi_1_mu_2_phi;
    std::vector<float> filtered_Jpsi_1_mu_2_eta;
    std::vector<float> filtered_Jpsi_1_mu_2_pt;
-    std::vector<int> filtered_Jpsi_1_mu_2_isPatLooseMuon;
-    std::vector<int> filtered_Jpsi_1_mu_2_isPatSoftMuon;
-    std::vector<int> filtered_Jpsi_1_mu_2_isPatMediumMuon;
-    std::vector<int> filtered_Jpsi_1_mu_2_isPatTightMuon;
+   std::vector<int>   filtered_Jpsi_1_mu_2_isPatLooseMuon;
+   std::vector<int>   filtered_Jpsi_1_mu_2_isPatSoftMuon;
+   std::vector<int>   filtered_Jpsi_1_mu_2_isPatMediumMuon;
+   std::vector<int>   filtered_Jpsi_1_mu_2_isPatTightMuon;
 
    std::vector<float> filtered_Jpsi_2_mu_1_px;
    std::vector<float> filtered_Jpsi_2_mu_1_py;
@@ -405,10 +405,10 @@ public :
    std::vector<float> filtered_Jpsi_2_mu_1_phi;
    std::vector<float> filtered_Jpsi_2_mu_1_eta;
    std::vector<float> filtered_Jpsi_2_mu_1_pt;
-   std::vector<int>  filtered_Jpsi_2_mu_1_isPatLooseMuon;
-   std::vector<int>  filtered_Jpsi_2_mu_1_isPatSoftMuon;
-   std::vector<int>  filtered_Jpsi_2_mu_1_isPatMediumMuon;
-   std::vector<int>  filtered_Jpsi_2_mu_1_isPatTightMuon;
+   std::vector<int>   filtered_Jpsi_2_mu_1_isPatLooseMuon;
+   std::vector<int>   filtered_Jpsi_2_mu_1_isPatSoftMuon;
+   std::vector<int>   filtered_Jpsi_2_mu_1_isPatMediumMuon;
+   std::vector<int>   filtered_Jpsi_2_mu_1_isPatTightMuon;
 
    std::vector<float> filtered_Jpsi_2_mu_2_px;
    std::vector<float> filtered_Jpsi_2_mu_2_py;

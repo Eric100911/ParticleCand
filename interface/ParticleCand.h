@@ -54,10 +54,15 @@ public:
 
     // Set the score of the candidate
     void SetScore(const double& arg_Score);
-    void SedId(const unsigned int& arg_Id);
+    void SetId(const unsigned int& arg_Id);
 
     double GetScore() const;
     unsigned int GetId() const;
+
+    // Get the particle index list of a certain type
+    ParticleCand::PartIdxSet_ptr GetParticleIdx(const PartType& arg_Type) const;
+    unsigned int GetParticleIdx(const PartType& arg_Type, const unsigned int& arg_Index) const;
+
 
     // Print out the candidate as human-readable format
     std::string ToString();

@@ -31,7 +31,6 @@ ParticleCand& ParticleCand::operator=(const ParticleCand& Source){
     for(auto& idxList : Source.m_IdxList){
         m_IdxList.push_back(std::make_shared<PartIdxList_t>(*idxList));
     }
-    m_PassCut = Source.m_PassCut;
     m_Score   = Source.m_Score;
     m_Id      = Source.m_Id;
     return *this;
@@ -57,16 +56,8 @@ void ParticleCand::AddParticle(const PartType& arg_Type,
     }
 }
 
-void ParticleCand::SetCutResult(const bool& arg_PassCut){
-    m_PassCut = arg_PassCut;
-}
-
 void ParticleCand::SetScore(const double& arg_Score){
     m_Score = arg_Score;
-}
-
-void ParticleCand::SetId(const unsigned int& arg_Id){
-    m_Id = arg_Id;
 }
 
 double ParticleCand::GetScore() const{
@@ -75,10 +66,6 @@ double ParticleCand::GetScore() const{
 
 unsigned int ParticleCand::GetId() const{
     return m_Id;
-}
-
-bool ParticleCand::PassCut() const{
-    return m_PassCut;
 }
 
 ParticleCand::PartIdxSet_ptr ParticleCand::GetParticleIdx(const PartType& arg_Type) const{
