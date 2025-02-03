@@ -17,8 +17,8 @@
 
 #define ALLOW_OVERLAP
 
-#include "../interface/ReadTree.h"
-#include "../src/ParticleCand.C"
+#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/interface/ReadTree.h"
+#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/src/ParticleCand.C"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -606,7 +606,7 @@ void ReadTree::Loop()
     // Create a new ROOT file to save the filtered data.
     TFile* outputFile = new TFile("filtered_data_preCut.root", "RECREATE");
     // Write the output file.
-    outputFile->Write();
+    outputTree->Write();
     outputFile->Close();
 }
 

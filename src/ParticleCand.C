@@ -14,7 +14,7 @@
 #ifndef ParticleCand_C
 #define ParticleCand_C
 
-#include "../interface/ParticleCand.h"
+#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/interface/ParticleCand.h"
 #include <algorithm>
 #include <string>
 
