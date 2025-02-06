@@ -18,7 +18,23 @@
 #include <algorithm>
 #include <string>
 
-const std::string ParticleCand::PART_NAME[4] = {"Muon", "Track", "Jpsi", "Upsilon"};
+const std::string ParticleCand::PART_NAME[5] = {"Muon", "Track", "Jpsi", "Upsilon", "Phi"};
+
+ParticleCand& ParticleCand::operator=(const ParticleCand& Source){
+    // Check if the source is the same as the target.
+    if(this == &Source){
+        return *this;
+    }
+    // Copy the source to the target.
+    m_TypeList = Source.m_TypeList;
+    m_IdxList.clear();
+    for(auto& idxList : Source.m_IdxList){
+        m_IdxList.push_back(std::make_shared<PartIdxList_t>(*idxList));
+    }
+    m_Score   = Source.m_Score;
+    m_Id      = Source.m_Id;
+    return *this;
+}
 
 void ParticleCand::AddParticle(const PartType& arg_Type,
                                const PartIdxList_t& arg_IdxList){
@@ -38,6 +54,52 @@ void ParticleCand::AddParticle(const PartType& arg_Type,
         // Sort the list to make set.
         std::sort(m_IdxList.back()->begin(), m_IdxList.back()->end());
     }
+}
+
+void ParticleCand::SetScore(const double& arg_Score){
+    m_Score = arg_Score;
+}
+
+void ParticleCand::SetId(const unsigned int& arg_Id){
+    m_Id = arg_Id;
+}
+
+double ParticleCand::GetScore() const{
+    return m_Score;
+}
+
+unsigned int ParticleCand::GetId() const{
+    return m_Id;
+}
+
+ParticleCand::PartIdxSet_ptr ParticleCand::GetParticleIdx(const PartType& arg_Type) const{
+    // Find the particle type in the list.
+    auto it = std::find(m_TypeList.begin(), m_TypeList.end(), arg_Type);
+    if(it != m_TypeList.end()){
+        // If found, return the corresponding index list.
+        return m_IdxList[std::distance(m_TypeList.begin(), it)];
+    }
+    else{
+        // If not found, return an empty list.
+        return std::make_shared<PartIdxList_t>();
+    }
+}
+
+unsigned int ParticleCand::GetParticleIdx(const PartType& arg_Type,
+                                          const unsigned int& arg_Index) const{
+    // Find the particle type in the list.
+    auto it = std::find(m_TypeList.begin(), m_TypeList.end(), arg_Type);
+    if(it != m_TypeList.end()){
+        // If found, find the index in the corresponding index list.
+        auto idx = std::distance(m_TypeList.begin(), it);
+        auto it2 = std::find(m_IdxList[idx]->begin(), m_IdxList[idx]->end(), arg_Index);
+        if(it2 != m_IdxList[idx]->end()){
+            // If found, return the index.
+            return *it2;
+        }
+    }
+    // If not found, return -1.
+    return -1;
 }
 
 bool ParticleCand::Overlap(const ParticleCand& arg_Cand) const{
