@@ -23,7 +23,14 @@ void runReadTreeX(){
 
     #ifdef RUN_ALL
     // chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/P_Run2022/*.root");
-    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv1_MINIAOD/250204_140228/0000/mymultilep_1.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv1_MINIAOD/250204_140228/0000/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv2_MINIAOD/250204_140238/0000/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv3_MINIAOD/250204_140250/0000/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv4_MINIAOD/250204_140300/0000/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Cv4_MINIAOD/250204_140300/0001/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Dv1_MINIAOD/250204_140310/0000/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Dv1_MINIAOD/250204_140310/0001/mymultilep_*.root");
+    chain->Add("/home/storage0/users/xingcheng/storage2/CMS-Analysis/Data/JpsiJpsiPhi/JpsiJpsiPhi/rootNtuple/ParkingDoubleMuonLowMass0/crab3_0_Run2023Dv2_MINIAOD/250204_140321/0000/mymultilep_*.root");
     // chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/P_Run2024/*.root");
     #endif
     #endif

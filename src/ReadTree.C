@@ -1,5 +1,5 @@
 #define ReadTree_cxx
-#define SHOW_DEBUG
+// #define SHOW_DEBUG
 #ifdef SHOW_DEBUG
 #define VERBOSE
 #endif
@@ -48,7 +48,7 @@ void ReadTree::Loop()
     // Define mass histograms for Jpsi, Ups and Pri passing the cut. Using Roofit.
     RooRealVar Jpsi1_mass_cut_var("Jpsi1_mass_cut", "Jpsi1_mass_cut", 2.5, 3.5);
     RooRealVar Jpsi2_mass_cut_var("Jpsi2_mass_cut", "Jpsi2_mass_cut", 2.5, 3.5);
-    RooRealVar Phi_mass_cut_var("Phi_mass_cut","Phi_mass_cut", 0.0, 4.0);
+    RooRealVar Phi_mass_cut_var("Phi_mass_cut","Phi_mass_cut", 0.99, 1.07);
     RooRealVar Pri_mass_cut_var("Pri_mass_cut","Pri_mass_cut", 0.0, 100.0);
 
     // Define dataset for Jpsi, Ups and Pri passing the cut. Using Roofit.
@@ -485,19 +485,27 @@ void ReadTree::Loop()
             filtered_Jpsi_2_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
 
-            filtered_Phi_K_1_px->push_back(Phi_K_1_px->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_1_py->push_back(Phi_K_1_py->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_1_pz->push_back(Phi_K_1_pz->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_1_eta->push_back(Phi_K_1_eta->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_1_phi->push_back(Phi_K_1_phi->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_1_pt->push_back(Phi_K_1_pt->at(Phi_K_1_Idx->at(cand->GetId())));
+            #ifdef SHOW_DEBUG
+            std::cout << "Finished adding Jpsi muons to the dataset" << std::endl;
+            #endif
 
-            filtered_Phi_K_1_px->push_back(Phi_K_1_px->at(Phi_K_1_Idx->at(cand->GetId())));
-            filtered_Phi_K_2_py->push_back(Phi_K_2_py->at(Phi_K_2_Idx->at(cand->GetId())));
-            filtered_Phi_K_2_pz->push_back(Phi_K_2_pz->at(Phi_K_2_Idx->at(cand->GetId())));
-            filtered_Phi_K_2_eta->push_back(Phi_K_2_eta->at(Phi_K_2_Idx->at(cand->GetId())));
-            filtered_Phi_K_2_phi->push_back(Phi_K_2_phi->at(Phi_K_2_Idx->at(cand->GetId())));
-            filtered_Phi_K_2_pt->push_back(Phi_K_2_pt->at(Phi_K_2_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_px->push_back(Phi_K_1_px->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_py->push_back(Phi_K_1_py->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_pz->push_back(Phi_K_1_pz->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_eta->push_back(Phi_K_1_eta->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_phi->push_back(Phi_K_1_phi->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_1_pt->push_back(Phi_K_1_pt->at(Phi_K_1_Idx->at(cand->GetId())));
+
+            // filtered_Phi_K_1_px->push_back(Phi_K_1_px->at(Phi_K_1_Idx->at(cand->GetId())));
+            // filtered_Phi_K_2_py->push_back(Phi_K_2_py->at(Phi_K_2_Idx->at(cand->GetId())));
+            // filtered_Phi_K_2_pz->push_back(Phi_K_2_pz->at(Phi_K_2_Idx->at(cand->GetId())));
+            // filtered_Phi_K_2_eta->push_back(Phi_K_2_eta->at(Phi_K_2_Idx->at(cand->GetId())));
+            // filtered_Phi_K_2_phi->push_back(Phi_K_2_phi->at(Phi_K_2_Idx->at(cand->GetId())));
+            // filtered_Phi_K_2_pt->push_back(Phi_K_2_pt->at(Phi_K_2_Idx->at(cand->GetId())));
+
+            // #ifdef SHOW_DEBUG
+            // std::cout << "Finished adding Phi tracks to the dataset" << std::endl;
+            // #endif
         }
 
         #ifdef SHOW_DEBUG
@@ -636,10 +644,10 @@ void ReadTree::Loop()
     // Mass histograms passing the cut are drawn using Roofit.
     TCanvas* c2 = new TCanvas("c2", "c2", 1600, 1200);
     c2->Divide(2,2);
-    RooPlot* frame5 = Jpsi1_mass_cut_var.frame();
-    RooPlot* frame6 = Jpsi2_mass_cut_var.frame();
-    RooPlot* frame7 = Phi_mass_cut_var.frame();
-    RooPlot* frame8 = Pri_mass_cut_var.frame();
+    RooPlot* frame5 = Jpsi1_mass_cut_var.frame(nBin);
+    RooPlot* frame6 = Jpsi2_mass_cut_var.frame(nBin);
+    RooPlot* frame7 = Phi_mass_cut_var.frame(nBin);
+    RooPlot* frame8 = Pri_mass_cut_var.frame(nBin);
     Jpsi1_mass_cut_data.plotOn(frame5);
     Jpsi2_mass_cut_data.plotOn(frame6);
     Phi_mass_cut_data.plotOn(frame7);
