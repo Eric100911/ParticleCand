@@ -757,9 +757,9 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_priVtxXE);
    fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_priVtxYE);
    fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_priVtxZE);
-   fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_f);
-   fChain->SetBranchAddress("priVtxChi", &priVtxChi, &b_f);
-   fChain->SetBranchAddress("priVtxCL", &priVtxCL, &b_f);
+   fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_priVtxChiNorm);
+   fChain->SetBranchAddress("priVtxChi",     &priVtxChi,     &b_priVtxChi    );
+   fChain->SetBranchAddress("priVtxCL",      &priVtxCL,      &b_priVtxCL     );
    fChain->SetBranchAddress("PriVtxXCorrX", &PriVtxXCorrX, &b_PriVtxXCorrX);
    fChain->SetBranchAddress("PriVtxXCorrY", &PriVtxXCorrY, &b_PriVtxXCorrY);
    fChain->SetBranchAddress("PriVtxXCorrZ", &PriVtxXCorrZ, &b_PriVtxXCorrZ);
