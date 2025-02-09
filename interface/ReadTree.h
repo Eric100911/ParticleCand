@@ -751,12 +751,12 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("runNum", &runNum, &b_runNum);
    fChain->SetBranchAddress("lumiNum", &lumiNum, &b_lumiNum);
    fChain->SetBranchAddress("nGoodPrimVtx", &nGoodPrimVtx, &b_nGoodPrimVtx);
-   fChain->SetBranchAddress("priVtxX", &priVtxX, &b_f);
-   fChain->SetBranchAddress("priVtxY", &priVtxY, &b_f);
-   fChain->SetBranchAddress("priVtxZ", &priVtxZ, &b_f);
-   fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_f);
-   fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_f);
-   fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_f);
+   fChain->SetBranchAddress("priVtxX", &priVtxX,   &b_priVtxX);
+   fChain->SetBranchAddress("priVtxY", &priVtxY,   &b_priVtxY);
+   fChain->SetBranchAddress("priVtxZ", &priVtxZ,   &b_priVtxZ);
+   fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_priVtxXE);
+   fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_priVtxYE);
+   fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_priVtxZE);
    fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_f);
    fChain->SetBranchAddress("priVtxChi", &priVtxChi, &b_f);
    fChain->SetBranchAddress("priVtxCL", &priVtxCL, &b_f);
