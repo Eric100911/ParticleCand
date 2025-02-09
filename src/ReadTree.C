@@ -13,7 +13,7 @@
 
 #define CUT_MUON_ID_SOFT
 
-// #define CUT_UPS_TRY
+#define CUT_UPS_TRY
 
 #define ALLOW_OVERLAP
 #include "../interface/ReadTree.h"
@@ -46,14 +46,14 @@ void ReadTree::Loop()
 
     // Use Roofit to draw the plot with proper error bars.
     // Define mass histograms for Jpsi, Ups and Pri passing the cut. Using Roofit.
-    RooRealVar Jpsi1_mass_cut_var("Jpsi1_mass_cut", "Jpsi1_mass_cut", 2.5, 3.5);
-    RooRealVar Jpsi2_mass_cut_var("Jpsi2_mass_cut", "Jpsi2_mass_cut", 2.5, 3.5);
+    RooRealVar Jpsi_mass_cut_var("Jpsi_mass_cut", "Jpsi_mass_cut", 2.5, 3.5);
+    RooRealVar Ups_mass_cut_var("Ups_mass_cut", "Ups_mass_cut", 2.5, 3.5);
     RooRealVar Phi_mass_cut_var("Phi_mass_cut","Phi_mass_cut", 0.99, 1.07);
     RooRealVar Pri_mass_cut_var("Pri_mass_cut","Pri_mass_cut", 0.0, 100.0);
 
     // Define dataset for Jpsi, Ups and Pri passing the cut. Using Roofit.
-    RooDataSet Jpsi1_mass_cut_data("Jpsi1_mass_cut_data", "Jpsi1_mass_cut_data", RooArgList(Jpsi1_mass_cut_var));
-    RooDataSet Jpsi2_mass_cut_data("Jpsi2_mass_cut_data", "Jpsi2_mass_cut_data", RooArgList(Jpsi2_mass_cut_var));
+    RooDataSet Jpsi_mass_cut_data("Jpsi_mass_cut_data", "Jpsi_mass_cut_data", RooArgList(Jpsi_mass_cut_var));
+    RooDataSet Ups_mass_cut_data("Ups_mass_cut_data", "Ups_mass_cut_data", RooArgList(Ups_mass_cut_var));
     RooDataSet Phi_mass_cut_data("Phi_mass_cut_data", "Phi_mass_cut_data", RooArgList(Phi_mass_cut_var));
     RooDataSet Pri_mass_cut_data("Pri_mass_cut_data", "Pri_mass_cut_data", RooArgList(Pri_mass_cut_var));
 
@@ -81,7 +81,7 @@ void ReadTree::Loop()
             printf("Processing event %lld\n", jentry);
         }
         // Loop over all candidates.
-        size_t nCands = Jpsi_1_mass->size();
+        size_t nCands = Jpsi_mass->size();
 
         #ifdef VERBOSE
         printf("number of candidate = %lld\n", nCands);
@@ -122,8 +122,8 @@ void ReadTree::Loop()
             #ifdef CUT_GLOBAL_VTX_PROB
             // Cut from vertex probability
             if(Pri_VtxProb->at(iCand) < vtxProb_Thr) continue;
-            if(Jpsi_1_VtxProb->at(iCand) < vtxProb_Thr) continue;
-            if(Jpsi_2_VtxProb->at(iCand) < vtxProb_Thr) continue;
+            if(Jpsi_VtxProb->at(iCand) < vtxProb_Thr) continue;
+            if(Ups_VtxProb->at(iCand) < vtxProb_Thr) continue;
             if(Phi_VtxProb->at(iCand) < vtxProb_Thr) continue;
 
             #ifdef SHOW_DEBUG
@@ -135,13 +135,13 @@ void ReadTree::Loop()
             bool passCut = true;
 
             // Prevent underflow or overflow of masses.
-            if(Jpsi_1_mass->at(iCand) < 2.5 || Jpsi_1_mass->at(iCand) > 3.5){
+            if(Jpsi_mass->at(iCand) < 2.5 || Jpsi_mass->at(iCand) > 3.5){
                 continue;
             }
-            if(Jpsi_2_mass->at(iCand) < 2.5 || Jpsi_2_mass->at(iCand) > 3.5){
+            if(Ups_mass->at(iCand)  < 8.0 || Ups_mass->at(iCand)  > 12.0){
                 continue;
             }
-            if(Phi_mass->at(iCand) < 0.0 || Phi_mass->at(iCand) > 4.0){
+            if(Phi_mass->at(iCand)  < 0.0 || Phi_mass->at(iCand)  > 4.0){
                 continue;
             }
 
@@ -150,15 +150,21 @@ void ReadTree::Loop()
             #endif
 
             // Register the candidate final state muons.
-            tempList.push_back(Jpsi_1_mu_1_Idx->at(iCand));
-            tempList.push_back(Jpsi_1_mu_2_Idx->at(iCand));
-            tempList.push_back(Jpsi_2_mu_1_Idx->at(iCand));
-            tempList.push_back(Jpsi_2_mu_2_Idx->at(iCand));
-            // tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
+            tempList.push_back(Jpsi_mu_1_Idx->at(iCand));
+            tempList.push_back(Jpsi_mu_2_Idx->at(iCand));
+            tempList.push_back(Ups_mu_1_Idx->at(iCand));
+            tempList.push_back(Ups_mu_2_Idx->at(iCand));
+            tempCand.AddParticle(ParticleCand::PartType::Muon, tempList);
+            tempList.clear();
+            tempList.push_back(Phi_K_1_Idx->at(iCand));
+            tempList.push_back(Phi_K_2_Idx->at(iCand));
+            tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
+            tempList.clear();
+
             #ifdef CUT_MUON_ID_LOOSE
-            // Check by muIsPatLooseMuon
-            for(auto idx : tempList){
-                if(!muIsPatLooseMuon->at(idx)){
+            // Check by muIsPattLooseMuon
+            for (unsigned int iMuon=0; iMuon < 4; iMuon++){
+                if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
                     passCut = false;
                     break;
                 }
@@ -168,114 +174,82 @@ void ReadTree::Loop()
 
             #ifdef CUT_MUON_ID_SOFT
             // Check by muIsPatSoftMuon
-            for(auto idx : tempList){
-                if(!muIsPatSoftMuon->at(idx)){
+            for (unsigned int iMuon=0; iMuon < 4; iMuon++){
+                if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
                     passCut = false;
                     break;
                 }
             }
-
             #endif
-
-            if (!passCut){
-                continue;
-            }
 
             #ifdef SHOW_DEBUG
-            std::cout << "passed muon id cut" << std::endl;
-            #endif
-
-            // printf("Jpsi 1 [ %d %d ] Jpsi 2 [ %d %d ]",
-            //        tempList[0], tempList[1], tempList[2], tempList[3]);
-            // tempList.clear();
-        
-            // Now tracks.
-            tempList.push_back(Phi_K_1_Idx->at(iCand));
-            tempList.push_back(Phi_K_2_Idx->at(iCand));
-            tempCand.AddParticle(ParticleCand::PartType::Phi, tempList);
+            std::cout << "passed 3J cut" << std::endl;
+            #endi
 
             #ifdef CUT_FROM_3J
-            // Cut from 3J
-            // Muons that decay from Jpsi and Ups:
-            // require pT > 3.5GeV/c for abs(eta) < 1.2 and pT > 2.5GeV/c for 1.2 < abs(eta) < 2.4
-            for(auto it = tempList.begin(); it != tempList.end(); ++it){
-                auto idx = *it;
-                auto position = std::distance(tempList.begin(), it);
-                if(position < 4){
-                    if(mu_pT[idx] < 3.5 && abs(mu_eta[idx]) < 1.2){
+            // Apply cut using conditions from 3J analysis.
+            // Muons:
+            // - For 1.2 < abs(eta) < 2.5, require pT > 3.5 GeV/c
+            // - For 0.0 < abs(eta) < 1.2, require pT > 2.5 GeV/c
+            // Jpsi:
+            // - Require abs(eta) < 2.5, which has been applied in previous steps.
+            for(unsigned int iMuon=0; iMuon < 4; iMuon++){
+                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 2.5){
                     passCut = false;
                     break;
-                    }
-                    if(mu_pT[idx] < 2.5 && abs(mu_eta[idx]) > 1.2 && abs(mu_eta[idx]) < 2.4){
-                        passCut = false;
-                        break;
-                    }
-                    if(abs(mu_eta[idx]) > 2.4){
-                        passCut = false;
-                        break;
-                    }
                 }
-                else if(position == 4){
-                    if(Phi_K_1_pt->at(iCand) < 0.5 && abs(Phi_K_1_eta->at(iCand)) < 1.2){
-                        passCut = false;
-                        break;
-                    }
-                    if(Phi_K_1_pt->at(iCand) < 0.4 && abs(Phi_K_1_eta->at(iCand)) > 1.2 && abs(Phi_K_1_eta->at(iCand)) < 2.4){
-                        passCut = false;
-                        break;
-                    }
-                    if(abs(Phi_K_1_eta->at(iCand)) > 2.4){
+                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 1.2){
+                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 3.5){
                         passCut = false;
                         break;
                     }
                 }
                 else{
-                    if(Phi_K_2_pt->at(iCand) < 0.5 && abs(Phi_K_2_eta->at(iCand)) < 1.2){
-                        passCut = false;
-                        break;
-                    }
-                    if(Phi_K_2_pt->at(iCand) < 0.4 && abs(Phi_K_2_eta->at(iCand)) > 1.2 && abs(Phi_K_2_eta->at(iCand)) < 2.4){
-                        passCut = false;
-                        break;
-                    }
-                    if(abs(Phi_K_2_eta->at(iCand)) > 2.4){
+                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 2.5){
                         passCut = false;
                         break;
                     }
                 }
             }
-            if(!passCut){
-                continue;
-            }
-
-            
-
-            // For Jpsi: require pT > 6GeV/c and abs(eta) < 2.4
-            if(Jpsi_1_pt->at(iCand) <= 2 || abs(Jpsi_1_eta->at(iCand)) > 2.4){
-                continue ;
-            }
-            if(Jpsi_2_pt->at(iCand) <= 2 || abs(Jpsi_2_eta->at(iCand)) > 2.4){
-                continue ;
-            }
-            
-            #ifdef SHOW_DEBUG
-            std::cout << "passed 3J cut" << std::endl;
-            #endif
             #endif
 
             if(!passCut){
                 continue;
             }
-            temp_massChi2 =   (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
-                            * (Jpsi_1_massDiff->at(iCand) / Jpsi_1_massErr->at(iCand))
-                            + (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
-                            * (Jpsi_2_massDiff->at(iCand) / Jpsi_2_massErr->at(iCand))
+
+            #ifdef CUT_UPS_TRY
+            // Upsilon:
+            // - Require pT > 2 GeV/c as a crude cut.
+            if(Ups_pt->at(iCand) < 2.0){
+                continue;
+            }
+            #endif
+
+            #ifdef CUT_PHI_TRY
+            // Phi:
+            // - Require pT > 2.0 GeV/c as a crude cut.
+            // Kaon tracks:
+            // - Require pT > 0.5 GeV/c as a crude cut.
+            if(Phi_pt->at(iCand) < 2.0){
+                continue;
+            }
+            if(Phi_K_1_pt->at(iCand) < 0.5 || Phi_K_2_pt->at(iCand) < 0.5){
+                continue;
+            }
+            #endif
+
+
+            
+            // Saving result to the candidate list.
+            temp_massChi2 =   (Jpsi_massDiff->at(iCand) / Jpsi_massErr->at(iCand))
+                            * (Jpsi_massDiff->at(iCand) / Jpsi_massErr->at(iCand))
+                            + (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
+                            * (Ups_massDiff->at(iCand) / Ups_massErr->at(iCand))
                             + (Phi_massDiff->at(iCand) / Phi_massErr->at(iCand))
                             * (Phi_massDiff->at(iCand) / Phi_massErr->at(iCand));
             tempCand.SetScore(temp_massChi2);
             tempCand.SetId(iCand);
             CandList.push_back(std::make_shared<ParticleCand>(tempCand));
-            tempList.clear();
             tempCand.Clear();
         }
         // Sort all candidates for later use.
@@ -339,18 +313,18 @@ void ReadTree::Loop()
         // Draw the selected candidates passing the cut.
         for(auto& cand : SelectedCands_cut){
             // Set the mass.
-            Jpsi1_mass_cut_var.setVal(Jpsi_1_mass->at(cand->GetId()));
-            Jpsi2_mass_cut_var.setVal(Jpsi_2_mass->at(cand->GetId()));
+            Jpsi_mass_cut_var.setVal(Jpsi_mass->at(cand->GetId()));
+            Ups_mass_cut_var.setVal(Ups_mass->at(cand->GetId()));
             Phi_mass_cut_var.setVal(Phi_mass->at(cand->GetId()));
             Pri_mass_cut_var.setVal(Pri_mass->at(cand->GetId()));
             // Set the mass error.
-            Jpsi1_mass_cut_var.setError(Jpsi_1_massErr->at(cand->GetId()));
-            Jpsi2_mass_cut_var.setError(Jpsi_2_massErr->at(cand->GetId()));
+            Jpsi_mass_cut_var.setError(Jpsi_massErr->at(cand->GetId()));
+            Ups_mass_cut_var.setError(Ups_massErr->at(cand->GetId()));
             Phi_mass_cut_var.setError(Phi_massErr->at(cand->GetId()));
             Pri_mass_cut_var.setError(Pri_massErr->at(cand->GetId()));
             // Add the data to the dataset.
-            Jpsi1_mass_cut_data.add(RooArgSet(Jpsi1_mass_cut_var));
-            Jpsi2_mass_cut_data.add(RooArgSet(Jpsi2_mass_cut_var));
+            Jpsi_mass_cut_data.add(RooArgSet(Jpsi_mass_cut_var));
+            Ups_mass_cut_data.add(RooArgSet(Ups_mass_cut_var));
             Phi_mass_cut_data.add(RooArgSet(Phi_mass_cut_var));
             Pri_mass_cut_data.add(RooArgSet(Pri_mass_cut_var));
         }
@@ -361,43 +335,43 @@ void ReadTree::Loop()
 
         // Use the pre-defined outputTree to store the filtered data.
         for(auto& cand : SelectedCands_cut){
-            filtered_Jpsi_1_mass->push_back(Jpsi_1_mass->at(cand->GetId()));
-            filtered_Jpsi_1_massErr->push_back(Jpsi_1_massErr->at(cand->GetId()));
-            filtered_Jpsi_1_massDiff->push_back(Jpsi_1_massDiff->at(cand->GetId()));
-            filtered_Jpsi_1_ctau->push_back(Jpsi_1_ctau->at(cand->GetId()));
-            filtered_Jpsi_1_ctauErr->push_back(Jpsi_1_ctauErr->at(cand->GetId()));
-            filtered_Jpsi_1_Chi2->push_back(Jpsi_1_Chi2->at(cand->GetId()));
-            filtered_Jpsi_1_ndof->push_back(Jpsi_1_ndof->at(cand->GetId()));
-            filtered_Jpsi_1_VtxProb->push_back(Jpsi_1_VtxProb->at(cand->GetId()));
-            filtered_Jpsi_1_px->push_back(Jpsi_1_px->at(cand->GetId()));
-            filtered_Jpsi_1_py->push_back(Jpsi_1_py->at(cand->GetId()));
-            filtered_Jpsi_1_pz->push_back(Jpsi_1_pz->at(cand->GetId()));
-            filtered_Jpsi_1_phi->push_back(Jpsi_1_phi->at(cand->GetId()));
-            filtered_Jpsi_1_eta->push_back(Jpsi_1_eta->at(cand->GetId()));
-            filtered_Jpsi_1_pt->push_back(Jpsi_1_pt->at(cand->GetId()));
-            filtered_Jpsi_1_mu_1_Idx->push_back(Jpsi_1_mu_1_Idx->at(cand->GetId()));
-            filtered_Jpsi_1_mu_2_Idx->push_back(Jpsi_1_mu_2_Idx->at(cand->GetId()));
+            filtered_Jpsi_mass->push_back(Jpsi_mass->at(cand->GetId()));
+            filtered_Jpsi_massErr->push_back(Jpsi_massErr->at(cand->GetId()));
+            filtered_Jpsi_massDiff->push_back(Jpsi_massDiff->at(cand->GetId()));
+            filtered_Jpsi_ctau->push_back(Jpsi_ctau->at(cand->GetId()));
+            filtered_Jpsi_ctauErr->push_back(Jpsi_ctauErr->at(cand->GetId()));
+            filtered_Jpsi_Chi2->push_back(Jpsi_Chi2->at(cand->GetId()));
+            filtered_Jpsi_ndof->push_back(Jpsi_ndof->at(cand->GetId()));
+            filtered_Jpsi_VtxProb->push_back(Jpsi_VtxProb->at(cand->GetId()));
+            filtered_Jpsi_px->push_back(Jpsi_px->at(cand->GetId()));
+            filtered_Jpsi_py->push_back(Jpsi_py->at(cand->GetId()));
+            filtered_Jpsi_pz->push_back(Jpsi_pz->at(cand->GetId()));
+            filtered_Jpsi_phi->push_back(Jpsi_phi->at(cand->GetId()));
+            filtered_Jpsi_eta->push_back(Jpsi_eta->at(cand->GetId()));
+            filtered_Jpsi_pt->push_back(Jpsi_pt->at(cand->GetId()));
+            filtered_Jpsi_mu_1_Idx->push_back(Jpsi_mu_1_Idx->at(cand->GetId()));
+            filtered_Jpsi_mu_2_Idx->push_back(Jpsi_mu_2_Idx->at(cand->GetId()));
 
             #ifdef SHOW_DEBUG
             std::cout << "Finished adding Jpsi 1 to the dataset" << std::endl;
             #endif
 
-            filtered_Jpsi_2_mass->push_back(Jpsi_2_mass->at(cand->GetId()));
-            filtered_Jpsi_2_massErr->push_back(Jpsi_2_massErr->at(cand->GetId()));
-            filtered_Jpsi_2_massDiff->push_back(Jpsi_2_massDiff->at(cand->GetId()));
-            filtered_Jpsi_2_ctau->push_back(Jpsi_2_ctau->at(cand->GetId()));
-            filtered_Jpsi_2_ctauErr->push_back(Jpsi_2_ctauErr->at(cand->GetId()));
-            filtered_Jpsi_2_Chi2->push_back(Jpsi_2_Chi2->at(cand->GetId()));
-            filtered_Jpsi_2_ndof->push_back(Jpsi_2_ndof->at(cand->GetId()));
-            filtered_Jpsi_2_VtxProb->push_back(Jpsi_2_VtxProb->at(cand->GetId()));
-            filtered_Jpsi_2_px->push_back(Jpsi_2_px->at(cand->GetId()));
-            filtered_Jpsi_2_py->push_back(Jpsi_2_py->at(cand->GetId()));
-            filtered_Jpsi_2_pz->push_back(Jpsi_2_pz->at(cand->GetId()));
-            filtered_Jpsi_2_phi->push_back(Jpsi_2_phi->at(cand->GetId()));
-            filtered_Jpsi_2_eta->push_back(Jpsi_2_eta->at(cand->GetId()));
-            filtered_Jpsi_2_pt->push_back(Jpsi_2_pt->at(cand->GetId()));
-            filtered_Jpsi_2_mu_1_Idx->push_back(Jpsi_2_mu_1_Idx->at(cand->GetId()));
-            filtered_Jpsi_2_mu_2_Idx->push_back(Jpsi_2_mu_2_Idx->at(cand->GetId()));
+            filtered_Ups_mass->push_back(Ups_mass->at(cand->GetId()));
+            filtered_Ups_massErr->push_back(Ups_massErr->at(cand->GetId()));
+            filtered_Ups_massDiff->push_back(Ups_massDiff->at(cand->GetId()));
+            filtered_Ups_ctau->push_back(Ups_ctau->at(cand->GetId()));
+            filtered_Ups_ctauErr->push_back(Ups_ctauErr->at(cand->GetId()));
+            filtered_Ups_Chi2->push_back(Ups_Chi2->at(cand->GetId()));
+            filtered_Ups_ndof->push_back(Ups_ndof->at(cand->GetId()));
+            filtered_Ups_VtxProb->push_back(Ups_VtxProb->at(cand->GetId()));
+            filtered_Ups_px->push_back(Ups_px->at(cand->GetId()));
+            filtered_Ups_py->push_back(Ups_py->at(cand->GetId()));
+            filtered_Ups_pz->push_back(Ups_pz->at(cand->GetId()));
+            filtered_Ups_phi->push_back(Ups_phi->at(cand->GetId()));
+            filtered_Ups_eta->push_back(Ups_eta->at(cand->GetId()));
+            filtered_Ups_pt->push_back(Ups_pt->at(cand->GetId()));
+            filtered_Ups_mu_1_Idx->push_back(Ups_mu_1_Idx->at(cand->GetId()));
+            filtered_Ups_mu_2_Idx->push_back(Ups_mu_2_Idx->at(cand->GetId()));
 
             #ifdef SHOW_DEBUG
             std::cout << "Finished adding Jpsi 2 to the dataset" << std::endl;
@@ -441,49 +415,49 @@ void ReadTree::Loop()
             #endif
 
             // For the muons
-            filtered_Jpsi_1_mu_1_px->push_back(muPx->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_py->push_back(muPy->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_pz->push_back(muPz->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_eta->push_back(mu_eta[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_1_phi->push_back(mu_phi[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_1_pt->push_back(mu_pT[Jpsi_1_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_1_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_px->push_back(muPx->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_py->push_back(muPy->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_pz->push_back(muPz->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_eta->push_back(mu_eta[Jpsi_mu_1_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_1_phi->push_back(mu_phi[Jpsi_mu_1_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_1_pt->push_back(mu_pT[Jpsi_mu_1_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_1_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_mu_1_Idx->at(cand->GetId())));
 
-            filtered_Jpsi_1_mu_2_px->push_back(muPx->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_py->push_back(muPy->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_pz->push_back(muPz->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_eta->push_back(mu_eta[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_2_phi->push_back(mu_phi[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_2_pt->push_back(mu_pT[Jpsi_1_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_1_mu_2_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_1_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_px->push_back(muPx->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_py->push_back(muPy->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_pz->push_back(muPz->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_eta->push_back(mu_eta[Jpsi_mu_2_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_2_phi->push_back(mu_phi[Jpsi_mu_2_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_2_pt->push_back(mu_pT[Jpsi_mu_2_Idx->at(cand->GetId())]);
+            filtered_Jpsi_mu_2_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_mu_2_Idx->at(cand->GetId())));
 
-            filtered_Jpsi_2_mu_1_px->push_back(muPx->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_py->push_back(muPy->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_pz->push_back(muPz->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_eta->push_back(mu_eta[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_1_phi->push_back(mu_phi[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_1_pt->push_back(mu_pT[Jpsi_2_mu_1_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_1_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_px->push_back(muPx->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_py->push_back(muPy->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_pz->push_back(muPz->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_eta->push_back(mu_eta[Ups_mu_1_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_1_phi->push_back(mu_phi[Ups_mu_1_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_1_pt->push_back(mu_pT[Ups_mu_1_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_1_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
 
-            filtered_Jpsi_2_mu_2_px->push_back(muPx->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_py->push_back(muPy->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_pz->push_back(muPz->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_eta->push_back(mu_eta[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_2_phi->push_back(mu_phi[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_2_pt->push_back(mu_pT[Jpsi_2_mu_2_Idx->at(cand->GetId())]);
-            filtered_Jpsi_2_mu_2_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
-            filtered_Jpsi_2_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_px->push_back(muPx->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_py->push_back(muPy->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_pz->push_back(muPz->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_eta->push_back(mu_eta[Ups_mu_2_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_2_phi->push_back(mu_phi[Ups_mu_2_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_2_pt->push_back(mu_pT[Ups_mu_2_Idx->at(cand->GetId())]);
+            filtered_Ups_mu_2_isPatLooseMuon->push_back(muIsPatLooseMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
 
             #ifdef SHOW_DEBUG
             std::cout << "Finished adding Jpsi muons to the dataset" << std::endl;
@@ -515,39 +489,39 @@ void ReadTree::Loop()
         outputTree->Fill();
 
         // Clear the vectors.
-        filtered_Jpsi_1_mass->clear();
-        filtered_Jpsi_1_massErr->clear();
-        filtered_Jpsi_1_massDiff->clear();
-        filtered_Jpsi_1_ctau->clear();
-        filtered_Jpsi_1_ctauErr->clear();
-        filtered_Jpsi_1_Chi2->clear();
-        filtered_Jpsi_1_ndof->clear();
-        filtered_Jpsi_1_VtxProb->clear();
-        filtered_Jpsi_1_px->clear();
-        filtered_Jpsi_1_py->clear();
-        filtered_Jpsi_1_pz->clear();
-        filtered_Jpsi_1_phi->clear();
-        filtered_Jpsi_1_eta->clear();
-        filtered_Jpsi_1_pt->clear();
-        filtered_Jpsi_1_mu_1_Idx->clear();
-        filtered_Jpsi_1_mu_2_Idx->clear();
+        filtered_Jpsi_mass->clear();
+        filtered_Jpsi_massErr->clear();
+        filtered_Jpsi_massDiff->clear();
+        filtered_Jpsi_ctau->clear();
+        filtered_Jpsi_ctauErr->clear();
+        filtered_Jpsi_Chi2->clear();
+        filtered_Jpsi_ndof->clear();
+        filtered_Jpsi_VtxProb->clear();
+        filtered_Jpsi_px->clear();
+        filtered_Jpsi_py->clear();
+        filtered_Jpsi_pz->clear();
+        filtered_Jpsi_phi->clear();
+        filtered_Jpsi_eta->clear();
+        filtered_Jpsi_pt->clear();
+        filtered_Jpsi_mu_1_Idx->clear();
+        filtered_Jpsi_mu_2_Idx->clear();
 
-        filtered_Jpsi_2_mass->clear();
-        filtered_Jpsi_2_massErr->clear();
-        filtered_Jpsi_2_massDiff->clear();
-        filtered_Jpsi_2_ctau->clear();
-        filtered_Jpsi_2_ctauErr->clear();
-        filtered_Jpsi_2_Chi2->clear();
-        filtered_Jpsi_2_ndof->clear();
-        filtered_Jpsi_2_VtxProb->clear();
-        filtered_Jpsi_2_px->clear();
-        filtered_Jpsi_2_py->clear();
-        filtered_Jpsi_2_pz->clear();
-        filtered_Jpsi_2_phi->clear();
-        filtered_Jpsi_2_eta->clear();
-        filtered_Jpsi_2_pt->clear();
-        filtered_Jpsi_2_mu_1_Idx->clear();
-        filtered_Jpsi_2_mu_2_Idx->clear();
+        filtered_Ups_mass->clear();
+        filtered_Ups_massErr->clear();
+        filtered_Ups_massDiff->clear();
+        filtered_Ups_ctau->clear();
+        filtered_Ups_ctauErr->clear();
+        filtered_Ups_Chi2->clear();
+        filtered_Ups_ndof->clear();
+        filtered_Ups_VtxProb->clear();
+        filtered_Ups_px->clear();
+        filtered_Ups_py->clear();
+        filtered_Ups_pz->clear();
+        filtered_Ups_phi->clear();
+        filtered_Ups_eta->clear();
+        filtered_Ups_pt->clear();
+        filtered_Ups_mu_1_Idx->clear();
+        filtered_Ups_mu_2_Idx->clear();
 
         filtered_Pri_mass->clear();
         filtered_Pri_massErr->clear();
@@ -579,49 +553,49 @@ void ReadTree::Loop()
         filtered_Phi_K_2_Idx->clear();
 
         // For the muons
-        filtered_Jpsi_1_mu_1_px->clear();
-        filtered_Jpsi_1_mu_1_py->clear();
-        filtered_Jpsi_1_mu_1_pz->clear();
-        filtered_Jpsi_1_mu_1_eta->clear();
-        filtered_Jpsi_1_mu_1_phi->clear();
-        filtered_Jpsi_1_mu_1_pt->clear();
-        filtered_Jpsi_1_mu_1_isPatLooseMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatSoftMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatMediumMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatTightMuon->clear();
+        filtered_Jpsi_mu_1_px->clear();
+        filtered_Jpsi_mu_1_py->clear();
+        filtered_Jpsi_mu_1_pz->clear();
+        filtered_Jpsi_mu_1_eta->clear();
+        filtered_Jpsi_mu_1_phi->clear();
+        filtered_Jpsi_mu_1_pt->clear();
+        filtered_Jpsi_mu_1_isPatLooseMuon->clear();
+        filtered_Jpsi_mu_1_isPatSoftMuon->clear();
+        filtered_Jpsi_mu_1_isPatMediumMuon->clear();
+        filtered_Jpsi_mu_1_isPatTightMuon->clear();
 
-        filtered_Jpsi_1_mu_2_px->clear();
-        filtered_Jpsi_1_mu_2_py->clear();
-        filtered_Jpsi_1_mu_2_pz->clear();
-        filtered_Jpsi_1_mu_2_eta->clear();
-        filtered_Jpsi_1_mu_2_phi->clear();
-        filtered_Jpsi_1_mu_2_pt->clear();
-        filtered_Jpsi_1_mu_2_isPatLooseMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatSoftMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatMediumMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatTightMuon->clear();
+        filtered_Jpsi_mu_2_px->clear();
+        filtered_Jpsi_mu_2_py->clear();
+        filtered_Jpsi_mu_2_pz->clear();
+        filtered_Jpsi_mu_2_eta->clear();
+        filtered_Jpsi_mu_2_phi->clear();
+        filtered_Jpsi_mu_2_pt->clear();
+        filtered_Jpsi_mu_2_isPatLooseMuon->clear();
+        filtered_Jpsi_mu_2_isPatSoftMuon->clear();
+        filtered_Jpsi_mu_2_isPatMediumMuon->clear();
+        filtered_Jpsi_mu_2_isPatTightMuon->clear();
 
-        filtered_Jpsi_2_mu_1_px->clear();
-        filtered_Jpsi_2_mu_1_py->clear();
-        filtered_Jpsi_2_mu_1_pz->clear();
-        filtered_Jpsi_2_mu_1_eta->clear();
-        filtered_Jpsi_2_mu_1_phi->clear();
-        filtered_Jpsi_2_mu_1_pt->clear();
-        filtered_Jpsi_2_mu_1_isPatLooseMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatSoftMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatMediumMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatTightMuon->clear();
+        filtered_Ups_mu_1_px->clear();
+        filtered_Ups_mu_1_py->clear();
+        filtered_Ups_mu_1_pz->clear();
+        filtered_Ups_mu_1_eta->clear();
+        filtered_Ups_mu_1_phi->clear();
+        filtered_Ups_mu_1_pt->clear();
+        filtered_Ups_mu_1_isPatLooseMuon->clear();
+        filtered_Ups_mu_1_isPatSoftMuon->clear();
+        filtered_Ups_mu_1_isPatMediumMuon->clear();
+        filtered_Ups_mu_1_isPatTightMuon->clear();
 
-        filtered_Jpsi_2_mu_2_px->clear();
-        filtered_Jpsi_2_mu_2_py->clear();
-        filtered_Jpsi_2_mu_2_pz->clear();
-        filtered_Jpsi_2_mu_2_eta->clear();
-        filtered_Jpsi_2_mu_2_phi->clear();
-        filtered_Jpsi_2_mu_2_pt->clear();
-        filtered_Jpsi_2_mu_2_isPatLooseMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatSoftMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatMediumMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatTightMuon->clear();
+        filtered_Ups_mu_2_px->clear();
+        filtered_Ups_mu_2_py->clear();
+        filtered_Ups_mu_2_pz->clear();
+        filtered_Ups_mu_2_eta->clear();
+        filtered_Ups_mu_2_phi->clear();
+        filtered_Ups_mu_2_pt->clear();
+        filtered_Ups_mu_2_isPatLooseMuon->clear();
+        filtered_Ups_mu_2_isPatSoftMuon->clear();
+        filtered_Ups_mu_2_isPatMediumMuon->clear();
+        filtered_Ups_mu_2_isPatTightMuon->clear();
 
         filtered_Phi_K_1_px->clear();
         filtered_Phi_K_1_py->clear();
@@ -644,12 +618,12 @@ void ReadTree::Loop()
     // Mass histograms passing the cut are drawn using Roofit.
     TCanvas* c2 = new TCanvas("c2", "c2", 1600, 1200);
     c2->Divide(2,2);
-    RooPlot* frame5 = Jpsi1_mass_cut_var.frame(nBin);
-    RooPlot* frame6 = Jpsi2_mass_cut_var.frame(nBin);
+    RooPlot* frame5 = Jpsi_mass_cut_var.frame(nBin);
+    RooPlot* frame6 = Ups_mass_cut_var.frame(nBin);
     RooPlot* frame7 = Phi_mass_cut_var.frame(nBin);
     RooPlot* frame8 = Pri_mass_cut_var.frame(nBin);
-    Jpsi1_mass_cut_data.plotOn(frame5);
-    Jpsi2_mass_cut_data.plotOn(frame6);
+    Jpsi_mass_cut_data.plotOn(frame5);
+    Ups_mass_cut_data.plotOn(frame6);
     Phi_mass_cut_data.plotOn(frame7);
     Pri_mass_cut_data.plotOn(frame8);
     // Draw the histograms.

@@ -1,8 +1,8 @@
 #include "../src/ParticleCand.C"
 #include "../src/ReadTree.C"
 
-// #define RUN_MINOR
-#define RUN_ALL
+#define RUN_MINOR
+// #define RUN_ALL
 // #define RUN_JOB
 
 void runReadTreeX(){
@@ -15,7 +15,7 @@ void runReadTreeX(){
 
     #ifdef RUN_MINOR
     //chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JJP/Analysis/MultiCandChecker/JJU-ntuple.root");
-    chain->Add("~/storage2/CMS-Analysis/JpsiJpsiUps/rootNtuple/P_Run2022/P0_Run2022Cv1_0000.root");
+    chain->Add("/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiUpsPhi/rootNtuple/sample_JUP_2023.root");
     //chain->Add("/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/rootNtuple/P_Run2024/P0_Run2024Cv1_0000.root");
     #endif
 

@@ -61,6 +61,7 @@ public:
 
     // Get the particle index list of a certain type
     ParticleCand::PartIdxSet_ptr GetParticleIdx(const PartType& arg_Type) const;
+    // Get the particle index of a certain type, located using relative order.
     unsigned int GetParticleIdx(const PartType& arg_Type, const unsigned int& arg_Index) const;
     // Print out the candidate as human-readable format
     std::string ToString();

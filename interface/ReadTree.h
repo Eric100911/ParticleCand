@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Dec 17 22:30:41 2024 by ROOT version 6.24/06
+// Sun Feb  9 15:27:09 2025 by ROOT version 6.34.02
 // from TTree X_data/X(3872) Data
-// found on file: ../../../TripleMeson-ntuple.root
+// found on file: root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiUpsPhi/sample_JUP_2023.root
 //////////////////////////////////////////////////////////
 
 #ifndef ReadTree_h
@@ -30,7 +30,8 @@ public :
    // Declaration of leaf types
    vector<unsigned int> *TrigRes;
    vector<string>  *TrigNames;
-   vector<string>  *MatchTriggerNames;
+   vector<string>  *MatchJpsiTriggerNames;
+   vector<string>  *MatchUpsTriggerNames;
    vector<unsigned int> *L1TrigRes;
    UInt_t          evtNum;
    UInt_t          runNum;
@@ -89,6 +90,8 @@ public :
    vector<int>     *muIsPatMediumMuon;
    vector<int>     *muIsJpsiTrigMatch;
    vector<int>     *muIsUpsTrigMatch;
+   vector<int>     *muIsJpsiFilterMatch;
+   vector<int>     *muIsUpsFilterMatch;
    vector<float>   *muMVAMuonID;
    vector<float>   *musegmentCompatibility;
    vector<float>   *mupulldXdZ_pos_noArb;
@@ -99,43 +102,45 @@ public :
    vector<float>   *mupulldYdZ_pos_ArbST;
    vector<float>   *mupulldXdZ_pos_noArb_any;
    vector<float>   *mupulldYdZ_pos_noArb_any;
-   vector<int>     *muUpsVrtxMatch;
-   vector<int>     *muL3TriggerMatch;
-   vector<float>   *Jpsi_1_mass;
-   vector<float>   *Jpsi_1_massErr;
-   vector<float>   *Jpsi_1_massDiff;
-   vector<float>   *Jpsi_1_ctau;
-   vector<float>   *Jpsi_1_ctauErr;
-   vector<float>   *Jpsi_1_Chi2;
-   vector<float>   *Jpsi_1_ndof;
-   vector<float>   *Jpsi_1_VtxProb;
-   vector<float>   *Jpsi_1_px;
-   vector<float>   *Jpsi_1_py;
-   vector<float>   *Jpsi_1_pz;
-   vector<float>   *Jpsi_1_phi;
-   vector<float>   *Jpsi_1_eta;
-   vector<float>   *Jpsi_1_pt;
-   vector<float>   *Jpsi_1_mu_1_Idx;
-   vector<float>   *Jpsi_1_mu_2_Idx;
-   vector<float>   *Jpsi_2_mass;
-   vector<float>   *Jpsi_2_massErr;
-   vector<float>   *Jpsi_2_massDiff;
-   vector<float>   *Jpsi_2_ctau;
-   vector<float>   *Jpsi_2_ctauErr;
-   vector<float>   *Jpsi_2_Chi2;
-   vector<float>   *Jpsi_2_ndof;
-   vector<float>   *Jpsi_2_VtxProb;
-   vector<float>   *Jpsi_2_px;
-   vector<float>   *Jpsi_2_py;
-   vector<float>   *Jpsi_2_pz;
-   vector<float>   *Jpsi_2_phi;
-   vector<float>   *Jpsi_2_eta;
-   vector<float>   *Jpsi_2_pt;
-   vector<float>   *Jpsi_2_mu_1_Idx;
-   vector<float>   *Jpsi_2_mu_2_Idx;
+   vector<float>   *Jpsi_cand_mass_p4;
+   vector<float>   *Jpsi_cand_mass_fit;
+   vector<float>   *Jpsi_mass;
+   vector<float>   *Jpsi_massErr;
+   vector<float>   *Jpsi_massDiff;
+   vector<float>   *Jpsi_ctau;
+   vector<float>   *Jpsi_ctauErr;
+   vector<float>   *Jpsi_Chi2;
+   vector<float>   *Jpsi_ndof;
+   vector<float>   *Jpsi_VtxProb;
+   vector<float>   *Jpsi_px;
+   vector<float>   *Jpsi_py;
+   vector<float>   *Jpsi_pz;
+   vector<float>   *Jpsi_phi;
+   vector<float>   *Jpsi_eta;
+   vector<float>   *Jpsi_pt;
+   vector<float>   *Jpsi_mu_1_Idx;
+   vector<float>   *Jpsi_mu_2_Idx;
+   vector<float>   *Ups_mass;
+   vector<float>   *Ups_massErr;
+   vector<float>   *Ups_massDiff;
+   vector<float>   *Ups_ctau;
+   vector<float>   *Ups_ctauErr;
+   vector<float>   *Ups_Chi2;
+   vector<float>   *Ups_ndof;
+   vector<float>   *Ups_VtxProb;
+   vector<float>   *Ups_px;
+   vector<float>   *Ups_py;
+   vector<float>   *Ups_pz;
+   vector<float>   *Ups_phi;
+   vector<float>   *Ups_eta;
+   vector<float>   *Ups_pt;
+   vector<float>   *Ups_mu_1_Idx;
+   vector<float>   *Ups_mu_2_Idx;
    vector<float>   *Phi_mass;
    vector<float>   *Phi_massErr;
    vector<float>   *Phi_massDiff;
+   vector<float>   *Phi_ctau;
+   vector<float>   *Phi_ctauErr;
    vector<float>   *Phi_Chi2;
    vector<float>   *Phi_ndof;
    vector<float>   *Phi_VtxProb;
@@ -145,8 +150,8 @@ public :
    vector<float>   *Phi_phi;
    vector<float>   *Phi_eta;
    vector<float>   *Phi_pt;
-   vector<unsigned int> *Phi_K_1_Idx;
-   vector<unsigned int> *Phi_K_2_Idx;
+   vector<float>   *Phi_K_1_Idx;
+   vector<float>   *Phi_K_2_Idx;
    vector<float>   *Pri_mass;
    vector<float>   *Pri_massErr;
    vector<float>   *Pri_ctau;
@@ -173,10 +178,14 @@ public :
    vector<float>   *Phi_K_2_eta;
    vector<float>   *Phi_K_2_pt;
 
+   // Output tree
+   TTree *outputTree;
+
    // List of branches
    TBranch        *b_TrigRes;   //!
    TBranch        *b_TrigNames;   //!
-   TBranch        *b_MatchTriggerNames;   //!
+   TBranch        *b_MatchJpsiTriggerNames;   //!
+   TBranch        *b_MatchUpsTriggerNames;   //!
    TBranch        *b_L1TrigRes;   //!
    TBranch        *b_evtNum;   //!
    TBranch        *b_runNum;   //!
@@ -235,6 +244,8 @@ public :
    TBranch        *b_muIsPatMediumMuon;   //!
    TBranch        *b_muIsJpsiTrigMatch;   //!
    TBranch        *b_muIsUpsTrigMatch;   //!
+   TBranch        *b_muIsJpsiFilterMatch;   //!
+   TBranch        *b_muIsUpsFilterMatch;   //!
    TBranch        *b_muMVAMuonID;   //!
    TBranch        *b_musegmentCompatibility;   //!
    TBranch        *b_mupulldXdZ_pos_noArb;   //!
@@ -245,43 +256,45 @@ public :
    TBranch        *b_mupulldYdZ_pos_ArbST;   //!
    TBranch        *b_mupulldXdZ_pos_noArb_any;   //!
    TBranch        *b_mupulldYdZ_pos_noArb_any;   //!
-   TBranch        *b_muUpsVrtxMatch;   //!
-   TBranch        *b_muL3TriggerMatch;   //!
-   TBranch        *b_Jpsi_1_mass;   //!
-   TBranch        *b_Jpsi_1_massErr;   //!
-   TBranch        *b_Jpsi_1_massDiff;   //!
-   TBranch        *b_Jpsi_1_ctau;   //!
-   TBranch        *b_Jpsi_1_ctauErr;   //!
-   TBranch        *b_Jpsi_1_Chi2;   //!
-   TBranch        *b_Jpsi_1_ndof;   //!
-   TBranch        *b_Jpsi_1_VtxProb;   //!
-   TBranch        *b_Jpsi_1_px;   //!
-   TBranch        *b_Jpsi_1_py;   //!
-   TBranch        *b_Jpsi_1_pz;   //!
-   TBranch        *b_Jpsi_1_phi;   //!
-   TBranch        *b_Jpsi_1_eta;   //!
-   TBranch        *b_Jpsi_1_pt;   //!
-   TBranch        *b_Jpsi_1_mu_1_Idx;   //!
-   TBranch        *b_Jpsi_1_mu_2_Idx;   //!
-   TBranch        *b_Jpsi_2_mass;   //!
-   TBranch        *b_Jpsi_2_massErr;   //!
-   TBranch        *b_Jpsi_2_massDiff;   //!
-   TBranch        *b_Jpsi_2_ctau;   //!
-   TBranch        *b_Jpsi_2_ctauErr;   //!
-   TBranch        *b_Jpsi_2_Chi2;   //!
-   TBranch        *b_Jpsi_2_ndof;   //!
-   TBranch        *b_Jpsi_2_VtxProb;   //!
-   TBranch        *b_Jpsi_2_px;   //!
-   TBranch        *b_Jpsi_2_py;   //!
-   TBranch        *b_Jpsi_2_pz;   //!
-   TBranch        *b_Jpsi_2_phi;   //!
-   TBranch        *b_Jpsi_2_eta;   //!
-   TBranch        *b_Jpsi_2_pt;   //!
-   TBranch        *b_Jpsi_2_mu_1_Idx;   //!
-   TBranch        *b_Jpsi_2_mu_2_Idx;   //!
+   TBranch        *b_Jpsi_cand_mass_p4;   //!
+   TBranch        *b_Jpsi_cand_mass_fit;   //!
+   TBranch        *b_Jpsi_mass;   //!
+   TBranch        *b_Jpsi_massErr;   //!
+   TBranch        *b_Jpsi_massDiff;   //!
+   TBranch        *b_Jpsi_ctau;   //!
+   TBranch        *b_Jpsi_ctauErr;   //!
+   TBranch        *b_Jpsi_Chi2;   //!
+   TBranch        *b_Jpsi_ndof;   //!
+   TBranch        *b_Jpsi_VtxProb;   //!
+   TBranch        *b_Jpsi_px;   //!
+   TBranch        *b_Jpsi_py;   //!
+   TBranch        *b_Jpsi_pz;   //!
+   TBranch        *b_Jpsi_phi;   //!
+   TBranch        *b_Jpsi_eta;   //!
+   TBranch        *b_Jpsi_pt;   //!
+   TBranch        *b_Jpsi_mu_1_Idx;   //!
+   TBranch        *b_Jpsi_mu_2_Idx;   //!
+   TBranch        *b_Ups_mass;   //!
+   TBranch        *b_Ups_massErr;   //!
+   TBranch        *b_Ups_massDiff;   //!
+   TBranch        *b_Ups_ctau;   //!
+   TBranch        *b_Ups_ctauErr;   //!
+   TBranch        *b_Ups_Chi2;   //!
+   TBranch        *b_Ups_ndof;   //!
+   TBranch        *b_Ups_VtxProb;   //!
+   TBranch        *b_Ups_px;   //!
+   TBranch        *b_Ups_py;   //!
+   TBranch        *b_Ups_pz;   //!
+   TBranch        *b_Ups_phi;   //!
+   TBranch        *b_Ups_eta;   //!
+   TBranch        *b_Ups_pt;   //!
+   TBranch        *b_Ups_mu_1_Idx;   //!
+   TBranch        *b_Ups_mu_2_Idx;   //!
    TBranch        *b_Phi_mass;   //!
    TBranch        *b_Phi_massErr;   //!
    TBranch        *b_Phi_massDiff;   //!
+   TBranch        *b_Phi_ctau;   //!
+   TBranch        *b_Phi_ctauErr;   //!
    TBranch        *b_Phi_Chi2;   //!
    TBranch        *b_Phi_ndof;   //!
    TBranch        *b_Phi_VtxProb;   //!
@@ -319,43 +332,40 @@ public :
    TBranch        *b_Phi_K_2_eta;   //!
    TBranch        *b_Phi_K_2_pt;   //!
 
-   // Output tree
-   TTree* outputTree;
-
    // Define the branches for the filtered data.
-   std::vector<float> *filtered_Jpsi_1_mass;
-   std::vector<float> *filtered_Jpsi_1_massErr;
-   std::vector<float> *filtered_Jpsi_1_massDiff;
-   std::vector<float> *filtered_Jpsi_1_ctau;
-   std::vector<float> *filtered_Jpsi_1_ctauErr;
-   std::vector<float> *filtered_Jpsi_1_Chi2;
-   std::vector<float> *filtered_Jpsi_1_ndof;
-   std::vector<float> *filtered_Jpsi_1_VtxProb;
-   std::vector<float> *filtered_Jpsi_1_px;
-   std::vector<float> *filtered_Jpsi_1_py;
-   std::vector<float> *filtered_Jpsi_1_pz;
-   std::vector<float> *filtered_Jpsi_1_phi;
-   std::vector<float> *filtered_Jpsi_1_eta;
-   std::vector<float> *filtered_Jpsi_1_pt;
-   std::vector<float> *filtered_Jpsi_1_mu_1_Idx;
-   std::vector<float> *filtered_Jpsi_1_mu_2_Idx;
+   std::vector<float> *filtered_Jpsi_mass;
+   std::vector<float> *filtered_Jpsi_massErr;
+   std::vector<float> *filtered_Jpsi_massDiff;
+   std::vector<float> *filtered_Jpsi_ctau;
+   std::vector<float> *filtered_Jpsi_ctauErr;
+   std::vector<float> *filtered_Jpsi_Chi2;
+   std::vector<float> *filtered_Jpsi_ndof;
+   std::vector<float> *filtered_Jpsi_VtxProb;
+   std::vector<float> *filtered_Jpsi_px;
+   std::vector<float> *filtered_Jpsi_py;
+   std::vector<float> *filtered_Jpsi_pz;
+   std::vector<float> *filtered_Jpsi_phi;
+   std::vector<float> *filtered_Jpsi_eta;
+   std::vector<float> *filtered_Jpsi_pt;
+   std::vector<float> *filtered_Jpsi_mu_1_Idx;
+   std::vector<float> *filtered_Jpsi_mu_2_Idx;
 
-   std::vector<float> *filtered_Jpsi_2_mass;
-   std::vector<float> *filtered_Jpsi_2_massErr;
-   std::vector<float> *filtered_Jpsi_2_massDiff;
-   std::vector<float> *filtered_Jpsi_2_ctau;
-   std::vector<float> *filtered_Jpsi_2_ctauErr;
-   std::vector<float> *filtered_Jpsi_2_Chi2;
-   std::vector<float> *filtered_Jpsi_2_ndof;
-   std::vector<float> *filtered_Jpsi_2_VtxProb;
-   std::vector<float> *filtered_Jpsi_2_px;
-   std::vector<float> *filtered_Jpsi_2_py;
-   std::vector<float> *filtered_Jpsi_2_pz;
-   std::vector<float> *filtered_Jpsi_2_phi;
-   std::vector<float> *filtered_Jpsi_2_eta;
-   std::vector<float> *filtered_Jpsi_2_pt;
-   std::vector<float> *filtered_Jpsi_2_mu_1_Idx;
-   std::vector<float> *filtered_Jpsi_2_mu_2_Idx;
+   std::vector<float> *filtered_Ups_mass;
+   std::vector<float> *filtered_Ups_massErr;
+   std::vector<float> *filtered_Ups_massDiff;
+   std::vector<float> *filtered_Ups_ctau;
+   std::vector<float> *filtered_Ups_ctauErr;
+   std::vector<float> *filtered_Ups_Chi2;
+   std::vector<float> *filtered_Ups_ndof;
+   std::vector<float> *filtered_Ups_VtxProb;
+   std::vector<float> *filtered_Ups_px;
+   std::vector<float> *filtered_Ups_py;
+   std::vector<float> *filtered_Ups_pz;
+   std::vector<float> *filtered_Ups_phi;
+   std::vector<float> *filtered_Ups_eta;
+   std::vector<float> *filtered_Ups_pt;
+   std::vector<float> *filtered_Ups_mu_1_Idx;
+   std::vector<float> *filtered_Ups_mu_2_Idx;
 
    std::vector<float> *filtered_Pri_mass;
    std::vector<float> *filtered_Pri_massErr;
@@ -383,53 +393,53 @@ public :
    std::vector<float> *filtered_Phi_phi;
    std::vector<float> *filtered_Phi_eta;
    std::vector<float> *filtered_Phi_pt;
-   std::vector<unsigned int> *filtered_Phi_K_1_Idx;
-   std::vector<unsigned int> *filtered_Phi_K_2_Idx;
+   std::vector<float> *filtered_Phi_K_1_Idx;
+   std::vector<float> *filtered_Phi_K_2_Idx;
 
    // Transferring the muon data to the output tree
-   std::vector<float> *filtered_Jpsi_1_mu_1_px;
-   std::vector<float> *filtered_Jpsi_1_mu_1_py;
-   std::vector<float> *filtered_Jpsi_1_mu_1_pz;
-   std::vector<float> *filtered_Jpsi_1_mu_1_phi;
-   std::vector<float> *filtered_Jpsi_1_mu_1_eta;
-   std::vector<float> *filtered_Jpsi_1_mu_1_pt;
-   std::vector<int>   *filtered_Jpsi_1_mu_1_isPatLooseMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_1_isPatSoftMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_1_isPatMediumMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_1_isPatTightMuon;
+   std::vector<float> *filtered_Jpsi_mu_1_px;
+   std::vector<float> *filtered_Jpsi_mu_1_py;
+   std::vector<float> *filtered_Jpsi_mu_1_pz;
+   std::vector<float> *filtered_Jpsi_mu_1_phi;
+   std::vector<float> *filtered_Jpsi_mu_1_eta;
+   std::vector<float> *filtered_Jpsi_mu_1_pt;
+   std::vector<int>   *filtered_Jpsi_mu_1_isPatLooseMuon;
+   std::vector<int>   *filtered_Jpsi_mu_1_isPatSoftMuon;
+   std::vector<int>   *filtered_Jpsi_mu_1_isPatMediumMuon;
+   std::vector<int>   *filtered_Jpsi_mu_1_isPatTightMuon;
 
-   std::vector<float> *filtered_Jpsi_1_mu_2_px;
-   std::vector<float> *filtered_Jpsi_1_mu_2_py;
-   std::vector<float> *filtered_Jpsi_1_mu_2_pz;
-   std::vector<float> *filtered_Jpsi_1_mu_2_phi;
-   std::vector<float> *filtered_Jpsi_1_mu_2_eta;
-   std::vector<float> *filtered_Jpsi_1_mu_2_pt;
-   std::vector<int>   *filtered_Jpsi_1_mu_2_isPatLooseMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_2_isPatSoftMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_2_isPatMediumMuon;
-   std::vector<int>   *filtered_Jpsi_1_mu_2_isPatTightMuon;
+   std::vector<float> *filtered_Jpsi_mu_2_px;
+   std::vector<float> *filtered_Jpsi_mu_2_py;
+   std::vector<float> *filtered_Jpsi_mu_2_pz;
+   std::vector<float> *filtered_Jpsi_mu_2_phi;
+   std::vector<float> *filtered_Jpsi_mu_2_eta;
+   std::vector<float> *filtered_Jpsi_mu_2_pt;
+   std::vector<int>   *filtered_Jpsi_mu_2_isPatLooseMuon;
+   std::vector<int>   *filtered_Jpsi_mu_2_isPatSoftMuon;
+   std::vector<int>   *filtered_Jpsi_mu_2_isPatMediumMuon;
+   std::vector<int>   *filtered_Jpsi_mu_2_isPatTightMuon;
 
-   std::vector<float> *filtered_Jpsi_2_mu_1_px;
-   std::vector<float> *filtered_Jpsi_2_mu_1_py;
-   std::vector<float> *filtered_Jpsi_2_mu_1_pz;
-   std::vector<float> *filtered_Jpsi_2_mu_1_phi;
-   std::vector<float> *filtered_Jpsi_2_mu_1_eta;
-   std::vector<float> *filtered_Jpsi_2_mu_1_pt;
-   std::vector<int>   *filtered_Jpsi_2_mu_1_isPatLooseMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_1_isPatSoftMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_1_isPatMediumMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_1_isPatTightMuon;
+   std::vector<float> *filtered_Ups_mu_1_px;
+   std::vector<float> *filtered_Ups_mu_1_py;
+   std::vector<float> *filtered_Ups_mu_1_pz;
+   std::vector<float> *filtered_Ups_mu_1_phi;
+   std::vector<float> *filtered_Ups_mu_1_eta;
+   std::vector<float> *filtered_Ups_mu_1_pt;
+   std::vector<int>   *filtered_Ups_mu_1_isPatLooseMuon;
+   std::vector<int>   *filtered_Ups_mu_1_isPatSoftMuon;
+   std::vector<int>   *filtered_Ups_mu_1_isPatMediumMuon;
+   std::vector<int>   *filtered_Ups_mu_1_isPatTightMuon;
 
-   std::vector<float> *filtered_Jpsi_2_mu_2_px;
-   std::vector<float> *filtered_Jpsi_2_mu_2_py;
-   std::vector<float> *filtered_Jpsi_2_mu_2_pz;
-   std::vector<float> *filtered_Jpsi_2_mu_2_phi;
-   std::vector<float> *filtered_Jpsi_2_mu_2_eta;
-   std::vector<float> *filtered_Jpsi_2_mu_2_pt;
-   std::vector<int>   *filtered_Jpsi_2_mu_2_isPatLooseMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_2_isPatSoftMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_2_isPatMediumMuon;
-   std::vector<int>   *filtered_Jpsi_2_mu_2_isPatTightMuon;
+   std::vector<float> *filtered_Ups_mu_2_px;
+   std::vector<float> *filtered_Ups_mu_2_py;
+   std::vector<float> *filtered_Ups_mu_2_pz;
+   std::vector<float> *filtered_Ups_mu_2_phi;
+   std::vector<float> *filtered_Ups_mu_2_eta;
+   std::vector<float> *filtered_Ups_mu_2_pt;
+   std::vector<int>   *filtered_Ups_mu_2_isPatLooseMuon;
+   std::vector<int>   *filtered_Ups_mu_2_isPatSoftMuon;
+   std::vector<int>   *filtered_Ups_mu_2_isPatMediumMuon;
+   std::vector<int>   *filtered_Ups_mu_2_isPatTightMuon;
 
    std::vector<float> *filtered_Phi_K_1_px;
    std::vector<float> *filtered_Phi_K_1_py;
@@ -452,7 +462,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    virtual void     Loop();
-   virtual Bool_t   Notify();
+   virtual bool     Notify();
    virtual void     Show(Long64_t entry = -1);
 
    // Initialize the output tree
@@ -463,129 +473,96 @@ public :
 
 #ifdef ReadTree_cxx
 ReadTree::ReadTree(TTree *tree) : fChain(0),
-                    filtered_Jpsi_1_mass(0), filtered_Jpsi_1_massErr(0), filtered_Jpsi_1_massDiff(0), 
-                    filtered_Jpsi_1_ctau(0), 
-                    filtered_Jpsi_1_ctauErr(0), 
-                    filtered_Jpsi_1_Chi2(0), 
-                    filtered_Jpsi_1_ndof(0), 
-                    filtered_Jpsi_1_VtxProb(0), 
-                    filtered_Jpsi_1_px(0), 
-                    filtered_Jpsi_1_py(0), 
-                    filtered_Jpsi_1_pz(0), 
-                    filtered_Jpsi_1_phi(0), 
-                    filtered_Jpsi_1_eta(0), 
-                    filtered_Jpsi_1_pt(0), 
-                    filtered_Jpsi_1_mu_1_Idx(0), 
-                    filtered_Jpsi_1_mu_2_Idx(0), 
-                    filtered_Jpsi_2_mass(0), filtered_Jpsi_2_massErr(0), filtered_Jpsi_2_massDiff(0), 
-                    filtered_Jpsi_2_ctau(0), 
-                    filtered_Jpsi_2_ctauErr(0), 
-                    filtered_Jpsi_2_Chi2(0), 
-                    filtered_Jpsi_2_ndof(0), 
-                    filtered_Jpsi_2_VtxProb(0), 
-                    filtered_Jpsi_2_px(0), 
-                    filtered_Jpsi_2_py(0), 
-                    filtered_Jpsi_2_pz(0), 
-                    filtered_Jpsi_2_phi(0), 
-                    filtered_Jpsi_2_eta(0), 
-                    filtered_Jpsi_2_pt(0), 
-                    filtered_Jpsi_2_mu_1_Idx(0), 
-                    filtered_Jpsi_2_mu_2_Idx(0), 
-                    filtered_Pri_mass(0), 
-                    filtered_Pri_massErr(0), 
-                    filtered_Pri_ctau(0), 
-                    filtered_Pri_ctauErr(0), 
-                    filtered_Pri_Chi2(0), 
-                    filtered_Pri_ndof(0), 
-                    filtered_Pri_VtxProb(0), 
-                    filtered_Pri_px(0), 
-                    filtered_Pri_py(0), 
-                    filtered_Pri_pz(0), 
-                    filtered_Pri_phi(0), 
-                    filtered_Pri_eta(0), 
-                    filtered_Pri_pt(0), 
-                    filtered_Phi_mass(0), 
-                    filtered_Phi_massErr(0), 
-                    filtered_Phi_massDiff(0), 
-                    filtered_Phi_Chi2(0), 
-                    filtered_Phi_ndof(0), 
-                    filtered_Phi_VtxProb(0), 
-                    filtered_Phi_px(0), 
-                    filtered_Phi_py(0), 
-                    filtered_Phi_pz(0), 
-                    filtered_Phi_phi(0), 
-                    filtered_Phi_eta(0), 
-                    filtered_Phi_pt(0), 
-                    filtered_Phi_K_1_Idx(0), 
-                    filtered_Phi_K_2_Idx(0), 
-                    filtered_Jpsi_1_mu_1_px(0), 
-                    filtered_Jpsi_1_mu_1_py(0), 
-                    filtered_Jpsi_1_mu_1_pz(0), 
-                    filtered_Jpsi_1_mu_1_phi(0), 
-                    filtered_Jpsi_1_mu_1_eta(0), 
-                    filtered_Jpsi_1_mu_1_pt(0), 
-                    filtered_Jpsi_1_mu_1_isPatLooseMuon(0), 
-                    filtered_Jpsi_1_mu_1_isPatSoftMuon(0), 
-                    filtered_Jpsi_1_mu_1_isPatMediumMuon(0), 
-                    filtered_Jpsi_1_mu_1_isPatTightMuon(0), 
-                    filtered_Jpsi_1_mu_2_px(0), 
-                    filtered_Jpsi_1_mu_2_py(0), 
-                    filtered_Jpsi_1_mu_2_pz(0), 
-                    filtered_Jpsi_1_mu_2_phi(0), 
-                    filtered_Jpsi_1_mu_2_eta(0), 
-                    filtered_Jpsi_1_mu_2_pt(0), 
-                    filtered_Jpsi_1_mu_2_isPatLooseMuon(0), 
-                    filtered_Jpsi_1_mu_2_isPatSoftMuon(0), 
-                    filtered_Jpsi_1_mu_2_isPatMediumMuon(0), 
-                    filtered_Jpsi_1_mu_2_isPatTightMuon(0), 
-                    filtered_Jpsi_2_mu_1_px(0), 
-                    filtered_Jpsi_2_mu_1_py(0), 
-                    filtered_Jpsi_2_mu_1_pz(0), 
-                    filtered_Jpsi_2_mu_1_phi(0), 
-                    filtered_Jpsi_2_mu_1_eta(0), 
-                    filtered_Jpsi_2_mu_1_pt(0), 
-                    filtered_Jpsi_2_mu_1_isPatLooseMuon(0), 
-                    filtered_Jpsi_2_mu_1_isPatSoftMuon(0), 
-                    filtered_Jpsi_2_mu_1_isPatMediumMuon(0), 
-                    filtered_Jpsi_2_mu_1_isPatTightMuon(0), 
-                    filtered_Jpsi_2_mu_2_px(0), 
-                    filtered_Jpsi_2_mu_2_py(0), 
-                    filtered_Jpsi_2_mu_2_pz(0), 
-                    filtered_Jpsi_2_mu_2_phi(0), 
-                    filtered_Jpsi_2_mu_2_eta(0), 
-                    filtered_Jpsi_2_mu_2_pt(0), 
-                    filtered_Jpsi_2_mu_2_isPatLooseMuon(0), 
-                    filtered_Jpsi_2_mu_2_isPatSoftMuon(0), 
-                    filtered_Jpsi_2_mu_2_isPatMediumMuon(0), 
-                    filtered_Jpsi_2_mu_2_isPatTightMuon(0), 
-                    filtered_Phi_K_1_px(0), 
-                    filtered_Phi_K_1_py(0), 
-                    filtered_Phi_K_1_pz(0), 
-                    filtered_Phi_K_1_phi(0), 
-                    filtered_Phi_K_1_eta(0), 
-                    filtered_Phi_K_1_pt(0), 
-                    filtered_Phi_K_2_px(0), 
-                    filtered_Phi_K_2_py(0), 
-                    filtered_Phi_K_2_pz(0), 
-                    filtered_Phi_K_2_phi(0), 
-                    filtered_Phi_K_2_eta(0), 
-                    filtered_Phi_K_2_pt(0)
+    filtered_Jpsi_mass(0), filtered_Jpsi_massErr(0), filtered_Jpsi_massDiff(0),
+    filtered_Jpsi_ctau(0), filtered_Jpsi_ctauErr(0),
+    filtered_Jpsi_Chi2(0), filtered_Jpsi_ndof(0), filtered_Jpsi_VtxProb(0),
+    filtered_Jpsi_px(0),   filtered_Jpsi_py(0),   filtered_Jpsi_pz(0),
+    filtered_Jpsi_phi(0),  filtered_Jpsi_eta(0),  filtered_Jpsi_pt(0),
+    filtered_Jpsi_mu_1_Idx(0),
+    filtered_Jpsi_mu_2_Idx(0),
+    filtered_Ups_mass(0), filtered_Ups_massErr(0), filtered_Ups_massDiff(0),
+    filtered_Ups_ctau(0), filtered_Ups_ctauErr(0),
+    filtered_Ups_Chi2(0), filtered_Ups_ndof(0), filtered_Ups_VtxProb(0),
+    filtered_Ups_px(0),  filtered_Ups_py(0),  filtered_Ups_pz(0),
+    filtered_Ups_phi(0), filtered_Ups_eta(0), filtered_Ups_pt(0),
+    filtered_Ups_mu_1_Idx(0),
+    filtered_Ups_mu_2_Idx(0),
+    filtered_Pri_mass(0), filtered_Pri_massErr(0),
+    filtered_Pri_ctau(0), filtered_Pri_ctauErr(0),
+    filtered_Pri_Chi2(0), filtered_Pri_ndof(0), filtered_Pri_VtxProb(0),
+    filtered_Pri_px(0),   filtered_Pri_py(0),   filtered_Pri_pz(0),
+    filtered_Pri_phi(0),  filtered_Pri_eta(0),  filtered_Pri_pt(0),
+    filtered_Phi_mass(0), filtered_Phi_massErr(0), filtered_Phi_massDiff(0),
+    filtered_Phi_Chi2(0), filtered_Phi_ndof(0),    filtered_Phi_VtxProb(0),
+    filtered_Phi_px(0),   filtered_Phi_py(0),      filtered_Phi_pz(0),
+    filtered_Phi_phi(0),  filtered_Phi_eta(0),     filtered_Phi_pt(0),
+    filtered_Phi_K_1_Idx(0),
+    filtered_Phi_K_2_Idx(0),
+    filtered_Jpsi_mu_1_px(0),
+    filtered_Jpsi_mu_1_py(0),
+    filtered_Jpsi_mu_1_pz(0),
+    filtered_Jpsi_mu_1_phi(0),
+    filtered_Jpsi_mu_1_eta(0),
+    filtered_Jpsi_mu_1_pt(0),
+    filtered_Jpsi_mu_1_isPatLooseMuon(0),
+    filtered_Jpsi_mu_1_isPatSoftMuon(0),
+    filtered_Jpsi_mu_1_isPatMediumMuon(0),
+    filtered_Jpsi_mu_1_isPatTightMuon(0),
+    filtered_Jpsi_mu_2_px(0),
+    filtered_Jpsi_mu_2_py(0),
+    filtered_Jpsi_mu_2_pz(0),
+    filtered_Jpsi_mu_2_phi(0),
+    filtered_Jpsi_mu_2_eta(0),
+    filtered_Jpsi_mu_2_pt(0),
+    filtered_Jpsi_mu_2_isPatLooseMuon(0),
+    filtered_Jpsi_mu_2_isPatSoftMuon(0),
+    filtered_Jpsi_mu_2_isPatMediumMuon(0),
+    filtered_Jpsi_mu_2_isPatTightMuon(0),
+    filtered_Ups_mu_1_px(0),
+    filtered_Ups_mu_1_py(0),
+    filtered_Ups_mu_1_pz(0),
+    filtered_Ups_mu_1_phi(0),
+    filtered_Ups_mu_1_eta(0),
+    filtered_Ups_mu_1_pt(0),
+    filtered_Ups_mu_1_isPatLooseMuon(0),
+    filtered_Ups_mu_1_isPatSoftMuon(0),
+    filtered_Ups_mu_1_isPatMediumMuon(0),
+    filtered_Ups_mu_1_isPatTightMuon(0),
+    filtered_Ups_mu_2_px(0),
+    filtered_Ups_mu_2_py(0),
+    filtered_Ups_mu_2_pz(0),
+    filtered_Ups_mu_2_phi(0),
+    filtered_Ups_mu_2_eta(0),
+    filtered_Ups_mu_2_pt(0),
+    filtered_Ups_mu_2_isPatLooseMuon(0),
+    filtered_Ups_mu_2_isPatSoftMuon(0),
+    filtered_Ups_mu_2_isPatMediumMuon(0),
+    filtered_Ups_mu_2_isPatTightMuon(0),
+    filtered_Phi_K_1_px(0),
+    filtered_Phi_K_1_py(0),
+    filtered_Phi_K_1_pz(0),
+    filtered_Phi_K_1_phi(0),
+    filtered_Phi_K_1_eta(0),
+    filtered_Phi_K_1_pt(0),
+    filtered_Phi_K_2_px(0),
+    filtered_Phi_K_2_py(0),
+    filtered_Phi_K_2_pz(0),
+    filtered_Phi_K_2_phi(0),
+    filtered_Phi_K_2_eta(0),
+    filtered_Phi_K_2_pt(0),
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
-   if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../../../TripleMeson-ntuple.root");
-      if (!f || !f->IsOpen()) {
-         f = new TFile("../../../TripleMeson-ntuple.root");
-      }
-      TDirectory * dir = (TDirectory*)f->Get("../../../TripleMeson-ntuple.root:/mkcands");
-      dir->GetObject("X_data",tree);
+    if (tree == 0) {
+        TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiUpsPhi/sample_JUP_2023.root");
+        if (!f || !f->IsOpen()) {
+            f = new TFile("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiUpsPhi/sample_JUP_2023.root");
+        }
+        TDirectory * dir = (TDirectory*)f->Get("root://eoshome-c.cern.ch//eos/user/c/chiw/JpsiUpsPhi/sample_JUP_2023.root:/mkcands");
+        dir->GetObject("X_data",tree);
 
-   }
-   Init(tree);
-
-   // Initiate the output tree
-   InitOutputTree();
+    }
+    Init(tree);
 }
 
 ReadTree::~ReadTree()
@@ -626,7 +603,8 @@ void ReadTree::Init(TTree *tree)
    // Set object pointer
    TrigRes = 0;
    TrigNames = 0;
-   MatchTriggerNames = 0;
+   MatchJpsiTriggerNames = 0;
+   MatchUpsTriggerNames = 0;
    L1TrigRes = 0;
    PriVtxXCorrX = 0;
    PriVtxXCorrY = 0;
@@ -671,6 +649,8 @@ void ReadTree::Init(TTree *tree)
    muIsPatMediumMuon = 0;
    muIsJpsiTrigMatch = 0;
    muIsUpsTrigMatch = 0;
+   muIsJpsiFilterMatch = 0;
+   muIsUpsFilterMatch = 0;
    muMVAMuonID = 0;
    musegmentCompatibility = 0;
    mupulldXdZ_pos_noArb = 0;
@@ -681,43 +661,45 @@ void ReadTree::Init(TTree *tree)
    mupulldYdZ_pos_ArbST = 0;
    mupulldXdZ_pos_noArb_any = 0;
    mupulldYdZ_pos_noArb_any = 0;
-   muUpsVrtxMatch = 0;
-   muL3TriggerMatch = 0;
-   Jpsi_1_mass = 0;
-   Jpsi_1_massErr = 0;
-   Jpsi_1_massDiff = 0;
-   Jpsi_1_ctau = 0;
-   Jpsi_1_ctauErr = 0;
-   Jpsi_1_Chi2 = 0;
-   Jpsi_1_ndof = 0;
-   Jpsi_1_VtxProb = 0;
-   Jpsi_1_px = 0;
-   Jpsi_1_py = 0;
-   Jpsi_1_pz = 0;
-   Jpsi_1_phi = 0;
-   Jpsi_1_eta = 0;
-   Jpsi_1_pt = 0;
-   Jpsi_1_mu_1_Idx = 0;
-   Jpsi_1_mu_2_Idx = 0;
-   Jpsi_2_mass = 0;
-   Jpsi_2_massErr = 0;
-   Jpsi_2_massDiff = 0;
-   Jpsi_2_ctau = 0;
-   Jpsi_2_ctauErr = 0;
-   Jpsi_2_Chi2 = 0;
-   Jpsi_2_ndof = 0;
-   Jpsi_2_VtxProb = 0;
-   Jpsi_2_px = 0;
-   Jpsi_2_py = 0;
-   Jpsi_2_pz = 0;
-   Jpsi_2_phi = 0;
-   Jpsi_2_eta = 0;
-   Jpsi_2_pt = 0;
-   Jpsi_2_mu_1_Idx = 0;
-   Jpsi_2_mu_2_Idx = 0;
+   Jpsi_cand_mass_p4 = 0;
+   Jpsi_cand_mass_fit = 0;
+   Jpsi_mass = 0;
+   Jpsi_massErr = 0;
+   Jpsi_massDiff = 0;
+   Jpsi_ctau = 0;
+   Jpsi_ctauErr = 0;
+   Jpsi_Chi2 = 0;
+   Jpsi_ndof = 0;
+   Jpsi_VtxProb = 0;
+   Jpsi_px = 0;
+   Jpsi_py = 0;
+   Jpsi_pz = 0;
+   Jpsi_phi = 0;
+   Jpsi_eta = 0;
+   Jpsi_pt = 0;
+   Jpsi_mu_1_Idx = 0;
+   Jpsi_mu_2_Idx = 0;
+   Ups_mass = 0;
+   Ups_massErr = 0;
+   Ups_massDiff = 0;
+   Ups_ctau = 0;
+   Ups_ctauErr = 0;
+   Ups_Chi2 = 0;
+   Ups_ndof = 0;
+   Ups_VtxProb = 0;
+   Ups_px = 0;
+   Ups_py = 0;
+   Ups_pz = 0;
+   Ups_phi = 0;
+   Ups_eta = 0;
+   Ups_pt = 0;
+   Ups_mu_1_Idx = 0;
+   Ups_mu_2_Idx = 0;
    Phi_mass = 0;
    Phi_massErr = 0;
    Phi_massDiff = 0;
+   Phi_ctau = 0;
+   Phi_ctauErr = 0;
    Phi_Chi2 = 0;
    Phi_ndof = 0;
    Phi_VtxProb = 0;
@@ -762,19 +744,22 @@ void ReadTree::Init(TTree *tree)
 
    fChain->SetBranchAddress("TrigRes", &TrigRes, &b_TrigRes);
    fChain->SetBranchAddress("TrigNames", &TrigNames, &b_TrigNames);
+   fChain->SetBranchAddress("MatchJpsiTriggerNames", &MatchJpsiTriggerNames, &b_MatchJpsiTriggerNames);
+   fChain->SetBranchAddress("MatchUpsTriggerNames", &MatchUpsTriggerNames, &b_MatchUpsTriggerNames);
    fChain->SetBranchAddress("L1TrigRes", &L1TrigRes, &b_L1TrigRes);
    fChain->SetBranchAddress("evtNum", &evtNum, &b_evtNum);
    fChain->SetBranchAddress("runNum", &runNum, &b_runNum);
    fChain->SetBranchAddress("lumiNum", &lumiNum, &b_lumiNum);
    fChain->SetBranchAddress("nGoodPrimVtx", &nGoodPrimVtx, &b_nGoodPrimVtx);
-   fChain->SetBranchAddress("priVtxX", &priVtxX, &b_priVtxX);
-   fChain->SetBranchAddress("priVtxY", &priVtxY, &b_priVtxY);
-   fChain->SetBranchAddress("priVtxZ", &priVtxZ, &b_priVtxZ);
-   fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_priVtxXE);
-   fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_priVtxYE);
-   fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_priVtxZE);
-   fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_priVtxChiNorm);
-   fChain->SetBranchAddress("priVtxChi",     &priVtxChi,     &b_priVtxChi   );
+   fChain->SetBranchAddress("priVtxX", &priVtxX, &b_f);
+   fChain->SetBranchAddress("priVtxY", &priVtxY, &b_f);
+   fChain->SetBranchAddress("priVtxZ", &priVtxZ, &b_f);
+   fChain->SetBranchAddress("priVtxXE", &priVtxXE, &b_f);
+   fChain->SetBranchAddress("priVtxYE", &priVtxYE, &b_f);
+   fChain->SetBranchAddress("priVtxZE", &priVtxZE, &b_f);
+   fChain->SetBranchAddress("priVtxChiNorm", &priVtxChiNorm, &b_f);
+   fChain->SetBranchAddress("priVtxChi", &priVtxChi, &b_f);
+   fChain->SetBranchAddress("priVtxCL", &priVtxCL, &b_f);
    fChain->SetBranchAddress("PriVtxXCorrX", &PriVtxXCorrX, &b_PriVtxXCorrX);
    fChain->SetBranchAddress("PriVtxXCorrY", &PriVtxXCorrY, &b_PriVtxXCorrY);
    fChain->SetBranchAddress("PriVtxXCorrZ", &PriVtxXCorrZ, &b_PriVtxXCorrZ);
@@ -819,6 +804,8 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("muIsPatMediumMuon", &muIsPatMediumMuon, &b_muIsPatMediumMuon);
    fChain->SetBranchAddress("muIsJpsiTrigMatch", &muIsJpsiTrigMatch, &b_muIsJpsiTrigMatch);
    fChain->SetBranchAddress("muIsUpsTrigMatch", &muIsUpsTrigMatch, &b_muIsUpsTrigMatch);
+   fChain->SetBranchAddress("muIsJpsiFilterMatch", &muIsJpsiFilterMatch, &b_muIsJpsiFilterMatch);
+   fChain->SetBranchAddress("muIsUpsFilterMatch", &muIsUpsFilterMatch, &b_muIsUpsFilterMatch);
    fChain->SetBranchAddress("muMVAMuonID", &muMVAMuonID, &b_muMVAMuonID);
    fChain->SetBranchAddress("musegmentCompatibility", &musegmentCompatibility, &b_musegmentCompatibility);
    fChain->SetBranchAddress("mupulldXdZ_pos_noArb", &mupulldXdZ_pos_noArb, &b_mupulldXdZ_pos_noArb);
@@ -829,41 +816,45 @@ void ReadTree::Init(TTree *tree)
    fChain->SetBranchAddress("mupulldYdZ_pos_ArbST", &mupulldYdZ_pos_ArbST, &b_mupulldYdZ_pos_ArbST);
    fChain->SetBranchAddress("mupulldXdZ_pos_noArb_any", &mupulldXdZ_pos_noArb_any, &b_mupulldXdZ_pos_noArb_any);
    fChain->SetBranchAddress("mupulldYdZ_pos_noArb_any", &mupulldYdZ_pos_noArb_any, &b_mupulldYdZ_pos_noArb_any);
-   fChain->SetBranchAddress("Jpsi_1_mass", &Jpsi_1_mass, &b_Jpsi_1_mass);
-   fChain->SetBranchAddress("Jpsi_1_massErr", &Jpsi_1_massErr, &b_Jpsi_1_massErr);
-   fChain->SetBranchAddress("Jpsi_1_massDiff", &Jpsi_1_massDiff, &b_Jpsi_1_massDiff);
-   fChain->SetBranchAddress("Jpsi_1_ctau", &Jpsi_1_ctau, &b_Jpsi_1_ctau);
-   fChain->SetBranchAddress("Jpsi_1_ctauErr", &Jpsi_1_ctauErr, &b_Jpsi_1_ctauErr);
-   fChain->SetBranchAddress("Jpsi_1_Chi2", &Jpsi_1_Chi2, &b_Jpsi_1_Chi2);
-   fChain->SetBranchAddress("Jpsi_1_ndof", &Jpsi_1_ndof, &b_Jpsi_1_ndof);
-   fChain->SetBranchAddress("Jpsi_1_VtxProb", &Jpsi_1_VtxProb, &b_Jpsi_1_VtxProb);
-   fChain->SetBranchAddress("Jpsi_1_px", &Jpsi_1_px, &b_Jpsi_1_px);
-   fChain->SetBranchAddress("Jpsi_1_py", &Jpsi_1_py, &b_Jpsi_1_py);
-   fChain->SetBranchAddress("Jpsi_1_pz", &Jpsi_1_pz, &b_Jpsi_1_pz);
-   fChain->SetBranchAddress("Jpsi_1_phi", &Jpsi_1_phi, &b_Jpsi_1_phi);
-   fChain->SetBranchAddress("Jpsi_1_eta", &Jpsi_1_eta, &b_Jpsi_1_eta);
-   fChain->SetBranchAddress("Jpsi_1_pt", &Jpsi_1_pt, &b_Jpsi_1_pt);
-   fChain->SetBranchAddress("Jpsi_1_mu_1_Idx", &Jpsi_1_mu_1_Idx, &b_Jpsi_1_mu_1_Idx);
-   fChain->SetBranchAddress("Jpsi_1_mu_2_Idx", &Jpsi_1_mu_2_Idx, &b_Jpsi_1_mu_2_Idx);
-   fChain->SetBranchAddress("Jpsi_2_mass", &Jpsi_2_mass, &b_Jpsi_2_mass);
-   fChain->SetBranchAddress("Jpsi_2_massErr", &Jpsi_2_massErr, &b_Jpsi_2_massErr);
-   fChain->SetBranchAddress("Jpsi_2_massDiff", &Jpsi_2_massDiff, &b_Jpsi_2_massDiff);
-   fChain->SetBranchAddress("Jpsi_2_ctau", &Jpsi_2_ctau, &b_Jpsi_2_ctau);
-   fChain->SetBranchAddress("Jpsi_2_ctauErr", &Jpsi_2_ctauErr, &b_Jpsi_2_ctauErr);
-   fChain->SetBranchAddress("Jpsi_2_Chi2", &Jpsi_2_Chi2, &b_Jpsi_2_Chi2);
-   fChain->SetBranchAddress("Jpsi_2_ndof", &Jpsi_2_ndof, &b_Jpsi_2_ndof);
-   fChain->SetBranchAddress("Jpsi_2_VtxProb", &Jpsi_2_VtxProb, &b_Jpsi_2_VtxProb);
-   fChain->SetBranchAddress("Jpsi_2_px", &Jpsi_2_px, &b_Jpsi_2_px);
-   fChain->SetBranchAddress("Jpsi_2_py", &Jpsi_2_py, &b_Jpsi_2_py);
-   fChain->SetBranchAddress("Jpsi_2_pz", &Jpsi_2_pz, &b_Jpsi_2_pz);
-   fChain->SetBranchAddress("Jpsi_2_phi", &Jpsi_2_phi, &b_Jpsi_2_phi);
-   fChain->SetBranchAddress("Jpsi_2_eta", &Jpsi_2_eta, &b_Jpsi_2_eta);
-   fChain->SetBranchAddress("Jpsi_2_pt", &Jpsi_2_pt, &b_Jpsi_2_pt);
-   fChain->SetBranchAddress("Jpsi_2_mu_1_Idx", &Jpsi_2_mu_1_Idx, &b_Jpsi_2_mu_1_Idx);
-   fChain->SetBranchAddress("Jpsi_2_mu_2_Idx", &Jpsi_2_mu_2_Idx, &b_Jpsi_2_mu_2_Idx);
+   fChain->SetBranchAddress("Jpsi_cand_mass_p4", &Jpsi_cand_mass_p4, &b_Jpsi_cand_mass_p4);
+   fChain->SetBranchAddress("Jpsi_cand_mass_fit", &Jpsi_cand_mass_fit, &b_Jpsi_cand_mass_fit);
+   fChain->SetBranchAddress("Jpsi_mass", &Jpsi_mass, &b_Jpsi_mass);
+   fChain->SetBranchAddress("Jpsi_massErr", &Jpsi_massErr, &b_Jpsi_massErr);
+   fChain->SetBranchAddress("Jpsi_massDiff", &Jpsi_massDiff, &b_Jpsi_massDiff);
+   fChain->SetBranchAddress("Jpsi_ctau", &Jpsi_ctau, &b_Jpsi_ctau);
+   fChain->SetBranchAddress("Jpsi_ctauErr", &Jpsi_ctauErr, &b_Jpsi_ctauErr);
+   fChain->SetBranchAddress("Jpsi_Chi2", &Jpsi_Chi2, &b_Jpsi_Chi2);
+   fChain->SetBranchAddress("Jpsi_ndof", &Jpsi_ndof, &b_Jpsi_ndof);
+   fChain->SetBranchAddress("Jpsi_VtxProb", &Jpsi_VtxProb, &b_Jpsi_VtxProb);
+   fChain->SetBranchAddress("Jpsi_px", &Jpsi_px, &b_Jpsi_px);
+   fChain->SetBranchAddress("Jpsi_py", &Jpsi_py, &b_Jpsi_py);
+   fChain->SetBranchAddress("Jpsi_pz", &Jpsi_pz, &b_Jpsi_pz);
+   fChain->SetBranchAddress("Jpsi_phi", &Jpsi_phi, &b_Jpsi_phi);
+   fChain->SetBranchAddress("Jpsi_eta", &Jpsi_eta, &b_Jpsi_eta);
+   fChain->SetBranchAddress("Jpsi_pt", &Jpsi_pt, &b_Jpsi_pt);
+   fChain->SetBranchAddress("Jpsi_mu_1_Idx", &Jpsi_mu_1_Idx, &b_Jpsi_mu_1_Idx);
+   fChain->SetBranchAddress("Jpsi_mu_2_Idx", &Jpsi_mu_2_Idx, &b_Jpsi_mu_2_Idx);
+   fChain->SetBranchAddress("Ups_mass", &Ups_mass, &b_Ups_mass);
+   fChain->SetBranchAddress("Ups_massErr", &Ups_massErr, &b_Ups_massErr);
+   fChain->SetBranchAddress("Ups_massDiff", &Ups_massDiff, &b_Ups_massDiff);
+   fChain->SetBranchAddress("Ups_ctau", &Ups_ctau, &b_Ups_ctau);
+   fChain->SetBranchAddress("Ups_ctauErr", &Ups_ctauErr, &b_Ups_ctauErr);
+   fChain->SetBranchAddress("Ups_Chi2", &Ups_Chi2, &b_Ups_Chi2);
+   fChain->SetBranchAddress("Ups_ndof", &Ups_ndof, &b_Ups_ndof);
+   fChain->SetBranchAddress("Ups_VtxProb", &Ups_VtxProb, &b_Ups_VtxProb);
+   fChain->SetBranchAddress("Ups_px", &Ups_px, &b_Ups_px);
+   fChain->SetBranchAddress("Ups_py", &Ups_py, &b_Ups_py);
+   fChain->SetBranchAddress("Ups_pz", &Ups_pz, &b_Ups_pz);
+   fChain->SetBranchAddress("Ups_phi", &Ups_phi, &b_Ups_phi);
+   fChain->SetBranchAddress("Ups_eta", &Ups_eta, &b_Ups_eta);
+   fChain->SetBranchAddress("Ups_pt", &Ups_pt, &b_Ups_pt);
+   fChain->SetBranchAddress("Ups_mu_1_Idx", &Ups_mu_1_Idx, &b_Ups_mu_1_Idx);
+   fChain->SetBranchAddress("Ups_mu_2_Idx", &Ups_mu_2_Idx, &b_Ups_mu_2_Idx);
    fChain->SetBranchAddress("Phi_mass", &Phi_mass, &b_Phi_mass);
    fChain->SetBranchAddress("Phi_massErr", &Phi_massErr, &b_Phi_massErr);
    fChain->SetBranchAddress("Phi_massDiff", &Phi_massDiff, &b_Phi_massDiff);
+   fChain->SetBranchAddress("Phi_ctau", &Phi_ctau, &b_Phi_ctau);
+   fChain->SetBranchAddress("Phi_ctauErr", &Phi_ctauErr, &b_Phi_ctauErr);
    fChain->SetBranchAddress("Phi_Chi2", &Phi_Chi2, &b_Phi_Chi2);
    fChain->SetBranchAddress("Phi_ndof", &Phi_ndof, &b_Phi_ndof);
    fChain->SetBranchAddress("Phi_VtxProb", &Phi_VtxProb, &b_Phi_VtxProb);
@@ -903,7 +894,7 @@ void ReadTree::Init(TTree *tree)
    Notify();
 }
 
-Bool_t ReadTree::Notify()
+bool ReadTree::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -911,25 +902,9 @@ Bool_t ReadTree::Notify()
    // to the generated code, but the routine can be extended by the
    // user if needed. The return value is currently not used.
 
-   return kTRUE;
+   return true;
 }
 
-void ReadTree::Show(Long64_t entry)
-{
-// Print contents of entry.
-// If entry is not specified, print current entry
-   if (!fChain) return;
-   fChain->Show(entry);
-}
-Int_t ReadTree::Cut(Long64_t entry)
-{
-// This function may be called from Loop.
-// returns  1 if entry is accepted.
-// returns -1 otherwise.
-   return 1;
-}
-
-// Initialize the output tree
 void ReadTree::InitOutputTree()
 {
     outputTree = new TTree("outputTree", "outputTree");
@@ -1055,5 +1030,20 @@ void ReadTree::InitOutputTree()
     outputTree->Branch("Phi_K_2_phi", &filtered_Phi_K_2_phi);
     outputTree->Branch("Phi_K_2_eta", &filtered_Phi_K_2_eta);
     outputTree->Branch("Phi_K_2_pt", &filtered_Phi_K_2_pt);
+}
+
+void ReadTree::Show(Long64_t entry)
+{
+// Print contents of entry.
+// If entry is not specified, print current entry
+   if (!fChain) return;
+   fChain->Show(entry);
+}
+Int_t ReadTree::Cut(Long64_t entry)
+{
+// This function may be called from Loop.
+// returns  1 if entry is accepted.
+// returns -1 otherwise.
+   return 1;
 }
 #endif // #ifdef ReadTree_cxx
