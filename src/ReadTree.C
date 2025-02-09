@@ -168,7 +168,7 @@ void ReadTree::Loop()
             #ifdef CUT_MUON_ID_LOOSE
             // Check by muIsPatLooseMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
-                if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
+                if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon))){
                     passCut = false;
                     break;
                 }
@@ -179,7 +179,7 @@ void ReadTree::Loop()
             #ifdef CUT_MUON_ID_SOFT
             // Check by muIsPatSoftMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
-                if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
+                if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon))){
                     passCut = false;
                     break;
                 }
@@ -198,18 +198,19 @@ void ReadTree::Loop()
             // Jpsi:
             // - Require abs(eta) < 2.5, which has been applied in previous steps.
             for(unsigned int iMuon=0; iMuon < 4; iMuon++){
-                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 2.5){
+                unsigned int muonIdx = tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon);
+                if(fabs(mu_eta.at(muonIdx)) > 2.5){
                     passCut = false;
                     break;
                 }
-                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 1.2){
-                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 3.5){
+                if(fabs(mu_eta.at(muonIdx)) > 1.2){
+                    if(mu_pT.at(muonIdx) < 3.5){
                         passCut = false;
                         break;
                     }
                 }
                 else{
-                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 2.5){
+                    if(mu_pT.at(muonIdx) < 2.5){
                         passCut = false;
                         break;
                     }
