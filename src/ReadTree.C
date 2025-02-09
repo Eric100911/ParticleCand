@@ -184,7 +184,7 @@ void ReadTree::Loop()
 
             #ifdef SHOW_DEBUG
             std::cout << "passed 3J cut" << std::endl;
-            #endi
+            #endif
 
             #ifdef CUT_FROM_3J
             // Apply cut using conditions from 3J analysis.
