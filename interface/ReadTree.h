@@ -549,7 +549,7 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
     filtered_Phi_K_2_pz(0),
     filtered_Phi_K_2_phi(0),
     filtered_Phi_K_2_eta(0),
-    filtered_Phi_K_2_pt(0),
+    filtered_Phi_K_2_pt(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
