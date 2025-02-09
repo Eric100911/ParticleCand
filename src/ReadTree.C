@@ -1,5 +1,5 @@
 #define ReadTree_cxx
-// #define SHOW_DEBUG
+#define SHOW_DEBUG
 #ifdef SHOW_DEBUG
 #define VERBOSE
 #endif
@@ -161,6 +161,8 @@ void ReadTree::Loop()
             tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
             tempList.clear();
 
+            puts(tempCand.ToString().c_str());
+
             #ifdef CUT_MUON_ID_LOOSE
             // Check by muIsPattLooseMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
@@ -175,6 +177,7 @@ void ReadTree::Loop()
             #ifdef CUT_MUON_ID_SOFT
             // Check by muIsPatSoftMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
+                printf("Inspecting muon %d\n", tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon));
                 if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
                     passCut = false;
                     break;
