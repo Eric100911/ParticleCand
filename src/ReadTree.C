@@ -161,8 +161,12 @@ void ReadTree::Loop()
             tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
             tempList.clear();
 
+            #ifdef SHOW_DEBUG
+            std::cout << tempCand.ToString() << std::endl;
+            #endif
+
             #ifdef CUT_MUON_ID_LOOSE
-            // Check by muIsPattLooseMuon
+            // Check by muIsPatLooseMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
                 if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
                     passCut = false;

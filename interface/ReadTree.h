@@ -563,6 +563,7 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
 
     }
     Init(tree);
+    InitOutputTree();
 }
 
 ReadTree::~ReadTree()
