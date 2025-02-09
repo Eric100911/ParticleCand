@@ -1,5 +1,5 @@
 #define ReadTree_cxx
-#define SHOW_DEBUG
+// #define SHOW_DEBUG
 #ifdef SHOW_DEBUG
 #define VERBOSE
 #endif
@@ -47,7 +47,7 @@ void ReadTree::Loop()
     // Use Roofit to draw the plot with proper error bars.
     // Define mass histograms for Jpsi, Ups and Pri passing the cut. Using Roofit.
     RooRealVar Jpsi_mass_cut_var("Jpsi_mass_cut", "Jpsi_mass_cut", 2.5, 3.5);
-    RooRealVar Ups_mass_cut_var("Ups_mass_cut", "Ups_mass_cut", 2.5, 3.5);
+    RooRealVar Ups_mass_cut_var("Ups_mass_cut", "Ups_mass_cut", 8.0, 12.0);
     RooRealVar Phi_mass_cut_var("Phi_mass_cut","Phi_mass_cut", 0.99, 1.07);
     RooRealVar Pri_mass_cut_var("Pri_mass_cut","Pri_mass_cut", 0.0, 100.0);
 
@@ -135,13 +135,13 @@ void ReadTree::Loop()
             bool passCut = true;
 
             // Prevent underflow or overflow of masses.
-            if(Jpsi_mass->at(iCand) < 2.5 || Jpsi_mass->at(iCand) > 3.5){
+            if(Jpsi_mass->at(iCand) < 2.50 || Jpsi_mass->at(iCand) > 3.5){
                 continue;
             }
-            if(Ups_mass->at(iCand)  < 8.0 || Ups_mass->at(iCand)  > 12.0){
+            if(Ups_mass->at(iCand)  < 8.00 || Ups_mass->at(iCand)  > 12.0){
                 continue;
             }
-            if(Phi_mass->at(iCand)  < 0.0 || Phi_mass->at(iCand)  > 4.0){
+            if(Phi_mass->at(iCand)  < 0.99 || Phi_mass->at(iCand)  > 1.07){
                 continue;
             }
 
@@ -161,12 +161,14 @@ void ReadTree::Loop()
             tempCand.AddParticle(ParticleCand::PartType::Track, tempList);
             tempList.clear();
 
-            puts(tempCand.ToString().c_str());
+            #ifdef SHOW_DEBUG
+            std::cout << tempCand.ToString() << std::endl;
+            #endif
 
             #ifdef CUT_MUON_ID_LOOSE
-            // Check by muIsPattLooseMuon
+            // Check by muIsPatLooseMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
-                if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
+                if(!muIsPatLooseMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon))){
                     passCut = false;
                     break;
                 }
@@ -177,8 +179,10 @@ void ReadTree::Loop()
             #ifdef CUT_MUON_ID_SOFT
             // Check by muIsPatSoftMuon
             for (unsigned int iMuon=0; iMuon < 4; iMuon++){
-                printf("Inspecting muon %d\n", tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon));
-                if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))){
+                #ifdef SHOW_DEBUG
+                printf("Inspecting muon %d\n", tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon));
+                #endif
+                if(!muIsPatSoftMuon->at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon))){
                     passCut = false;
                     break;
                 }
@@ -197,18 +201,19 @@ void ReadTree::Loop()
             // Jpsi:
             // - Require abs(eta) < 2.5, which has been applied in previous steps.
             for(unsigned int iMuon=0; iMuon < 4; iMuon++){
-                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 2.5){
+                unsigned int muonIdx = tempCand.GetParticleIdx(ParticleCand::PartType::Muon)->at(iMuon);
+                if(fabs(mu_eta.at(muonIdx)) > 2.5){
                     passCut = false;
                     break;
                 }
-                if(fabs(mu_eta.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon))) > 1.2){
-                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 3.5){
+                if(fabs(mu_eta.at(muonIdx)) > 1.2){
+                    if(mu_pT.at(muonIdx) < 3.5){
                         passCut = false;
                         break;
                     }
                 }
                 else{
-                    if(mu_pT.at(tempCand.GetParticleIdx(ParticleCand::PartType::Muon, iMuon)) < 2.5){
+                    if(mu_pT.at(muonIdx) < 2.5){
                         passCut = false;
                         break;
                     }
