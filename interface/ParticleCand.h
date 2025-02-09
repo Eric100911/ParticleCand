@@ -21,10 +21,10 @@
 class ParticleCand{
 public:
     // To mark the type of particle
-    enum class PartType{Muon, Track, Jpsi, Upsilon};
+    enum class PartType{Muon, Track, Jpsi, Upsilon, Phi};
 
     // Name of the particles stored as const std::string
-    static const std::string PART_NAME[4];
+    static const std::string PART_NAME[5];
 
     using PartIdxList_t  = std::vector<unsigned int>;       // Does not guarantee order
     using PartIdxSet_ptr = std::shared_ptr<PartIdxList_t>;  // Sorted on ascending order.
@@ -52,6 +52,16 @@ public:
     static bool Overlap(const PartIdxSet_ptr& arg_Set1,
                         const PartIdxSet_ptr& arg_Set2);
 
+    // Set the score of the candidate
+    void SetScore(const double& arg_Score);
+    void SetId(const unsigned int& arg_Id);
+
+    double GetScore() const;
+    unsigned int GetId() const;
+
+    // Get the particle index list of a certain type
+    ParticleCand::PartIdxSet_ptr GetParticleIdx(const PartType& arg_Type) const;
+    unsigned int GetParticleIdx(const PartType& arg_Type, const unsigned int& arg_Index) const;
     // Print out the candidate as human-readable format
     std::string ToString();
 
@@ -60,9 +70,10 @@ public:
 
 private:
     // Member variables
+    double                      m_Score;
+    unsigned int                m_Id;
     std::vector<PartType>       m_TypeList;
     std::vector<PartIdxSet_ptr> m_IdxList;
-
 };
 
 #endif
