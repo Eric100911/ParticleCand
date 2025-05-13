@@ -27,10 +27,11 @@ public :
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
-   // Declaration of leaf types
+      // Declaration of leaf types
    vector<unsigned int> *TrigRes;
    vector<string>  *TrigNames;
-   vector<string>  *MatchTriggerNames;
+   vector<string>  *MatchJpsiTriggerNames;
+   vector<string>  *MatchUpsTriggerNames;
    vector<unsigned int> *L1TrigRes;
    UInt_t          evtNum;
    UInt_t          runNum;
@@ -44,7 +45,6 @@ public :
    Float16_t       priVtxZE;
    Float16_t       priVtxChiNorm;
    Float16_t       priVtxChi;
-   Float16_t       priVtxCL;
    vector<float>   *PriVtxXCorrX;
    vector<float>   *PriVtxXCorrY;
    vector<float>   *PriVtxXCorrZ;
@@ -83,12 +83,17 @@ public :
    vector<int>     *muIsGoodLooseMuonNew;
    vector<int>     *muIsGoodLooseMuon;
    vector<int>     *muIsGoodTightMuon;
+   vector<int>     *muIsGlobalMuon;
    vector<int>     *muIsPatLooseMuon;
    vector<int>     *muIsPatTightMuon;
    vector<int>     *muIsPatSoftMuon;
    vector<int>     *muIsPatMediumMuon;
+   vector<int>     *muFromPV;
+   vector<int>     *muPVAssocQuality;
    vector<int>     *muIsJpsiTrigMatch;
    vector<int>     *muIsUpsTrigMatch;
+   vector<int>     *muIsJpsiFilterMatch;
+   vector<int>     *muIsUpsFilterMatch;
    vector<float>   *muMVAMuonID;
    vector<float>   *musegmentCompatibility;
    vector<float>   *mupulldXdZ_pos_noArb;
@@ -99,8 +104,6 @@ public :
    vector<float>   *mupulldYdZ_pos_ArbST;
    vector<float>   *mupulldXdZ_pos_noArb_any;
    vector<float>   *mupulldYdZ_pos_noArb_any;
-   vector<int>     *muUpsVrtxMatch;
-   vector<int>     *muL3TriggerMatch;
    vector<float>   *Jpsi_1_mass;
    vector<float>   *Jpsi_1_massErr;
    vector<float>   *Jpsi_1_massDiff;
@@ -133,19 +136,6 @@ public :
    vector<float>   *Jpsi_2_pt;
    vector<float>   *Jpsi_2_mu_1_Idx;
    vector<float>   *Jpsi_2_mu_2_Idx;
-   vector<float>   *Pri_mass;
-   vector<float>   *Pri_massErr;
-   vector<float>   *Pri_ctau;
-   vector<float>   *Pri_ctauErr;
-   vector<float>   *Pri_Chi2;
-   vector<float>   *Pri_ndof;
-   vector<float>   *Pri_VtxProb;
-   vector<float>   *Pri_px;
-   vector<float>   *Pri_py;
-   vector<float>   *Pri_pz;
-   vector<float>   *Pri_phi;
-   vector<float>   *Pri_eta;
-   vector<float>   *Pri_pt;
    vector<float>   *Ups_mass;
    vector<float>   *Ups_massErr;
    vector<float>   *Ups_massDiff;
@@ -160,11 +150,25 @@ public :
    vector<float>   *Ups_pt;
    vector<float>   *Ups_mu_1_Idx;
    vector<float>   *Ups_mu_2_Idx;
+   vector<float>   *Pri_mass;
+   vector<float>   *Pri_massErr;
+   vector<float>   *Pri_ctau;
+   vector<float>   *Pri_ctauErr;
+   vector<float>   *Pri_Chi2;
+   vector<float>   *Pri_ndof;
+   vector<float>   *Pri_VtxProb;
+   vector<float>   *Pri_px;
+   vector<float>   *Pri_py;
+   vector<float>   *Pri_pz;
+   vector<float>   *Pri_phi;
+   vector<float>   *Pri_eta;
+   vector<float>   *Pri_pt;
 
    // List of branches
    TBranch        *b_TrigRes;   //!
    TBranch        *b_TrigNames;   //!
-   TBranch        *b_MatchTriggerNames;   //!
+   TBranch        *b_MatchJpsiTriggerNames;   //!
+   TBranch        *b_MatchUpsTriggerNames;   //!
    TBranch        *b_L1TrigRes;   //!
    TBranch        *b_evtNum;   //!
    TBranch        *b_runNum;   //!
@@ -217,12 +221,17 @@ public :
    TBranch        *b_muIsGoodLooseMuonNew;   //!
    TBranch        *b_muIsGoodLooseMuon;   //!
    TBranch        *b_muIsGoodTightMuon;   //!
+   TBranch        *b_muIsGlobalMuon;   //!
    TBranch        *b_muIsPatLooseMuon;   //!
    TBranch        *b_muIsPatTightMuon;   //!
    TBranch        *b_muIsPatSoftMuon;   //!
    TBranch        *b_muIsPatMediumMuon;   //!
+   TBranch        *b_muFromPV;   //!
+   TBranch        *b_muPVAssocQuality;   //!
    TBranch        *b_muIsJpsiTrigMatch;   //!
    TBranch        *b_muIsUpsTrigMatch;   //!
+   TBranch        *b_muIsJpsiFilterMatch;   //!
+   TBranch        *b_muIsUpsFilterMatch;   //!
    TBranch        *b_muMVAMuonID;   //!
    TBranch        *b_musegmentCompatibility;   //!
    TBranch        *b_mupulldXdZ_pos_noArb;   //!
@@ -233,8 +242,6 @@ public :
    TBranch        *b_mupulldYdZ_pos_ArbST;   //!
    TBranch        *b_mupulldXdZ_pos_noArb_any;   //!
    TBranch        *b_mupulldYdZ_pos_noArb_any;   //!
-   TBranch        *b_muUpsVrtxMatch;   //!
-   TBranch        *b_muL3TriggerMatch;   //!
    TBranch        *b_Jpsi_1_mass;   //!
    TBranch        *b_Jpsi_1_massErr;   //!
    TBranch        *b_Jpsi_1_massDiff;   //!
@@ -267,33 +274,6 @@ public :
    TBranch        *b_Jpsi_2_pt;   //!
    TBranch        *b_Jpsi_2_mu_1_Idx;   //!
    TBranch        *b_Jpsi_2_mu_2_Idx;   //!
-   TBranch        *b_Phi_mass;   //!
-   TBranch        *b_Phi_massErr;   //!
-   TBranch        *b_Phi_massDiff;   //!
-   TBranch        *b_Phi_Chi2;   //!
-   TBranch        *b_Phi_ndof;   //!
-   TBranch        *b_Phi_VtxProb;   //!
-   TBranch        *b_Phi_px;   //!
-   TBranch        *b_Phi_py;   //!
-   TBranch        *b_Phi_pz;   //!
-   TBranch        *b_Phi_phi;   //!
-   TBranch        *b_Phi_eta;   //!
-   TBranch        *b_Phi_pt;   //!
-   TBranch        *b_Phi_K_1_Idx;   //!
-   TBranch        *b_Phi_K_2_Idx;   //!
-   TBranch        *b_Pri_mass;   //!
-   TBranch        *b_Pri_massErr;   //!
-   TBranch        *b_Pri_ctau;   //!
-   TBranch        *b_Pri_ctauErr;   //!
-   TBranch        *b_Pri_Chi2;   //!
-   TBranch        *b_Pri_ndof;   //!
-   TBranch        *b_Pri_VtxProb;   //!
-   TBranch        *b_Pri_px;   //!
-   TBranch        *b_Pri_py;   //!
-   TBranch        *b_Pri_pz;   //!
-   TBranch        *b_Pri_phi;   //!
-   TBranch        *b_Pri_eta;   //!
-   TBranch        *b_Pri_pt;   //!
    TBranch        *b_Ups_mass;   //!
    TBranch        *b_Ups_massErr;   //!
    TBranch        *b_Ups_massDiff;   //!
@@ -308,6 +288,19 @@ public :
    TBranch        *b_Ups_pt;   //!
    TBranch        *b_Ups_mu_1_Idx;   //!
    TBranch        *b_Ups_mu_2_Idx;   //!
+   TBranch        *b_Pri_mass;   //!
+   TBranch        *b_Pri_massErr;   //!
+   TBranch        *b_Pri_ctau;   //!
+   TBranch        *b_Pri_ctauErr;   //!
+   TBranch        *b_Pri_Chi2;   //!
+   TBranch        *b_Pri_ndof;   //!
+   TBranch        *b_Pri_VtxProb;   //!
+   TBranch        *b_Pri_px;   //!
+   TBranch        *b_Pri_py;   //!
+   TBranch        *b_Pri_pz;   //!
+   TBranch        *b_Pri_phi;   //!
+   TBranch        *b_Pri_eta;   //!
+   TBranch        *b_Pri_pt;   //!
 
    // Output tree
    TTree* outputTree;
@@ -387,6 +380,11 @@ public :
    std::vector<int>   *filtered_Jpsi_1_mu_1_isPatSoftMuon;
    std::vector<int>   *filtered_Jpsi_1_mu_1_isPatMediumMuon;
    std::vector<int>   *filtered_Jpsi_1_mu_1_isPatTightMuon;
+   std::vector<int>   *filtered_Jpsi_1_mu_1_isGlobalMuon;
+   std::vector<int>   *filtered_Jpsi_1_mu_1_fromPV;
+   std::vector<int>   *filtered_Jpsi_1_mu_1_pvAssocQuality;
+   std::vector<int>   *filtered_Jpsi_1_mu_1_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Jpsi_1_mu_1_isUpsTrigMatch;
 
    std::vector<float> *filtered_Jpsi_1_mu_2_px;
    std::vector<float> *filtered_Jpsi_1_mu_2_py;
@@ -398,6 +396,11 @@ public :
    std::vector<int>   *filtered_Jpsi_1_mu_2_isPatSoftMuon;
    std::vector<int>   *filtered_Jpsi_1_mu_2_isPatMediumMuon;
    std::vector<int>   *filtered_Jpsi_1_mu_2_isPatTightMuon;
+   std::vector<int>   *filtered_Jpsi_1_mu_2_isGlobalMuon;
+   std::vector<int>   *filtered_Jpsi_1_mu_2_fromPV;
+   std::vector<int>   *filtered_Jpsi_1_mu_2_pvAssocQuality;
+   std::vector<int>   *filtered_Jpsi_1_mu_2_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Jpsi_1_mu_2_isUpsTrigMatch;
 
    std::vector<float> *filtered_Jpsi_2_mu_1_px;
    std::vector<float> *filtered_Jpsi_2_mu_1_py;
@@ -409,6 +412,11 @@ public :
    std::vector<int>   *filtered_Jpsi_2_mu_1_isPatSoftMuon;
    std::vector<int>   *filtered_Jpsi_2_mu_1_isPatMediumMuon;
    std::vector<int>   *filtered_Jpsi_2_mu_1_isPatTightMuon;
+   std::vector<int>   *filtered_Jpsi_2_mu_1_isGlobalMuon;
+   std::vector<int>   *filtered_Jpsi_2_mu_1_fromPV;
+   std::vector<int>   *filtered_Jpsi_2_mu_1_pvAssocQuality;
+   std::vector<int>   *filtered_Jpsi_2_mu_1_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Jpsi_2_mu_1_isUpsTrigMatch;
 
    std::vector<float> *filtered_Jpsi_2_mu_2_px;
    std::vector<float> *filtered_Jpsi_2_mu_2_py;
@@ -420,6 +428,11 @@ public :
    std::vector<int>   *filtered_Jpsi_2_mu_2_isPatSoftMuon;
    std::vector<int>   *filtered_Jpsi_2_mu_2_isPatMediumMuon;
    std::vector<int>   *filtered_Jpsi_2_mu_2_isPatTightMuon;
+   std::vector<int>   *filtered_Jpsi_2_mu_2_isGlobalMuon;
+   std::vector<int>   *filtered_Jpsi_2_mu_2_fromPV;
+   std::vector<int>   *filtered_Jpsi_2_mu_2_pvAssocQuality;
+   std::vector<int>   *filtered_Jpsi_2_mu_2_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Jpsi_2_mu_2_isUpsTrigMatch;
 
    std::vector<float> *filtered_Ups_mu_1_px;
    std::vector<float> *filtered_Ups_mu_1_py;
@@ -431,6 +444,11 @@ public :
    std::vector<int>   *filtered_Ups_mu_1_isPatSoftMuon;
    std::vector<int>   *filtered_Ups_mu_1_isPatMediumMuon;
    std::vector<int>   *filtered_Ups_mu_1_isPatTightMuon;
+   std::vector<int>   *filtered_Ups_mu_1_isGlobalMuon;
+   std::vector<int>   *filtered_Ups_mu_1_fromPV;
+   std::vector<int>   *filtered_Ups_mu_1_pvAssocQuality;
+   std::vector<int>   *filtered_Ups_mu_1_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Ups_mu_1_isUpsTrigMatch;
 
    std::vector<float> *filtered_Ups_mu_2_px;
    std::vector<float> *filtered_Ups_mu_2_py;
@@ -442,6 +460,11 @@ public :
    std::vector<int>   *filtered_Ups_mu_2_isPatSoftMuon;
    std::vector<int>   *filtered_Ups_mu_2_isPatMediumMuon;
    std::vector<int>   *filtered_Ups_mu_2_isPatTightMuon;
+   std::vector<int>   *filtered_Ups_mu_2_isGlobalMuon;
+   std::vector<int>   *filtered_Ups_mu_2_fromPV;
+   std::vector<int>   *filtered_Ups_mu_2_pvAssocQuality;
+   std::vector<int>   *filtered_Ups_mu_2_isJpsiTrigMatch;
+   std::vector<int>   *filtered_Ups_mu_2_isUpsTrigMatch;
 
    ReadTree(TTree *tree=0);
    virtual ~ReadTree();
@@ -526,6 +549,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Jpsi_1_mu_1_isPatSoftMuon(0), 
                     filtered_Jpsi_1_mu_1_isPatMediumMuon(0), 
                     filtered_Jpsi_1_mu_1_isPatTightMuon(0), 
+                    filtered_Jpsi_1_mu_1_isGlobalMuon(0),
+                    filtered_Jpsi_1_mu_1_fromPV(0),
+                    filtered_Jpsi_1_mu_1_pvAssocQuality(0),
+                    filtered_Jpsi_1_mu_1_isJpsiTrigMatch(0),
+                    filtered_Jpsi_1_mu_1_isUpsTrigMatch(0),
                     filtered_Jpsi_1_mu_2_px(0), 
                     filtered_Jpsi_1_mu_2_py(0), 
                     filtered_Jpsi_1_mu_2_pz(0), 
@@ -535,7 +563,12 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Jpsi_1_mu_2_isPatLooseMuon(0), 
                     filtered_Jpsi_1_mu_2_isPatSoftMuon(0), 
                     filtered_Jpsi_1_mu_2_isPatMediumMuon(0), 
-                    filtered_Jpsi_1_mu_2_isPatTightMuon(0), 
+                    filtered_Jpsi_1_mu_2_isPatTightMuon(0),
+                    filtered_Jpsi_1_mu_2_isGlobalMuon(0),
+                    filtered_Jpsi_1_mu_2_fromPV(0),
+                    filtered_Jpsi_1_mu_2_pvAssocQuality(0),
+                    filtered_Jpsi_1_mu_2_isJpsiTrigMatch(0),
+                    filtered_Jpsi_1_mu_2_isUpsTrigMatch(0), 
                     filtered_Jpsi_2_mu_1_px(0), 
                     filtered_Jpsi_2_mu_1_py(0), 
                     filtered_Jpsi_2_mu_1_pz(0), 
@@ -546,6 +579,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Jpsi_2_mu_1_isPatSoftMuon(0), 
                     filtered_Jpsi_2_mu_1_isPatMediumMuon(0), 
                     filtered_Jpsi_2_mu_1_isPatTightMuon(0), 
+                    filtered_Jpsi_2_mu_1_isGlobalMuon(0),
+                    filtered_Jpsi_2_mu_1_fromPV(0),
+                    filtered_Jpsi_2_mu_1_pvAssocQuality(0),
+                    filtered_Jpsi_2_mu_1_isJpsiTrigMatch(0),
+                    filtered_Jpsi_2_mu_1_isUpsTrigMatch(0),
                     filtered_Jpsi_2_mu_2_px(0), 
                     filtered_Jpsi_2_mu_2_py(0), 
                     filtered_Jpsi_2_mu_2_pz(0), 
@@ -556,6 +594,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Jpsi_2_mu_2_isPatSoftMuon(0), 
                     filtered_Jpsi_2_mu_2_isPatMediumMuon(0), 
                     filtered_Jpsi_2_mu_2_isPatTightMuon(0), 
+                    filtered_Jpsi_2_mu_2_isGlobalMuon(0),
+                    filtered_Jpsi_2_mu_2_fromPV(0),
+                    filtered_Jpsi_2_mu_2_pvAssocQuality(0),
+                    filtered_Jpsi_2_mu_2_isJpsiTrigMatch(0),
+                    filtered_Jpsi_2_mu_2_isUpsTrigMatch(0),
                     filtered_Ups_mu_1_px(0), 
                     filtered_Ups_mu_1_py(0), 
                     filtered_Ups_mu_1_pz(0), 
@@ -565,7 +608,12 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Ups_mu_1_isPatLooseMuon(0), 
                     filtered_Ups_mu_1_isPatSoftMuon(0), 
                     filtered_Ups_mu_1_isPatMediumMuon(0), 
-                    filtered_Ups_mu_1_isPatTightMuon(0), 
+                    filtered_Ups_mu_1_isPatTightMuon(0),
+                    filtered_Ups_mu_1_isGlobalMuon(0),
+                    filtered_Ups_mu_1_fromPV(0),
+                    filtered_Ups_mu_1_pvAssocQuality(0),
+                    filtered_Ups_mu_1_isJpsiTrigMatch(0),
+                    filtered_Ups_mu_1_isUpsTrigMatch(0), 
                     filtered_Ups_mu_2_px(0), 
                     filtered_Ups_mu_2_py(0), 
                     filtered_Ups_mu_2_pz(0), 
@@ -576,6 +624,11 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Ups_mu_2_isPatSoftMuon(0), 
                     filtered_Ups_mu_2_isPatMediumMuon(0), 
                     filtered_Ups_mu_2_isPatTightMuon(0)
+                    filtered_Ups_mu_2_isGlobalMuon(0),
+                    filtered_Ups_mu_2_fromPV(0),
+                    filtered_Ups_mu_2_pvAssocQuality(0),
+                    filtered_Ups_mu_2_isJpsiTrigMatch(0),
+                    filtered_Ups_mu_2_isUpsTrigMatch(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.

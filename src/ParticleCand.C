@@ -14,7 +14,7 @@
 #ifndef ParticleCand_C
 #define ParticleCand_C
 
-#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/interface/ParticleCand.h"
+#include "../interface/ParticleCand.h"
 #include <algorithm>
 #include <string>
 
@@ -58,10 +58,6 @@ void ParticleCand::AddParticle(const PartType& arg_Type,
 
 void ParticleCand::SetScore(const double& arg_Score){
     m_Score = arg_Score;
-}
-
-void ParticleCand::SetId(const unsigned int& arg_Id){
-    m_Id = arg_Id;
 }
 
 double ParticleCand::GetScore() const{

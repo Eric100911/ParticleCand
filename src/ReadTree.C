@@ -7,18 +7,22 @@
 //#define DRAW_RAW
 
 //#define CUT_GLOBAL_VTX_PROB
-#define CUT_FROM_3J
+#define CUT_FROM_3J_MUON
+
+// #define CUT_FROM_3J_JPSI
 
 //#define CUT_MUON_ID_LOOSE
 
 #define CUT_MUON_ID_SOFT
 
-// #define CUT_UPS_TRY
+//#define CUT_UPS_TRY
 
 #define ALLOW_OVERLAP
 
-#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/interface/ReadTree.h"
-#include "/home/storage0/users/chiwang/storage2/CMS-Analysis/JpsiJpsiUps/preCut/ParticleCand/src/ParticleCand.C"
+#define NO_PLOT
+
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/preCut-withPV/ParticleCand/interface/ReadTree.h"
+#include "/afs/cern.ch/user/c/chiw/cernbox/JpsiJpsiUps/preCut-withPV/ParticleCand/src/ParticleCand.C"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -123,10 +127,10 @@ void ReadTree::Loop()
             bool passCut = true;
 
             // Prevent underflow or overflow of masses.
-            if(Jpsi_1_mass->at(iCand) < 2.5 || Jpsi_1_mass->at(iCand) > 3.5){
+            if(Jpsi_1_mass->at(iCand) < 2.7 || Jpsi_1_mass->at(iCand) > 3.4){
                 continue;
             }
-            if(Jpsi_2_mass->at(iCand) < 2.5 || Jpsi_2_mass->at(iCand) > 3.5){
+            if(Jpsi_2_mass->at(iCand) < 2.7 || Jpsi_2_mass->at(iCand) > 3.4){
                 continue;
             }
             if(Ups_mass->at(iCand) < 8.0 || Ups_mass->at(iCand) > 12.0){
@@ -168,7 +172,7 @@ void ReadTree::Loop()
                 continue;
             }
 
-            #ifdef CUT_FROM_3J
+            #ifdef CUT_FROM_3J_MUON
             // Cut from 3J
             // Muons that decay from Jpsi and Ups:
             // require pT > 3.5GeV/c for abs(eta) < 1.2 and pT > 2.5GeV/c for 1.2 < abs(eta) < 2.4
@@ -190,8 +194,12 @@ void ReadTree::Loop()
             if(!passCut){
                 continue;
             }
+            #endif
+
+            #ifdef CUT_FROM_3J_JPSI
 
             // For Jpsi: require pT > 6GeV/c and abs(eta) < 2.4
+            // Trying as precut: lower the pT cut to 2GeV/c
             if(Jpsi_1_pt->at(iCand) <= 6.0 || abs(Jpsi_1_eta->at(iCand)) > 2.4){
                 continue ;
             }
@@ -387,6 +395,11 @@ void ReadTree::Loop()
             filtered_Jpsi_1_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
             filtered_Jpsi_1_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
             filtered_Jpsi_1_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_1_isGlobalMuon->push_back(muIsGlobalMuon->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_1_fromPV->push_back(muFromPV->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_1_pvAssocQuality->push_back(muPVAssocQuality->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_1_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_1_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Jpsi_1_mu_1_Idx->at(cand->GetId())));
 
             filtered_Jpsi_1_mu_2_px->push_back(muPx->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_1_mu_2_py->push_back(muPy->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
@@ -398,6 +411,11 @@ void ReadTree::Loop()
             filtered_Jpsi_1_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_1_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_1_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_2_isGlobalMuon->push_back(muIsGlobalMuon->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_2_fromPV->push_back(muFromPV->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_2_pvAssocQuality->push_back(muPVAssocQuality->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_2_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_1_mu_2_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Jpsi_1_mu_2_Idx->at(cand->GetId())));
 
             filtered_Jpsi_2_mu_1_px->push_back(muPx->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_1_py->push_back(muPy->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
@@ -409,6 +427,11 @@ void ReadTree::Loop()
             filtered_Jpsi_2_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_1_isGlobalMuon->push_back(muIsGlobalMuon->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_1_fromPV->push_back(muFromPV->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_1_pvAssocQuality->push_back(muPVAssocQuality->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_1_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_1_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Jpsi_2_mu_1_Idx->at(cand->GetId())));
 
             filtered_Jpsi_2_mu_2_px->push_back(muPx->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_2_py->push_back(muPy->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
@@ -420,6 +443,11 @@ void ReadTree::Loop()
             filtered_Jpsi_2_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
             filtered_Jpsi_2_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_2_isGlobalMuon->push_back(muIsGlobalMuon->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_2_fromPV->push_back(muFromPV->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_2_pvAssocQuality->push_back(muPVAssocQuality->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_2_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
+            filtered_Jpsi_2_mu_2_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Jpsi_2_mu_2_Idx->at(cand->GetId())));
 
             filtered_Ups_mu_1_px->push_back(muPx->at(Ups_mu_1_Idx->at(cand->GetId())));
             filtered_Ups_mu_1_py->push_back(muPy->at(Ups_mu_1_Idx->at(cand->GetId())));
@@ -431,6 +459,11 @@ void ReadTree::Loop()
             filtered_Ups_mu_1_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
             filtered_Ups_mu_1_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
             filtered_Ups_mu_1_isPatTightMuon->push_back(muIsPatTightMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isGlobalMuon->push_back(muIsGlobalMuon->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_fromPV->push_back(muFromPV->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_pvAssocQuality->push_back(muPVAssocQuality->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Ups_mu_1_Idx->at(cand->GetId())));
+            filtered_Ups_mu_1_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Ups_mu_1_Idx->at(cand->GetId())));
 
             filtered_Ups_mu_2_px->push_back(muPx->at(Ups_mu_2_Idx->at(cand->GetId())));
             filtered_Ups_mu_2_py->push_back(muPy->at(Ups_mu_2_Idx->at(cand->GetId())));
@@ -442,171 +475,215 @@ void ReadTree::Loop()
             filtered_Ups_mu_2_isPatSoftMuon->push_back(muIsPatSoftMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
             filtered_Ups_mu_2_isPatMediumMuon->push_back(muIsPatMediumMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
             filtered_Ups_mu_2_isPatTightMuon->push_back(muIsPatTightMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isGlobalMuon->push_back(muIsGlobalMuon->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_fromPV->push_back(muFromPV->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_pvAssocQuality->push_back(muPVAssocQuality->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isJpsiTrigMatch->push_back(muIsJpsiTrigMatch->at(Ups_mu_2_Idx->at(cand->GetId())));
+            filtered_Ups_mu_2_isUpsTrigMatch->push_back(muIsUpsTrigMatch->at(Ups_mu_2_Idx->at(cand->GetId())));
         }
         // Fill into the output tree.
-        outputTree->Fill();
+        if(SelectedCands_cut.size() > 0){
+            outputTree->Fill();
+            // Clear the vectors.
+            filtered_Jpsi_1_mass->clear();
+            filtered_Jpsi_1_massErr->clear();
+            filtered_Jpsi_1_massDiff->clear();
+            filtered_Jpsi_1_ctau->clear();
+            filtered_Jpsi_1_ctauErr->clear();
+            filtered_Jpsi_1_Chi2->clear();
+            filtered_Jpsi_1_ndof->clear();
+            filtered_Jpsi_1_VtxProb->clear();
+            filtered_Jpsi_1_px->clear();
+            filtered_Jpsi_1_py->clear();
+            filtered_Jpsi_1_pz->clear();
+            filtered_Jpsi_1_phi->clear();
+            filtered_Jpsi_1_eta->clear();
+            filtered_Jpsi_1_pt->clear();
+            filtered_Jpsi_1_mu_1_Idx->clear();
+            filtered_Jpsi_1_mu_2_Idx->clear();
 
-        // Clear the vectors.
-        filtered_Jpsi_1_mass->clear();
-        filtered_Jpsi_1_massErr->clear();
-        filtered_Jpsi_1_massDiff->clear();
-        filtered_Jpsi_1_ctau->clear();
-        filtered_Jpsi_1_ctauErr->clear();
-        filtered_Jpsi_1_Chi2->clear();
-        filtered_Jpsi_1_ndof->clear();
-        filtered_Jpsi_1_VtxProb->clear();
-        filtered_Jpsi_1_px->clear();
-        filtered_Jpsi_1_py->clear();
-        filtered_Jpsi_1_pz->clear();
-        filtered_Jpsi_1_phi->clear();
-        filtered_Jpsi_1_eta->clear();
-        filtered_Jpsi_1_pt->clear();
-        filtered_Jpsi_1_mu_1_Idx->clear();
-        filtered_Jpsi_1_mu_2_Idx->clear();
+            filtered_Jpsi_2_mass->clear();
+            filtered_Jpsi_2_massErr->clear();
+            filtered_Jpsi_2_massDiff->clear();
+            filtered_Jpsi_2_ctau->clear();
+            filtered_Jpsi_2_ctauErr->clear();
+            filtered_Jpsi_2_Chi2->clear();
+            filtered_Jpsi_2_ndof->clear();
+            filtered_Jpsi_2_VtxProb->clear();
+            filtered_Jpsi_2_px->clear();
+            filtered_Jpsi_2_py->clear();
+            filtered_Jpsi_2_pz->clear();
+            filtered_Jpsi_2_phi->clear();
+            filtered_Jpsi_2_eta->clear();
+            filtered_Jpsi_2_pt->clear();
+            filtered_Jpsi_2_mu_1_Idx->clear();
+            filtered_Jpsi_2_mu_2_Idx->clear();
 
-        filtered_Jpsi_2_mass->clear();
-        filtered_Jpsi_2_massErr->clear();
-        filtered_Jpsi_2_massDiff->clear();
-        filtered_Jpsi_2_ctau->clear();
-        filtered_Jpsi_2_ctauErr->clear();
-        filtered_Jpsi_2_Chi2->clear();
-        filtered_Jpsi_2_ndof->clear();
-        filtered_Jpsi_2_VtxProb->clear();
-        filtered_Jpsi_2_px->clear();
-        filtered_Jpsi_2_py->clear();
-        filtered_Jpsi_2_pz->clear();
-        filtered_Jpsi_2_phi->clear();
-        filtered_Jpsi_2_eta->clear();
-        filtered_Jpsi_2_pt->clear();
-        filtered_Jpsi_2_mu_1_Idx->clear();
-        filtered_Jpsi_2_mu_2_Idx->clear();
+            filtered_Pri_mass->clear();
+            filtered_Pri_massErr->clear();
+            filtered_Pri_ctau->clear();
+            filtered_Pri_ctauErr->clear();
+            filtered_Pri_Chi2->clear();
+            filtered_Pri_ndof->clear();
+            filtered_Pri_VtxProb->clear();
+            filtered_Pri_px->clear();
+            filtered_Pri_py->clear();
+            filtered_Pri_pz->clear();
+            filtered_Pri_phi->clear();
+            filtered_Pri_eta->clear();
+            filtered_Pri_pt->clear();
 
-        filtered_Pri_mass->clear();
-        filtered_Pri_massErr->clear();
-        filtered_Pri_ctau->clear();
-        filtered_Pri_ctauErr->clear();
-        filtered_Pri_Chi2->clear();
-        filtered_Pri_ndof->clear();
-        filtered_Pri_VtxProb->clear();
-        filtered_Pri_px->clear();
-        filtered_Pri_py->clear();
-        filtered_Pri_pz->clear();
-        filtered_Pri_phi->clear();
-        filtered_Pri_eta->clear();
-        filtered_Pri_pt->clear();
+            filtered_Ups_mass->clear();
+            filtered_Ups_massErr->clear();
+            filtered_Ups_massDiff->clear();
+            filtered_Ups_Chi2->clear();
+            filtered_Ups_ndof->clear();
+            filtered_Ups_VtxProb->clear();
+            filtered_Ups_px->clear();
+            filtered_Ups_py->clear();
+            filtered_Ups_pz->clear();
+            filtered_Ups_phi->clear();
+            filtered_Ups_eta->clear();
+            filtered_Ups_pt->clear();
+            filtered_Ups_mu_1_Idx->clear();
+            filtered_Ups_mu_2_Idx->clear();
 
-        filtered_Ups_mass->clear();
-        filtered_Ups_massErr->clear();
-        filtered_Ups_massDiff->clear();
-        filtered_Ups_Chi2->clear();
-        filtered_Ups_ndof->clear();
-        filtered_Ups_VtxProb->clear();
-        filtered_Ups_px->clear();
-        filtered_Ups_py->clear();
-        filtered_Ups_pz->clear();
-        filtered_Ups_phi->clear();
-        filtered_Ups_eta->clear();
-        filtered_Ups_pt->clear();
-        filtered_Ups_mu_1_Idx->clear();
-        filtered_Ups_mu_2_Idx->clear();
+            // For the muons
+            filtered_Jpsi_1_mu_1_px->clear();
+            filtered_Jpsi_1_mu_1_py->clear();
+            filtered_Jpsi_1_mu_1_pz->clear();
+            filtered_Jpsi_1_mu_1_eta->clear();
+            filtered_Jpsi_1_mu_1_phi->clear();
+            filtered_Jpsi_1_mu_1_pt->clear();
+            filtered_Jpsi_1_mu_1_isPatLooseMuon->clear();
+            filtered_Jpsi_1_mu_1_isPatSoftMuon->clear();
+            filtered_Jpsi_1_mu_1_isPatMediumMuon->clear();
+            filtered_Jpsi_1_mu_1_isPatTightMuon->clear();
+            filtered_Jpsi_1_mu_1_isGlobalMuon->clear();
+            filtered_Jpsi_1_mu_1_fromPV->clear();
+            filtered_Jpsi_1_mu_1_pvAssocQuality->clear();
+            filtered_Jpsi_1_mu_1_isJpsiTrigMatch->clear();
+            filtered_Jpsi_1_mu_1_isUpsTrigMatch->clear();
 
-        // For the muons
-        filtered_Jpsi_1_mu_1_px->clear();
-        filtered_Jpsi_1_mu_1_py->clear();
-        filtered_Jpsi_1_mu_1_pz->clear();
-        filtered_Jpsi_1_mu_1_eta->clear();
-        filtered_Jpsi_1_mu_1_phi->clear();
-        filtered_Jpsi_1_mu_1_pt->clear();
-        filtered_Jpsi_1_mu_1_isPatLooseMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatSoftMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatMediumMuon->clear();
-        filtered_Jpsi_1_mu_1_isPatTightMuon->clear();
+            filtered_Jpsi_1_mu_2_px->clear();
+            filtered_Jpsi_1_mu_2_py->clear();
+            filtered_Jpsi_1_mu_2_pz->clear();
+            filtered_Jpsi_1_mu_2_eta->clear();
+            filtered_Jpsi_1_mu_2_phi->clear();
+            filtered_Jpsi_1_mu_2_pt->clear();
+            filtered_Jpsi_1_mu_2_isPatLooseMuon->clear();
+            filtered_Jpsi_1_mu_2_isPatSoftMuon->clear();
+            filtered_Jpsi_1_mu_2_isPatMediumMuon->clear();
+            filtered_Jpsi_1_mu_2_isPatTightMuon->clear();
+            filtered_Jpsi_1_mu_2_isGlobalMuon->clear();
+            filtered_Jpsi_1_mu_2_fromPV->clear();
+            filtered_Jpsi_1_mu_2_pvAssocQuality->clear();
+            filtered_Jpsi_1_mu_2_isJpsiTrigMatch->clear();
+            filtered_Jpsi_1_mu_2_isUpsTrigMatch->clear();
 
-        filtered_Jpsi_1_mu_2_px->clear();
-        filtered_Jpsi_1_mu_2_py->clear();
-        filtered_Jpsi_1_mu_2_pz->clear();
-        filtered_Jpsi_1_mu_2_eta->clear();
-        filtered_Jpsi_1_mu_2_phi->clear();
-        filtered_Jpsi_1_mu_2_pt->clear();
-        filtered_Jpsi_1_mu_2_isPatLooseMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatSoftMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatMediumMuon->clear();
-        filtered_Jpsi_1_mu_2_isPatTightMuon->clear();
+            filtered_Jpsi_2_mu_1_px->clear();
+            filtered_Jpsi_2_mu_1_py->clear();
+            filtered_Jpsi_2_mu_1_pz->clear();
+            filtered_Jpsi_2_mu_1_eta->clear();
+            filtered_Jpsi_2_mu_1_phi->clear();
+            filtered_Jpsi_2_mu_1_pt->clear();
+            filtered_Jpsi_2_mu_1_isPatLooseMuon->clear();
+            filtered_Jpsi_2_mu_1_isPatSoftMuon->clear();
+            filtered_Jpsi_2_mu_1_isPatMediumMuon->clear();
+            filtered_Jpsi_2_mu_1_isPatTightMuon->clear();
+            filtered_Jpsi_2_mu_1_isGlobalMuon->clear();
+            filtered_Jpsi_2_mu_1_fromPV->clear();
+            filtered_Jpsi_2_mu_1_pvAssocQuality->clear();
+            filtered_Jpsi_2_mu_1_isJpsiTrigMatch->clear();
+            filtered_Jpsi_2_mu_1_isUpsTrigMatch->clear();
 
-        filtered_Jpsi_2_mu_1_px->clear();
-        filtered_Jpsi_2_mu_1_py->clear();
-        filtered_Jpsi_2_mu_1_pz->clear();
-        filtered_Jpsi_2_mu_1_eta->clear();
-        filtered_Jpsi_2_mu_1_phi->clear();
-        filtered_Jpsi_2_mu_1_pt->clear();
-        filtered_Jpsi_2_mu_1_isPatLooseMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatSoftMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatMediumMuon->clear();
-        filtered_Jpsi_2_mu_1_isPatTightMuon->clear();
+            filtered_Jpsi_2_mu_2_px->clear();
+            filtered_Jpsi_2_mu_2_py->clear();
+            filtered_Jpsi_2_mu_2_pz->clear();
+            filtered_Jpsi_2_mu_2_eta->clear();
+            filtered_Jpsi_2_mu_2_phi->clear();
+            filtered_Jpsi_2_mu_2_pt->clear();
+            filtered_Jpsi_2_mu_2_isPatLooseMuon->clear();
+            filtered_Jpsi_2_mu_2_isPatSoftMuon->clear();
+            filtered_Jpsi_2_mu_2_isPatMediumMuon->clear();
+            filtered_Jpsi_2_mu_2_isPatTightMuon->clear();
+            filtered_Jpsi_2_mu_2_isGlobalMuon->clear();
+            filtered_Jpsi_2_mu_2_fromPV->clear();
+            filtered_Jpsi_2_mu_2_pvAssocQuality->clear();
+            filtered_Jpsi_2_mu_2_isJpsiTrigMatch->clear();
+            filtered_Jpsi_2_mu_2_isUpsTrigMatch->clear();
 
-        filtered_Jpsi_2_mu_2_px->clear();
-        filtered_Jpsi_2_mu_2_py->clear();
-        filtered_Jpsi_2_mu_2_pz->clear();
-        filtered_Jpsi_2_mu_2_eta->clear();
-        filtered_Jpsi_2_mu_2_phi->clear();
-        filtered_Jpsi_2_mu_2_pt->clear();
-        filtered_Jpsi_2_mu_2_isPatLooseMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatSoftMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatMediumMuon->clear();
-        filtered_Jpsi_2_mu_2_isPatTightMuon->clear();
+            filtered_Ups_mu_1_px->clear();
+            filtered_Ups_mu_1_py->clear();
+            filtered_Ups_mu_1_pz->clear();
+            filtered_Ups_mu_1_eta->clear();
+            filtered_Ups_mu_1_phi->clear();
+            filtered_Ups_mu_1_pt->clear();
+            filtered_Ups_mu_1_isPatLooseMuon->clear();
+            filtered_Ups_mu_1_isPatSoftMuon->clear();
+            filtered_Ups_mu_1_isPatMediumMuon->clear();
+            filtered_Ups_mu_1_isPatTightMuon->clear();
+            filtered_Ups_mu_1_isGlobalMuon->clear();
+            filtered_Ups_mu_1_fromPV->clear();
+            filtered_Ups_mu_1_pvAssocQuality->clear();
+            filtered_Ups_mu_1_isJpsiTrigMatch->clear();
+            filtered_Ups_mu_1_isUpsTrigMatch->clear();
 
-        filtered_Ups_mu_1_px->clear();
-        filtered_Ups_mu_1_py->clear();
-        filtered_Ups_mu_1_pz->clear();
-        filtered_Ups_mu_1_eta->clear();
-        filtered_Ups_mu_1_phi->clear();
-        filtered_Ups_mu_1_pt->clear();
-        filtered_Ups_mu_1_isPatLooseMuon->clear();
-        filtered_Ups_mu_1_isPatSoftMuon->clear();
-        filtered_Ups_mu_1_isPatMediumMuon->clear();
-        filtered_Ups_mu_1_isPatTightMuon->clear();
-
-        filtered_Ups_mu_2_px->clear();
-        filtered_Ups_mu_2_py->clear();
-        filtered_Ups_mu_2_pz->clear();
-        filtered_Ups_mu_2_eta->clear();
-        filtered_Ups_mu_2_phi->clear();
-        filtered_Ups_mu_2_pt->clear();
-        filtered_Ups_mu_2_isPatLooseMuon->clear();
-        filtered_Ups_mu_2_isPatSoftMuon->clear();
-        filtered_Ups_mu_2_isPatMediumMuon->clear();
-        filtered_Ups_mu_2_isPatTightMuon->clear();
-
+            filtered_Ups_mu_2_px->clear();
+            filtered_Ups_mu_2_py->clear();
+            filtered_Ups_mu_2_pz->clear();
+            filtered_Ups_mu_2_eta->clear();
+            filtered_Ups_mu_2_phi->clear();
+            filtered_Ups_mu_2_pt->clear();
+            filtered_Ups_mu_2_isPatLooseMuon->clear();
+            filtered_Ups_mu_2_isPatSoftMuon->clear();
+            filtered_Ups_mu_2_isPatMediumMuon->clear();
+            filtered_Ups_mu_2_isPatTightMuon->clear();
+            filtered_Ups_mu_2_isGlobalMuon->clear();
+            filtered_Ups_mu_2_fromPV->clear();
+            filtered_Ups_mu_2_pvAssocQuality->clear();
+            filtered_Ups_mu_2_isJpsiTrigMatch->clear();
+            filtered_Ups_mu_2_isUpsTrigMatch->clear();
+        }
         // Marker
         #ifdef SHOW_DEBUG
         puts(">>>>> End of event <<<<<");
         #endif
     }
-    // Display the histograms.
-    // Mass histograms passing the cut are drawn using Roofit.
-    TCanvas* c2 = new TCanvas("c2", "c2", 1600, 1200);
-    c2->Divide(2,2);
-    RooPlot* frame5 = Jpsi1_mass_cut_var.frame();
-    RooPlot* frame6 = Jpsi2_mass_cut_var.frame();
-    RooPlot* frame7 = Ups_mass_cut_var.frame();
-    RooPlot* frame8 = Pri_mass_cut_var.frame();
-    Jpsi1_mass_cut_data.plotOn(frame5);
-    Jpsi2_mass_cut_data.plotOn(frame6);
-    Ups_mass_cut_data.plotOn(frame7);
-    Pri_mass_cut_data.plotOn(frame8);
-    // Draw the histograms.
-    c2->cd(1); frame5->Draw();
-    c2->cd(2); frame6->Draw();
-    c2->cd(3); frame7->Draw();
-    c2->cd(4); frame8->Draw();
-    // Save png file.
-    c2->SaveAs("mass_cut.png");
-
-    // Storing the filtered candidates.
-    // Create a new ROOT file to save the filtered data.
-    TFile* outputFile = new TFile("filtered_data_preCut.root", "RECREATE");
-    // Write the output file.
-    outputTree->Write();
-    outputFile->Close();
+    if(Jpsi1_mass_cut_data.numEntries() > 0){
+        printf("Number of entries passing the cut: %d\n", Jpsi1_mass_cut_data.numEntries());
+        // Display the histograms.
+        // Mass histograms passing the cut are drawn using Roofit.
+        #ifndef NO_PLOT
+        TCanvas* c2 = new TCanvas("c2", "c2", 1600, 1200);
+        c2->Divide(2,2);
+        RooPlot* frame5 = Jpsi1_mass_cut_var.frame();
+        RooPlot* frame6 = Jpsi2_mass_cut_var.frame();
+        RooPlot* frame7 = Ups_mass_cut_var.frame();
+        RooPlot* frame8 = Pri_mass_cut_var.frame();
+        Jpsi1_mass_cut_data.plotOn(frame5);
+        Jpsi2_mass_cut_data.plotOn(frame6);
+        Ups_mass_cut_data.plotOn(frame7);
+        Pri_mass_cut_data.plotOn(frame8);
+        // Draw the histograms.
+        c2->cd(1); frame5->Draw();
+        c2->cd(2); frame6->Draw();
+        c2->cd(3); frame7->Draw();
+        c2->cd(4); frame8->Draw();
+        // Save png file.
+        c2->SaveAs("mass_cut.png");
+        #endif
+    
+        // Storing the filtered candidates.
+        // Create a new ROOT file to save the filtered data.
+        TFile* outputFile = new TFile("filtered_data_preCut_mu.root", "RECREATE");
+        // Write the output file.
+        outputTree->Write();
+        outputFile->Close();
+    }
+    else{
+        puts("No entries passing the cut.");
+    }
+    
 }
 
