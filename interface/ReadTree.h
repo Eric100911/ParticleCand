@@ -623,7 +623,7 @@ ReadTree::ReadTree(TTree *tree) : fChain(0),
                     filtered_Ups_mu_2_isPatLooseMuon(0), 
                     filtered_Ups_mu_2_isPatSoftMuon(0), 
                     filtered_Ups_mu_2_isPatMediumMuon(0), 
-                    filtered_Ups_mu_2_isPatTightMuon(0)
+                    filtered_Ups_mu_2_isPatTightMuon(0),
                     filtered_Ups_mu_2_isGlobalMuon(0),
                     filtered_Ups_mu_2_fromPV(0),
                     filtered_Ups_mu_2_pvAssocQuality(0),
@@ -685,7 +685,8 @@ void ReadTree::Init(TTree *tree)
    // Set object pointer
    TrigRes = 0;
    TrigNames = 0;
-   MatchTriggerNames = 0;
+   MatchJpsiTriggerNames = 0;
+   MatchUpsTriggerNames = 0;
    L1TrigRes = 0;
    PriVtxXCorrX = 0;
    PriVtxXCorrY = 0;
@@ -740,8 +741,6 @@ void ReadTree::Init(TTree *tree)
    mupulldYdZ_pos_ArbST = 0;
    mupulldXdZ_pos_noArb_any = 0;
    mupulldYdZ_pos_noArb_any = 0;
-   muUpsVrtxMatch = 0;
-   muL3TriggerMatch = 0;
    Jpsi_1_mass = 0;
    Jpsi_1_massErr = 0;
    Jpsi_1_massDiff = 0;
